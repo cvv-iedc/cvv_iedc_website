@@ -1,0 +1,144 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=DM+Sans:ital,opsz,wght@0,9..40,100..900;1,9..40,100..900&family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── CSS Variables (overridden by theme.js at runtime) ─── */
+:root {
+  --color-primary: #2563EB;
+  --color-secondary: #16A34A;
+  --color-accent: #1D4ED8;
+  --color-background: #FFFFFF;
+  --color-surface: #F0F4FF;
+  --color-text-primary: #0F172A;
+  --color-text-secondary: #475569;
+  --color-text-muted: #CBD5E1;
+  --color-brand-red: #DC2626;
+  --color-brand-black: #0F172A;
+
+  --font-heading: 'Inter', sans-serif;
+  --font-body: 'DM Sans', sans-serif;
+  --font-display: 'Bricolage Grotesque', sans-serif;
+  --font-accent-serif: 'Playfair Display', serif;
+
+  --radius-card: 1.25rem;
+  --radius-button: 9999px;
+  --radius-modal: 1.5rem;
+}
+
+/* ─── Base Reset ─── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--color-background);
+  color: var(--color-text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* ─── Typography Utilities ─── */
+.font-heading { font-family: var(--font-heading); }
+.font-body { font-family: var(--font-body); }
+.font-display { font-family: var(--font-display); }
+.font-serif { font-family: var(--font-accent-serif); }
+
+/* ─── Scrollbar ─── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--color-text-muted); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--color-text-secondary); }
+
+/* ─── Selection ─── */
+::selection {
+  background: var(--color-primary);
+  color: white;
+}
+
+/* ─── Marquee Animation ─── */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+  display: flex;
+  animation: marquee 30s linear infinite;
+  width: max-content;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+/* ─── Horizontal scroll snap (Events carousel) ─── */
+.scroll-container {
+  display: flex;
+  gap: 1.5rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  padding-bottom: 0.5rem;
+}
+
+.scroll-container::-webkit-scrollbar {
+  display: none;
+}
+
+.scroll-item {
+  scroll-snap-align: start;
+  flex-shrink: 0;
+}
+
+/* ─── Reduced Motion ─── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ─── Infinite Canvas ─── */
+.canvas-wrapper {
+  width: 100%;
+  height: 100%;
+  cursor: grab;
+  overflow: hidden;
+  touch-action: none;
+  user-select: none;
+}
+.canvas-wrapper:active {
+  cursor: grabbing;
+}
+
+/* ─── Timeline ─── */
+.timeline-line {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(to right, transparent, var(--color-text-muted), var(--color-primary), var(--color-text-muted), transparent);
+  transform: translateY(-50%);
+}
+
+/* ─── Text Gradient ─── */
+.text-gradient {
+  background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
