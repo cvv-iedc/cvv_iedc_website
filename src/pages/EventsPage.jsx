@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { X, MapPin, Calendar, ArrowRight, ChevronLeft, ChevronRight, Clock, Ticket } from 'lucide-react'
 
@@ -382,50 +382,130 @@ function EventCard({ event, onClick, past }) {
   )
 }
 
-// ─── Auto-scroll carousel row ────────────────────────────────────────────────
+// ─── Auto-scroll carousel row (Native Scroll + RAF + Overlay Buttons) ───────────
 function CarouselRow({ events, reverse = false, onCardClick, past }) {
+  const scrollRef = useRef(null)
+  const exactPos = useRef(0)
   const [paused, setPaused] = useState(false)
-
-  // Cinematic slow drift: each full loop takes (cards × 12) seconds
-  const duration = `${events.length * 12}s`
-  const animName = reverse ? 'iedc-marquee-reverse' : 'iedc-marquee'
+  const [isManualStuck, setIsManualStuck] = useState(false) // temporary disable auto-scroll after manual interaction
+  const manualTimeout = useRef(null)
 
   // Double the list so the seam is invisible
   const doubled = [...events, ...events]
 
+  // Track manual native scroll (trackpad/touch)
+  const handleNativeScroll = () => {
+    if (scrollRef.current && isManualStuck) {
+      exactPos.current = scrollRef.current.scrollLeft
+    }
+  }
+
+  // Trigger manual scroll block
+  const blockAutoScroll = () => {
+    setIsManualStuck(true)
+    if (manualTimeout.current) clearTimeout(manualTimeout.current)
+    manualTimeout.current = setTimeout(() => {
+      setIsManualStuck(false)
+      if (scrollRef.current) exactPos.current = scrollRef.current.scrollLeft
+    }, 1500) // resume auto-scroll 1.5s after last manual interaction
+  }
+
+  // Button click smooth scroll
+  const scrollManually = () => {
+    blockAutoScroll()
+    const el = scrollRef.current
+    if (!el) return
+    const cardWidth = window.innerWidth < 768 ? 260 : 380 // approx width
+    const gap = 20
+    const scrollAmount = (cardWidth + gap) * 2
+    el.scrollBy({ left: reverse ? -scrollAmount : scrollAmount, behavior: 'smooth' })
+  }
+
+  // RAF Loop
+  useEffect(() => {
+    const el = scrollRef.current
+    if (!el) return
+
+    // Start midway so loop is ready
+    exactPos.current = reverse ? el.scrollWidth / 2 : 0
+    el.scrollLeft = exactPos.current
+
+    let rafId
+    const speed = 0.65
+
+    const tick = () => {
+      if (!paused && !isManualStuck && el) {
+        exactPos.current += reverse ? -speed : speed
+        
+        const half = el.scrollWidth / 2
+        
+        // Loop seamlessly
+        if (!reverse && exactPos.current >= half) {
+          exactPos.current -= half
+          el.style.scrollBehavior = 'auto'
+          el.scrollLeft = exactPos.current
+        } else if (reverse && exactPos.current <= 0) {
+          exactPos.current += half
+          el.style.scrollBehavior = 'auto'
+          el.scrollLeft = exactPos.current
+        } else {
+          el.style.scrollBehavior = 'auto'
+          el.scrollLeft = exactPos.current
+        }
+      }
+      rafId = requestAnimationFrame(tick)
+    }
+
+    rafId = requestAnimationFrame(tick)
+    return () => cancelAnimationFrame(rafId)
+  }, [paused, isManualStuck, reverse])
+
   return (
     <div
-      className="relative overflow-hidden"
+      className="relative group overflow-hidden"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
     >
       {/* Edge fades */}
-      <div className="absolute left-0 top-0 bottom-0 w-24 pointer-events-none z-10"
+      <div className="hidden md:block absolute left-0 top-0 bottom-0 w-24 pointer-events-none z-10"
         style={{ background: 'linear-gradient(to right, #f5f5f7, transparent)' }} />
-      <div className="absolute right-0 top-0 bottom-0 w-24 pointer-events-none z-10"
+      <div className="hidden md:block absolute right-0 top-0 bottom-0 w-24 pointer-events-none z-10"
         style={{ background: 'linear-gradient(to left, #ebebed, transparent)' }} />
 
-      {/* Animated track — slow cinematic horizontal drift */}
+      {/* Floating Manual Advance Button (Only in moving direction) */}
+      <div className={`absolute top-1/2 -translate-y-1/2 z-20 transition-all duration-300 ${reverse ? 'left-4 opacity-0 group-hover:opacity-100' : 'right-4 opacity-0 group-hover:opacity-100'}`}>
+        <button 
+          onClick={scrollManually}
+          className="w-14 h-14 rounded-full bg-white text-slate-900 flex items-center justify-center hover:scale-105 active:scale-95 transition-transform"
+          style={{ boxShadow: '0 8px 30px rgba(0,0,0,0.15), 0 0 0 1px rgba(0,0,0,0.05)' }}
+        >
+          {reverse ? <ChevronLeft size={28} /> : <ChevronRight size={28} />}
+        </button>
+      </div>
+
+      {/* Track */}
       <div
+        ref={scrollRef}
+        onScroll={handleNativeScroll}
+        onTouchStart={blockAutoScroll}
+        onWheel={blockAutoScroll}
+        className="flex overflow-x-auto"
         style={{
-          display: 'flex',
           gap: '1.25rem',
-          width: 'max-content',
-          paddingTop: '1.5rem',
+          scrollbarWidth: 'none',
+          WebkitOverflowScrolling: 'touch',
+          touchAction: 'pan-x',
           paddingBottom: '1.5rem',
-          animation: `${animName} ${duration} linear infinite`,
-          animationPlayState: paused ? 'paused' : 'running',
-          willChange: 'transform',
+          paddingTop: '1.5rem',
         }}
       >
         {doubled.map((event, i) => (
-          // Each card gets its own gentle float wave with a staggered phase
           <div
             key={`${event.id}-${i}`}
             style={{
               animation: `iedc-float ${3.5 + (i % 5) * 0.6}s ease-in-out infinite`,
               animationDelay: `${(i % 7) * -0.8}s`,
-              animationPlayState: paused ? 'paused' : 'running',
+              animationPlayState: (paused || isManualStuck) ? 'paused' : 'running',
             }}
           >
             <EventCard
@@ -526,13 +606,7 @@ export default function EventsSection() {
         </div>
       </section>
 
-      {/* ── Footer ── */}
-      <footer className="px-8 py-10 border-t border-slate-200 text-center" style={{ background: '#f5f5f7' }}>
-        <div className="font-extrabold text-slate-900 text-2xl mb-1" style={{ fontFamily: 'var(--font-display)' }}>
-          IEDC<span className="text-red-600">●</span>CVV
-        </div>
-        <p className="text-slate-400 text-sm">Innovation & Entrepreneurship Development Cell — College of Velankanni</p>
-      </footer>
+
 
       {/* ── Modal ── */}
       <EventModal event={selectedEvent} onClose={() => setSelectedEvent(null)} past={isSelectedPast} />

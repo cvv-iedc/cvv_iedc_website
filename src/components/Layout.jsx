@@ -1,4 +1,5 @@
 import Navbar from './Navbar'
+import Footer from './Footer'
 import { motion } from 'framer-motion'
 
 const pageVariants = {
@@ -9,7 +10,7 @@ const pageVariants = {
 
 export default function Layout({ children }) {
   return (
-    <div style={{ minHeight: '100vh', background: 'var(--color-background)' }}>
+    <div style={{ minHeight: '100vh', background: 'var(--color-background)', display: 'flex', flexDirection: 'column' }}>
       <Navbar />
       <motion.main
         variants={pageVariants}
@@ -17,9 +18,11 @@ export default function Layout({ children }) {
         animate="animate"
         exit="exit"
         transition={{ duration: 0.4, ease: 'easeInOut' }}
+        style={{ flex: 1, display: 'flex', flexDirection: 'column' }}
       >
         {children}
       </motion.main>
+      <Footer />
     </div>
   )
 }
