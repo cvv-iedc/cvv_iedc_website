@@ -4,7 +4,6 @@ import { motion, AnimatePresence, useScroll, useMotionValueEvent } from 'framer-
 import { Menu, X } from 'lucide-react'
 
 const navLinks = [
-  { label: 'Home', href: '/' },
   { label: 'About', href: '/about' },
   { label: 'Events', href: '/events' },
   { label: 'Gallery', href: '/gallery' },
