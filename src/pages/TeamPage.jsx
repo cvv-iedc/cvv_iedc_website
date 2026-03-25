@@ -157,21 +157,7 @@ export default function TeamPage() {
         </a>
       </motion.div>
 
-      {/* Footer */}
-      <footer style={{
-        marginTop: '5rem',
-        background: 'var(--color-brand-black)',
-        color: 'rgba(255,255,255,0.6)',
-        padding: '3rem 2rem',
-        textAlign: 'center',
-        fontFamily: 'var(--font-body)',
-        fontSize: '0.875rem',
-      }}>
-        <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '1.5rem', color: '#fff', marginBottom: '0.5rem' }}>
-          IEDC<span style={{ color: 'var(--color-brand-red)' }}>●</span>CVV
-        </div>
-        <p>Innovation & Entrepreneurship Development Cell — College of Velankanni</p>
-      </footer>
+
     </div>
   )
 }
