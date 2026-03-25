@@ -81,6 +81,36 @@ body {
   animation-play-state: paused;
 }
 
+/* ─── Team Page Marquee ─── */
+@keyframes team-marquee-left {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+@keyframes team-marquee-right {
+  from { transform: translateX(-50%); }
+  to   { transform: translateX(0); }
+}
+
+.team-marquee-track {
+  display: flex;
+  width: max-content;
+  align-items: flex-end;
+  will-change: transform;
+}
+
+.team-marquee-track.go-left {
+  animation: team-marquee-left var(--dur, 40s) linear infinite;
+}
+
+.team-marquee-track.go-right {
+  animation: team-marquee-right var(--dur, 50s) linear infinite;
+}
+
+.team-marquee-track.paused {
+  animation-play-state: paused;
+}
+
 /* ─── Horizontal scroll snap (Events carousel) ─── */
 .scroll-container {
   display: flex;
@@ -92,8 +122,15 @@ body {
   padding-bottom: 0.5rem;
 }
 
-.scroll-container::-webkit-scrollbar {
+.scroll-container::-webkit-scrollbar,
+.native-scroll-container::-webkit-scrollbar {
   display: none;
+}
+
+.native-scroll-container {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  -webkit-overflow-scrolling: touch;
 }
 
 .scroll-item {
