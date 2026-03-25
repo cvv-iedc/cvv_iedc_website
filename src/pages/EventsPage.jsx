@@ -1,149 +1,541 @@
-import { useState } from 'react'
-import { motion } from 'framer-motion'
-import { events } from '../data/events'
-import EventModal from '../components/EventModal'
+import { useState, useRef } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { X, MapPin, Calendar, ArrowRight, ChevronLeft, ChevronRight, Clock, Ticket } from 'lucide-react'
 
-export default function EventsPage() {
-  const [selectedEvent, setSelectedEvent] = useState(null)
+// ─── Current time: 2026-03-25 ─────────────────────────────────────────────────
+const NOW = new Date('2026-03-25T18:00:00+05:30')
 
+const ALL_EVENTS = [
+  // ── Upcoming (future relative to NOW) ────────────────────────────────
+  {
+    id: 1,
+    title: 'STARTUP PITCH SUMMIT',
+    subtitle: 'SPRING 2026',
+    date: '2026-04-12',
+    dateLabel: 'April 12, 2026',
+    time: '10:00 AM',
+    fee: 'Free Registration',
+    venue: 'College Auditorium, CVV',
+    featured: true,
+    description:
+      'The flagship pitching event of IEDC CVV. Student entrepreneurs present their startup ideas to a panel of industry experts, VCs, and mentors. Top 3 teams win mentorship grants and incubation support.',
+    image: '/images/event1.jpg',
+    tag: 'Pitch',
+    accent: '#2563EB',
+    gradient: 'linear-gradient(160deg,#0f2b5b 0%,#1a4a8a 100%)',
+  },
+  {
+    id: 2,
+    title: 'INNOVATEX HACKATHON',
+    subtitle: '24 HOURS',
+    date: '2026-05-03',
+    dateLabel: 'May 3–4, 2026',
+    time: '9:00 AM',
+    fee: '₹200 per Team',
+    venue: 'CS Lab Block, CVV',
+    featured: true,
+    description:
+      '24-hour hackathon challenging participants to build solutions for real-world problems across health, agriculture, education, and sustainability. Open to all disciplines.',
+    image: '/images/event2.jpg',
+    tag: 'Hackathon',
+    accent: '#7C3AED',
+    gradient: 'linear-gradient(160deg,#1a0a4a 0%,#3b1f8a 100%)',
+  },
+  {
+    id: 3,
+    title: 'DESIGN THINKING BOOTCAMP',
+    subtitle: 'WORKSHOP',
+    date: '2026-06-20',
+    dateLabel: 'June 20, 2026',
+    time: '2:00 PM',
+    fee: '₹150 per Head',
+    venue: 'Seminar Hall B, CVV',
+    featured: false,
+    description:
+      'A hands-on design thinking bootcamp led by practising UX designers. Learn empathy mapping, rapid prototyping, and user testing through live case studies.',
+    image: '/images/event3.jpg',
+    tag: 'Workshop',
+    accent: '#059669',
+    gradient: 'linear-gradient(160deg,#022c22 0%,#065f46 100%)',
+  },
+  {
+    id: 4,
+    title: 'FOUNDER FIRESIDE CHAT',
+    subtitle: 'ALUMNI SERIES',
+    date: '2026-07-08',
+    dateLabel: 'July 8, 2026',
+    time: '4:00 PM',
+    fee: 'Free (Invite Only)',
+    venue: 'Innovation Hub, CVV',
+    featured: true,
+    description:
+      'An intimate fireside session with successful alumni founders. Raw stories about failure, pivots, fundraising, and hypergrowth — followed by an open Q&A.',
+    image: '/images/event4.jpg',
+    tag: 'Talk',
+    accent: '#D97706',
+    gradient: 'linear-gradient(160deg,#3b1c08 0%,#92400e 100%)',
+  },
+
+  // ── Past (before NOW) ─────────────────────────────────────────────────
+  {
+    id: 5,
+    title: 'IDEA SPRINT 2026',
+    subtitle: 'FEB 2026',
+    date: '2026-02-14',
+    dateLabel: 'February 14, 2026',
+    time: '11:00 AM',
+    fee: 'Free Registration',
+    venue: 'Innovation Hub, CVV',
+    featured: false,
+    description:
+      'A 6-hour rapid ideation sprint where teams brainstorm, sketch, and prototype ideas in real time. Winning concepts get featured in the IEDC annual report.',
+    image: '/images/event5.jpg',
+    tag: 'Workshop',
+    accent: '#0891B2',
+    gradient: 'linear-gradient(160deg,#082f49 0%,#0c4a6e 100%)',
+  },
+  {
+    id: 6,
+    title: 'SOCIAL INNOVATION CHALLENGE',
+    subtitle: 'SEED GRANT',
+    date: '2025-09-10',
+    dateLabel: 'September 10, 2025',
+    time: '9:00 AM',
+    fee: '₹100 per Team',
+    venue: 'Mini Auditorium, CVV',
+    featured: true,
+    description:
+      'Teams present actionable social solutions addressing local community problems. Winning proposals receive IEDC seed funding from the social impact fund.',
+    image: '/images/event6.jpg',
+    tag: 'Competition',
+    accent: '#16A34A',
+    gradient: 'linear-gradient(160deg,#052e16 0%,#14532d 100%)',
+  },
+  {
+    id: 7,
+    title: 'IP & PATENT WORKSHOP',
+    subtitle: 'PROTECT IDEAS',
+    date: '2025-08-15',
+    dateLabel: 'August 15, 2025',
+    time: '10:00 AM',
+    fee: '₹50 per Head',
+    venue: 'Conference Room 1, CVV',
+    featured: false,
+    description:
+      'Understand intellectual property rights, how to file patents, and protect your innovations — led by a practising patent attorney with startup industry experience.',
+    image: '/images/event1.jpg',
+    tag: 'Workshop',
+    accent: '#6366F1',
+    gradient: 'linear-gradient(160deg,#1e1b4b 0%,#3730a3 100%)',
+  },
+  {
+    id: 8,
+    title: 'STARTUP WEEKEND CVV',
+    subtitle: 'DEC 2025',
+    date: '2025-12-05',
+    dateLabel: 'December 5–7, 2025',
+    time: '9:00 AM',
+    fee: '₹300 per Head (incl. food)',
+    venue: 'CS Block, CVV',
+    featured: false,
+    description:
+      '54-hour weekend startup experience — learn, network, and build. Teams form on Day 1, validate on Day 2, and pitch to judges on Day 3.',
+    image: '/images/event2.jpg',
+    tag: 'Competition',
+    accent: '#DC2626',
+    gradient: 'linear-gradient(160deg,#450a0a 0%,#991b1b 100%)',
+  },
+  {
+    id: 9,
+    title: 'OPEN INNOVATION FORUM',
+    subtitle: 'NOV 2025',
+    date: '2025-11-12',
+    dateLabel: 'November 12, 2025',
+    time: '3:00 PM',
+    fee: 'Free Registration',
+    venue: 'Seminar Hall A, CVV',
+    featured: true,
+    description:
+      'Industry partners present real unsolved problems to student innovators. The best solutions get piloted with the partner organisation over the next semester.',
+    image: '/images/event3.jpg',
+    tag: 'Hackathon',
+    accent: '#CA8A04',
+    gradient: 'linear-gradient(160deg,#422006 0%,#713f12 100%)',
+  },
+]
+
+// ─── Helpers ──────────────────────────────────────────────────────────────────
+const isPast = (e) => new Date(e.date) < NOW
+
+// ─── Parallax auto-scroll (CSS transform — truly endless) ───────────────────
+// Injects a one-time <style> tag with the keyframes we need
+const STYLE_ID = 'iedc-marquee-styles'
+if (typeof document !== 'undefined' && !document.getElementById(STYLE_ID)) {
+  const s = document.createElement('style')
+  s.id = STYLE_ID
+  s.textContent = `
+    @keyframes iedc-marquee {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+    @keyframes iedc-marquee-reverse {
+      from { transform: translateX(-50%); }
+      to   { transform: translateX(0%); }
+    }
+    @keyframes iedc-float {
+      0%   { transform: translateY(0px) scale(1); }
+      50%  { transform: translateY(-10px) scale(1.01); }
+      100% { transform: translateY(0px) scale(1); }
+    }
+  `
+  document.head.appendChild(s)
+}
+
+// ─── Modal ────────────────────────────────────────────────────────────────────
+function EventModal({ event, onClose, past }) {
   return (
-    <div style={{ minHeight: '100vh', background: 'var(--color-surface)', paddingTop: '7rem', paddingBottom: '5rem' }}>
-      {/* Header */}
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        style={{ textAlign: 'center', marginBottom: 'clamp(2.5rem, 6vw, 4rem)', padding: '0 2rem' }}
-      >
-        <p style={{ fontFamily: 'var(--font-heading)', fontWeight: 700, fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '0.15em', color: 'var(--color-primary)', marginBottom: '0.75rem' }}>
-          IEDC CVV
-        </p>
-        <h1 style={{
-          fontFamily: 'var(--font-display)',
-          fontWeight: 800,
-          fontSize: 'clamp(2.5rem, 8vw, 5.5rem)',
-          letterSpacing: '-0.04em',
-          color: 'var(--color-text-primary)',
-          lineHeight: 1,
-        }}>
-          Events
-        </h1>
-        <p style={{
-          fontFamily: 'var(--font-body)',
-          fontSize: 'clamp(0.95rem, 2vw, 1.1rem)',
-          color: 'var(--color-text-secondary)',
-          maxWidth: '500px',
-          margin: '1.25rem auto 0',
-          lineHeight: 1.7,
-        }}>
-          Workshops, hackathons, talks, and competitions — all designed to spark your entrepreneurial journey.
-        </p>
-      </motion.div>
-
-      {/* Cards Grid */}
-      <div style={{
-        display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 300px), 1fr))',
-        gap: '1.5rem',
-        maxWidth: '1200px',
-        margin: '0 auto',
-        padding: '0 clamp(1.5rem, 5vw, 4rem)',
-      }}>
-        {events.map((event, i) => (
+    <AnimatePresence>
+      {event && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.2 }}
+          onClick={onClose}
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-8"
+          style={{ background: 'rgba(255,255,255,0.72)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)' }}
+        >
           <motion.div
-            key={event.id}
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: i * 0.07 }}
-            whileHover={{ scale: 1.02, y: -4 }}
-            onClick={() => setSelectedEvent(event)}
-            style={{
-              height: '420px',
-              borderRadius: 'var(--radius-card)',
-              overflow: 'hidden',
-              position: 'relative',
-              cursor: 'pointer',
-              boxShadow: '0 8px 32px rgba(0,0,0,0.09)',
-            }}
+            initial={{ opacity: 0, scale: 0.96, y: 24 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.96, y: 24 }}
+            transition={{ duration: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
+            onClick={(e) => e.stopPropagation()}
+            className="w-full bg-white overflow-hidden"
+            style={{ maxWidth: '800px', maxHeight: '90vh', borderRadius: '1.5rem', boxShadow: '0 40px 100px rgba(0,0,0,0.15), 0 0 0 1px rgba(0,0,0,0.05)' }}
           >
-            {/* Background */}
-            <div style={{
-              position: 'absolute', inset: 0,
-              background: `linear-gradient(135deg, hsl(${210 + i * 25}, 65%, 55%), hsl(${210 + i * 25 + 35}, 55%, 35%))`,
-            }}>
-              <img
-                src={event.image}
-                alt={event.title}
-                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                onError={(e) => { e.target.style.display = 'none' }}
-              />
-            </div>
-            {/* Overlay */}
-            <div style={{
-              position: 'absolute', inset: 0,
-              background: 'linear-gradient(to top, rgba(15,23,42,0.90) 0%, rgba(15,23,42,0.15) 55%, transparent 100%)',
-            }} />
-            {/* Date badge */}
-            <div style={{
-              position: 'absolute', top: '1rem', left: '1rem',
-              background: 'var(--color-primary)', color: '#fff',
-              borderRadius: '0.75rem', padding: '0.35rem 0.8rem',
-              fontSize: '0.75rem', fontWeight: 700, fontFamily: 'var(--font-heading)',
-            }}>
-              {new Date(event.date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })}
-            </div>
-            {/* Content */}
-            <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '1.5rem' }}>
-              <div style={{ display: 'flex', gap: '0.35rem', flexWrap: 'wrap', marginBottom: '0.65rem' }}>
-                {event.tags?.slice(0, 2).map(tag => (
-                  <span key={tag} style={{ background: 'rgba(255,255,255,0.18)', color: '#fff', borderRadius: '9999px', padding: '0.15rem 0.6rem', fontSize: '0.7rem', fontWeight: 600, border: '1px solid rgba(255,255,255,0.25)' }}>
-                    {tag}
-                  </span>
-                ))}
+            <div className="flex flex-col md:flex-row" style={{ maxHeight: '90vh' }}>
+              {/* Left image */}
+              <div className="relative flex-shrink-0 md:w-[42%] min-h-[240px]" style={{ background: event.gradient }}>
+                <img src={event.image} alt={event.title} className="absolute inset-0 w-full h-full object-cover opacity-50" onError={(e) => { e.target.style.display = 'none' }} />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
+                {past && (
+                  <div className="absolute top-5 right-5 bg-black/40 backdrop-blur rounded-full px-3 py-1 flex items-center gap-1.5">
+                    <Clock size={11} className="text-white/70" /><span className="text-white/70 text-[0.65rem] font-bold uppercase tracking-wide">Past</span>
+                  </div>
+                )}
+                <div className="absolute top-5 left-5">
+                  <span className="text-white text-[0.65rem] font-black px-3 py-1 rounded-full uppercase tracking-widest" style={{ background: event.accent }}>{event.tag}</span>
+                </div>
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="rounded-full border border-white/25 p-4 text-center flex flex-col items-center justify-center" style={{ width: '108px', height: '108px', background: 'rgba(255,255,255,0.07)', backdropFilter: 'blur(6px)' }}>
+                    <p className="text-white/50 text-[0.5rem] tracking-[0.2em] uppercase font-bold mb-0.5">IEDC CVV</p>
+                    <p className="text-white font-black text-xs leading-tight text-center" style={{ fontFamily: 'var(--font-display)', letterSpacing: '-0.01em' }}>{event.subtitle}</p>
+                  </div>
+                </div>
+                <div className="absolute bottom-5 left-5 right-5">
+                  <p className="text-white/50 text-xs font-medium mb-0.5">{event.dateLabel}</p>
+                  <p className="text-white text-xs font-semibold">{event.venue}</p>
+                </div>
               </div>
-              <h3 style={{ fontFamily: 'var(--font-heading)', fontWeight: 700, fontSize: '1.2rem', color: '#fff', lineHeight: 1.3, marginBottom: '0.45rem' }}>
-                {event.title}
-              </h3>
-              <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.8rem', color: 'rgba(255,255,255,0.65)', marginBottom: '1rem' }}>
-                {event.location}
-              </p>
-              <div style={{
-                display: 'inline-block',
-                padding: '0.45rem 1.1rem',
-                background: 'rgba(255,255,255,0.15)',
-                border: '1px solid rgba(255,255,255,0.35)',
-                borderRadius: '9999px',
-                color: '#fff',
-                fontFamily: 'var(--font-heading)',
-                fontWeight: 600,
-                fontSize: '0.8rem',
-                backdropFilter: 'blur(8px)',
-              }}>
-                View Details →
+
+              {/* Right details */}
+              <div className="flex-1 p-8 flex flex-col overflow-y-auto relative">
+                <button onClick={onClose} className="absolute top-5 right-5 w-8 h-8 flex items-center justify-center rounded-full bg-slate-100 hover:bg-slate-200 transition-colors">
+                  <X size={15} className="text-slate-500" />
+                </button>
+                <p className="text-xs font-black uppercase tracking-[0.18em] mb-3" style={{ color: event.accent, fontFamily: 'var(--font-heading)' }}>{event.tag}</p>
+                <h2 className="font-extrabold text-slate-900 leading-none mb-5 pr-8" style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.3rem,3.5vw,1.8rem)', letterSpacing: '-0.03em' }}>{event.title}</h2>
+                <div className="flex flex-col gap-2.5 mb-5">
+                  {[
+                    { id: 'date', Icon: Calendar, text: event.dateLabel },
+                    { id: 'time', Icon: Clock, text: event.time },
+                    { id: 'venue', Icon: MapPin, text: event.venue },
+                    { id: 'fee', Icon: Ticket, text: event.fee },
+                  ]
+                    .filter((item) => item.text)
+                    .map(({ id, Icon, text }) => (
+                      <div key={id} className="flex items-center gap-3">
+                        <div className="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: `${event.accent}18` }}>
+                          <Icon size={13} style={{ color: event.accent }} />
+                        </div>
+                        <span className="text-sm text-slate-500">{text}</span>
+                      </div>
+                    ))}
+                </div>
+                <div className="h-px bg-slate-100 mb-5" />
+                <p className="text-[0.88rem] text-slate-500 leading-relaxed flex-1 mb-6">{event.description}</p>
+                {past ? (
+                  <div className="flex items-center justify-center gap-2 w-full py-3 rounded-full bg-slate-100 text-slate-400 font-bold text-sm" style={{ fontFamily: 'var(--font-heading)' }}>
+                    <Clock size={15} /> Event Concluded
+                  </div>
+                ) : (
+                  <motion.a href="#" whileHover={{ y: -2 }} whileTap={{ scale: 0.98 }}
+                    className="flex items-center justify-center gap-2 w-full py-3.5 rounded-full text-white font-bold text-sm"
+                    style={{ background: event.accent, fontFamily: 'var(--font-heading)' }}
+                  >
+                    Register Now <ArrowRight size={15} />
+                  </motion.a>
+                )}
               </div>
             </div>
           </motion.div>
-        ))}
+        </motion.div>
+      )}
+    </AnimatePresence>
+  )
+}
+
+// ─── Single poster card ──────────────────────────────────────────────────────
+function EventCard({ event, onClick, past }) {
+  const cardRef = useRef(null)
+
+  // Per-card parallax: track mouse position over the card
+  const handleMouseMove = (e) => {
+    const el = cardRef.current
+    if (!el) return
+    const rect = el.getBoundingClientRect()
+    const x = ((e.clientX - rect.left) / rect.width - 0.5) * 12
+    const y = ((e.clientY - rect.top) / rect.height - 0.5) * 8
+    el.style.transform = `perspective(800px) rotateY(${x}deg) rotateX(${-y}deg) scale(1.04)`
+  }
+  const handleMouseLeave = (e) => {
+    const el = cardRef.current
+    if (el) el.style.transform = 'perspective(800px) rotateY(0deg) rotateX(0deg) scale(1)'
+  }
+
+  return (
+    <div
+      ref={cardRef}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      onClick={onClick}
+      className="relative flex-shrink-0 overflow-hidden cursor-pointer"
+      style={{
+        width: 'clamp(260px, 26vw, 380px)',
+        height: 'clamp(360px, 46vw, 500px)',
+        borderRadius: '1.25rem',
+        transition: 'transform 0.25s ease, box-shadow 0.25s ease',
+        transformStyle: 'preserve-3d',
+        boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
+        filter: past ? 'brightness(0.85) saturate(0.7)' : 'none',
+      }}
+      onMouseEnter={(e) => { e.currentTarget.style.boxShadow = '0 16px 48px rgba(0,0,0,0.18)' }}
+    >
+      {/* BG */}
+      <div className="absolute inset-0" style={{ background: event.gradient }}>
+        <img src={event.image} alt={event.title} className="w-full h-full object-cover object-top"
+          style={{ opacity: past ? 0.45 : 0.65, transition: 'opacity 0.4s ease' }}
+          onError={(e) => { e.target.style.display = 'none' }} loading="lazy" />
+      </div>
+      <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent" style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.55) 40%, transparent 70%)' }} />
+      <div className="absolute inset-0 bg-gradient-to-b from-black/30 to-transparent" />
+
+      {/* ── TOP ROW: time (left) | tag pill (right) — same baseline ── */}
+      <div className="absolute top-0 left-0 right-0 flex items-center justify-between px-3.5 pt-3.5">
+        {/* Time */}
+        <span
+          className="text-white/90 text-xs font-bold"
+          style={{ fontFamily: 'var(--font-heading)', textShadow: '0 1px 6px rgba(0,0,0,0.8)' }}
+        >
+          {event.time}
+        </span>
+
+        {/* Tag pill */}
+        <span
+          className="text-[0.68rem] font-black uppercase tracking-wider px-3 py-1 rounded-full"
+          style={{ background: event.accent, color: '#fff' }}
+        >
+          {event.tag}
+        </span>
       </div>
 
-      {selectedEvent && <EventModal event={selectedEvent} onClose={() => setSelectedEvent(null)} />}
 
-      {/* Footer */}
-      <footer style={{
-        marginTop: '5rem',
-        background: 'var(--color-brand-black)',
-        color: 'rgba(255,255,255,0.6)',
-        padding: '3rem 2rem',
-        textAlign: 'center',
-        fontFamily: 'var(--font-body)',
-        fontSize: '0.875rem',
-      }}>
-        <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '1.5rem', color: '#fff', marginBottom: '0.5rem' }}>
-          IEDC<span style={{ color: 'var(--color-brand-red)' }}>●</span>CVV
+
+      {/* ── BOTTOM CENTER: event name + date ── */}
+      <div className="absolute bottom-0 left-0 right-0 px-3 pb-5 pt-8 text-center">
+        <h3
+          className="text-white leading-tight mb-1.5 uppercase"
+          style={{
+            fontFamily: "'Montserrat', sans-serif",
+            fontWeight: 800,
+            fontSize: 'clamp(1.1rem, 1.8vw, 1.35rem)',
+            letterSpacing: '0.04em',
+            textShadow: '0 2px 12px rgba(0,0,0,0.8)',
+            color: '#ffffff',
+          }}
+        >
+          {event.title}
+        </h3>
+        {/* Date: dd Month format */}
+        <p
+          className="text-white/55 font-normal leading-none"
+          style={{ fontFamily: 'var(--font-body)', fontSize: '0.7rem' }}
+        >
+          {new Date(event.date).toLocaleDateString('en-GB', { day: 'numeric', month: 'long' })}
+        </p>
+      </div>
+
+      {/* Accent bottom bar */}
+      <div className="absolute bottom-0 left-0 right-0 h-0.5" style={{ background: event.accent, opacity: 0.85 }} />
+    </div>
+  )
+}
+
+// ─── Auto-scroll carousel row ────────────────────────────────────────────────
+function CarouselRow({ events, reverse = false, onCardClick, past }) {
+  const [paused, setPaused] = useState(false)
+
+  // Cinematic slow drift: each full loop takes (cards × 12) seconds
+  const duration = `${events.length * 12}s`
+  const animName = reverse ? 'iedc-marquee-reverse' : 'iedc-marquee'
+
+  // Double the list so the seam is invisible
+  const doubled = [...events, ...events]
+
+  return (
+    <div
+      className="relative overflow-hidden"
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+    >
+      {/* Edge fades */}
+      <div className="absolute left-0 top-0 bottom-0 w-24 pointer-events-none z-10"
+        style={{ background: 'linear-gradient(to right, #f5f5f7, transparent)' }} />
+      <div className="absolute right-0 top-0 bottom-0 w-24 pointer-events-none z-10"
+        style={{ background: 'linear-gradient(to left, #ebebed, transparent)' }} />
+
+      {/* Animated track — slow cinematic horizontal drift */}
+      <div
+        style={{
+          display: 'flex',
+          gap: '1.25rem',
+          width: 'max-content',
+          paddingTop: '1.5rem',
+          paddingBottom: '1.5rem',
+          animation: `${animName} ${duration} linear infinite`,
+          animationPlayState: paused ? 'paused' : 'running',
+          willChange: 'transform',
+        }}
+      >
+        {doubled.map((event, i) => (
+          // Each card gets its own gentle float wave with a staggered phase
+          <div
+            key={`${event.id}-${i}`}
+            style={{
+              animation: `iedc-float ${3.5 + (i % 5) * 0.6}s ease-in-out infinite`,
+              animationDelay: `${(i % 7) * -0.8}s`,
+              animationPlayState: paused ? 'paused' : 'running',
+            }}
+          >
+            <EventCard
+              event={event}
+              onClick={() => onCardClick(event)}
+              past={past}
+            />
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+// ─── Section header ───────────────────────────────────────────────────────────
+function SectionHeading({ title, sub, count }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.55, ease: [0.25, 0.46, 0.45, 0.94] }}
+      className="px-8 md:px-16 pt-16 pb-0 flex items-end justify-between"
+    >
+      <div>
+        <h2
+          className="font-extrabold text-slate-900 leading-none"
+          style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(3rem,10vw,8rem)', letterSpacing: '-0.05em', marginBottom: '-0.15em' }}
+        >
+          {title}
+        </h2>
+        <p className="text-slate-400 font-medium mt-4 text-base" style={{ fontFamily: 'var(--font-body)' }}>{sub}</p>
+      </div>
+      <span className="text-slate-300 font-black text-5xl mb-2 select-none" style={{ fontFamily: 'var(--font-display)' }}>
+        {String(count).padStart(2, '0')}
+      </span>
+    </motion.div>
+  )
+}
+
+// ─── Main export ──────────────────────────────────────────────────────────────
+export default function EventsSection() {
+  const [selectedEvent, setSelectedEvent] = useState(null)
+  const [isSelectedPast, setIsSelectedPast] = useState(false)
+
+  const upcoming = ALL_EVENTS.filter((e) => !isPast(e))
+  const featuredOnly = ALL_EVENTS.filter((e) => e.featured)
+
+  const openModal = (event, pastFlag) => {
+    setSelectedEvent(event)
+    setIsSelectedPast(pastFlag)
+  }
+
+  return (
+    <div className="min-h-screen overflow-hidden" style={{ background: 'linear-gradient(180deg,#f5f5f7 0%,#ebebed 100%)' }}>
+
+      {/* ── Top spacer for navbar ── */}
+      <div className="h-20" />
+
+      {/* ══════════════════════════════════════════
+          UPCOMING EVENTS
+      ══════════════════════════════════════════ */}
+      <section>
+        <SectionHeading title="Upcoming" sub="Events you can't afford to miss." count={upcoming.length} />
+        <div className="mt-2">
+          <CarouselRow events={upcoming} reverse={false} onCardClick={(ev) => openModal(ev, false)} past={false} />
         </div>
-        <p>Innovation & Entrepreneurship Development Cell — College of Velankanni</p>
+      </section>
+
+      {/* ── Divider ── */}
+      <div className="mx-8 md:mx-16 my-4">
+        <div className="h-px bg-gradient-to-r from-transparent via-slate-300 to-transparent" />
+      </div>
+
+      {/* ══════════════════════════════════════════
+          FEATURED EVENTS
+      ══════════════════════════════════════════ */}
+      <section className="pb-16 flex flex-col">
+        <SectionHeading title="Featured" sub="Handpicked highlights & flagships." count={featuredOnly.length} />
+        <div className="mt-2 text-center pb-8">
+          {/* Featured carousel scrolls in reverse */}
+          <CarouselRow events={featuredOnly} reverse={true} onCardClick={(ev) => openModal(ev, isPast(ev))} past={false} />
+          
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true, amount: 0.5 }}
+            transition={{ duration: 0.4, delay: 0.2 }}
+            className="mt-12 inline-flex"
+          >
+            <a href="/all-events"
+               className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full bg-slate-900 text-white hover:bg-slate-800 transition-all font-bold group"
+               style={{ fontFamily: 'var(--font-heading)', boxShadow: '0 8px 20px rgba(15,23,42,0.15)' }}>
+              Explore All Events 
+              <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+            </a>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ── Footer ── */}
+      <footer className="px-8 py-10 border-t border-slate-200 text-center" style={{ background: '#f5f5f7' }}>
+        <div className="font-extrabold text-slate-900 text-2xl mb-1" style={{ fontFamily: 'var(--font-display)' }}>
+          IEDC<span className="text-red-600">●</span>CVV
+        </div>
+        <p className="text-slate-400 text-sm">Innovation & Entrepreneurship Development Cell — College of Velankanni</p>
       </footer>
+
+      {/* ── Modal ── */}
+      <EventModal event={selectedEvent} onClose={() => setSelectedEvent(null)} past={isSelectedPast} />
     </div>
   )
 }

@@ -6,6 +6,7 @@ import EventsPage from './pages/EventsPage'
 import GalleryPage from './pages/GalleryPage'
 import TeamPage from './pages/TeamPage'
 import AboutPage from './pages/AboutPage'
+import AllEventsPage from './pages/AllEventsPage'
 
 function AnimatedRoutes() {
   const location = useLocation()
@@ -14,6 +15,7 @@ function AnimatedRoutes() {
       <Routes location={location} key={location.pathname}>
         <Route path="/" element={<LandingPage />} />
         <Route path="/events" element={<EventsPage />} />
+        <Route path="/all-events" element={<AllEventsPage />} />
         <Route path="/gallery" element={<GalleryPage />} />
         <Route path="/team" element={<TeamPage />} />
         <Route path="/about" element={<AboutPage />} />
