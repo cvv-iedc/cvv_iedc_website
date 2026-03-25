@@ -4,14 +4,14 @@ import { gallery } from '../data/gallery'
 import LightboxModal from '../components/LightboxModal'
 
 const pattern = [
-  { mr: 'clamp(4rem, 8vw, 10rem)',  y: '-18vh', w: 'clamp(260px, 28vw, 450px)', r: '4/3' },
-  { mr: 'clamp(5rem, 12vw, 15rem)', y: '22vh',  w: 'clamp(220px, 24vw, 360px)', r: '3/4' },
-  { mr: 'clamp(4rem, 10vw, 12rem)', y: '-8vh',  w: 'clamp(300px, 32vw, 550px)', r: '16/9' },
-  { mr: 'clamp(6rem, 15vw, 18rem)', y: '28vh',  w: 'clamp(200px, 20vw, 320px)', r: '4/5' },
-  { mr: 'clamp(4rem, 10vw, 12rem)', y: '-25vh', w: 'clamp(240px, 26vw, 420px)', r: '1/1' },
-  { mr: 'clamp(3rem, 8vw, 10rem)',  y: '15vh',  w: 'clamp(280px, 30vw, 500px)', r: '3/2' },
-  { mr: 'clamp(5rem, 12vw, 15rem)', y: '-5vh',  w: 'clamp(220px, 24vw, 350px)', r: '3/4' },
-  { mr: 'clamp(5rem, 10vw, 14rem)', y: '20vh',  w: 'clamp(260px, 28vw, 450px)', r: '16/9' },
+  { mr: 'clamp(1rem, 2vw, 3rem)', y: '-18vh', w: 'clamp(260px, 28vw, 450px)', r: '4/3' },
+  { mr: 'clamp(1rem, 2vw, 3rem)', y: '22vh', w: 'clamp(220px, 24vw, 360px)', r: '3/4' },
+  { mr: 'clamp(1rem, 2vw, 3rem)', y: '-8vh', w: 'clamp(300px, 32vw, 550px)', r: '16/9' },
+  { mr: 'clamp(1rem, 2vw, 3rem)', y: '28vh', w: 'clamp(200px, 20vw, 320px)', r: '4/5' },
+  { mr: 'clamp(1rem, 2vw, 3rem)', y: '-25vh', w: 'clamp(240px, 26vw, 420px)', r: '1/1' },
+  { mr: 'clamp(1rem, 2vw, 3rem)', y: '15vh', w: 'clamp(280px, 30vw, 500px)', r: '3/2' },
+  { mr: 'clamp(1rem, 2vw, 3rem)', y: '-5vh', w: 'clamp(220px, 24vw, 350px)', r: '3/4' },
+  { mr: 'clamp(1rem, 2vw, 3rem)', y: '20vh', w: 'clamp(260px, 28vw, 450px)', r: '16/9' },
 ]
 
 export default function GalleryPage() {
@@ -32,11 +32,11 @@ export default function GalleryPage() {
   }, []) // Remove 'gallery' dependency as it's static and prevents unnecessary re-binds. If gallery relies on data fetching, add it.
 
   // Use framer-motion useScroll to map exactly to the target element
-  const { scrollYProgress } = useScroll({ 
+  const { scrollYProgress } = useScroll({
     target: targetRef,
     offset: ["start start", "end end"]
   })
-  
+
   const x = useTransform(scrollYProgress, [0, 1], [0, -scrollRange])
 
   const openLightbox = (i) => setLightboxIndex(i)
@@ -44,18 +44,18 @@ export default function GalleryPage() {
 
   return (
     <div ref={targetRef} style={{ height: '400vh', background: 'var(--color-surface)', position: 'relative' }}>
-      
+
       {/* Sticky viewport content */}
-      <div style={{ position: 'sticky', top: 0, height: '100vh',  overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
-        
+      <div style={{ position: 'sticky', top: 0, height: '100vh', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
+
         {/* Header - Fixed inside sticky container */}
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          style={{ 
-            textAlign: 'center', 
-            padding: '8rem 2rem 1.5rem', 
+          style={{
+            textAlign: 'center',
+            padding: '8rem 2rem 1.5rem',
             pointerEvents: 'none',
             position: 'absolute',
             width: '100%',
