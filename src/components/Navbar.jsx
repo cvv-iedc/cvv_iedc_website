@@ -97,7 +97,7 @@ export default function Navbar() {
       onClick={(e) => { if (isMobile) { e.preventDefault() } }} 
       className="flex items-center justify-center pointer-events-auto hover:scale-[1.03] active:scale-[0.97] transition-transform duration-300"
     >
-      <img src="/iedc_logo_white.png" alt="IEDC CVV" className="h-[2rem] md:h-[2.2rem] object-contain drop-shadow-[0_2px_12px_rgba(255,255,255,0.2)]" />
+      <img src="/iedc_logo_white.png" alt="IEDC Chinmaya Vishwa Vidyapeeth" className="h-[2rem] md:h-[2.2rem] object-contain drop-shadow-[0_2px_12px_rgba(255,255,255,0.2)]" />
     </Link>
   )
 

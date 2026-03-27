@@ -4,9 +4,9 @@ export const events = [
     title: 'Startup Pitch Summit',
     date: '2025-04-12',
     time: '10:00 AM – 5:00 PM',
-    location: 'College Auditorium, CVV',
+    location: 'Chinmaya Vishwa Vidyapeeth (CVV)',
     description:
-      'The flagship pitching event of IEDC CVV. Student entrepreneurs present their startup ideas to a panel of industry experts, VCs, and mentors. Top 3 teams win mentorship grants and incubation support.',
+      'The flagship pitching event of IEDC Chinmaya Vishwa Vidyapeeth. Student entrepreneurs present their startup ideas to a panel of industry experts, VCs, and mentors. Top 3 teams win mentorship grants and incubation support.',
     image: '/images/event1.jpg',
     tags: ['Startup', 'Pitch', 'Competition'],
     tiers: [
@@ -20,7 +20,7 @@ export const events = [
     title: 'InnovatEx Hackathon',
     date: '2025-05-03',
     time: '9:00 AM – 9:00 AM (+1)',
-    location: 'CS Lab Block, CVV',
+    location: 'Chinmaya Vishwa Vidyapeeth (CVV)',
     description:
       '24-hour hackathon challenging participants to build solutions for real-world problems across health, agriculture, education, and sustainability. Open to all disciplines.',
     image: '/images/event2.jpg',
@@ -36,7 +36,7 @@ export const events = [
     title: 'Design Thinking Workshop',
     date: '2025-06-20',
     time: '2:00 PM – 6:00 PM',
-    location: 'Seminar Hall B, CVV',
+    location: 'Chinmaya Vishwa Vidyapeeth (CVV)',
     description:
       'A hands-on design thinking bootcamp led by UX practitioners and product designers. Learn empathy mapping, prototyping, and user testing through real case studies.',
     image: '/images/event3.jpg',
@@ -51,7 +51,7 @@ export const events = [
     title: 'Founder Fireside Chat',
     date: '2025-07-08',
     time: '4:00 PM – 6:00 PM',
-    location: 'Innovation Hub, CVV',
+    location: 'Chinmaya Vishwa Vidyapeeth (CVV)',
     description:
       'An intimate fireside chat with successful alumni founders. Hear raw stories from the trenches — failure, pivots, fundraising, and growth — followed by an open Q&A session.',
     image: '/images/event4.jpg',
@@ -66,7 +66,7 @@ export const events = [
     title: 'IP & Patent Workshop',
     date: '2025-08-15',
     time: '10:00 AM – 1:00 PM',
-    location: 'Conference Room 1, CVV',
+    location: 'Chinmaya Vishwa Vidyapeeth (CVV)',
     description:
       'Understand intellectual property rights, how to file patents, and protect your innovations. Led by a practicing patent attorney with industry experience in tech startups.',
     image: '/images/event5.jpg',
@@ -81,7 +81,7 @@ export const events = [
     title: 'Social Innovation Challenge',
     date: '2025-09-10',
     time: '9:00 AM – 4:00 PM',
-    location: 'Mini Auditorium, CVV',
+    location: 'Chinmaya Vishwa Vidyapeeth (CVV)',
     description:
       'A challenge for student teams to present actionable social solutions addressing local community problems. Winning proposals receive seed funding from IEDC\'s social impact fund.',
     image: '/images/event6.jpg',

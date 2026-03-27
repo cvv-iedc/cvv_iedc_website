@@ -15,10 +15,10 @@ const ALL_EVENTS = [
     dateLabel: 'April 12, 2026',
     time: '10:00 AM',
     fee: 'Free Registration',
-    venue: 'College Auditorium, CVV',
+    venue: 'Chinmaya Vishwa Vidyapeeth (CVV)',
     featured: true,
     description:
-      'The flagship pitching event of IEDC CVV. Student entrepreneurs present their startup ideas to a panel of industry experts, VCs, and mentors. Top 3 teams win mentorship grants and incubation support.',
+      'The flagship pitching event of IEDC Chinmaya Vishwa Vidyapeeth. Student entrepreneurs present their startup ideas to a panel of industry experts, VCs, and mentors. Top 3 teams win mentorship grants and incubation support.',
     image: '/images/event1.jpg',
     tag: 'Pitch',
     accent: '#2563EB',
@@ -32,7 +32,7 @@ const ALL_EVENTS = [
     dateLabel: 'May 3–4, 2026',
     time: '9:00 AM',
     fee: '₹200 per Team',
-    venue: 'CS Lab Block, CVV',
+    venue: 'Chinmaya Vishwa Vidyapeeth (CVV)',
     featured: true,
     description:
       '24-hour hackathon challenging participants to build solutions for real-world problems across health, agriculture, education, and sustainability. Open to all disciplines.',
@@ -49,7 +49,7 @@ const ALL_EVENTS = [
     dateLabel: 'June 20, 2026',
     time: '2:00 PM',
     fee: '₹150 per Head',
-    venue: 'Seminar Hall B, CVV',
+    venue: 'Chinmaya Vishwa Vidyapeeth (CVV)',
     featured: false,
     description:
       'A hands-on design thinking bootcamp led by practising UX designers. Learn empathy mapping, rapid prototyping, and user testing through live case studies.',
@@ -66,7 +66,7 @@ const ALL_EVENTS = [
     dateLabel: 'July 8, 2026',
     time: '4:00 PM',
     fee: 'Free (Invite Only)',
-    venue: 'Innovation Hub, CVV',
+    venue: 'Chinmaya Vishwa Vidyapeeth (CVV)',
     featured: true,
     description:
       'An intimate fireside session with successful alumni founders. Raw stories about failure, pivots, fundraising, and hypergrowth — followed by an open Q&A.',
@@ -85,7 +85,7 @@ const ALL_EVENTS = [
     dateLabel: 'February 14, 2026',
     time: '11:00 AM',
     fee: 'Free Registration',
-    venue: 'Innovation Hub, CVV',
+    venue: 'Chinmaya Vishwa Vidyapeeth (CVV)',
     featured: false,
     description:
       'A 6-hour rapid ideation sprint where teams brainstorm, sketch, and prototype ideas in real time. Winning concepts get featured in the IEDC annual report.',
@@ -102,7 +102,7 @@ const ALL_EVENTS = [
     dateLabel: 'September 10, 2025',
     time: '9:00 AM',
     fee: '₹100 per Team',
-    venue: 'Mini Auditorium, CVV',
+    venue: 'Chinmaya Vishwa Vidyapeeth (CVV)',
     featured: true,
     description:
       'Teams present actionable social solutions addressing local community problems. Winning proposals receive IEDC seed funding from the social impact fund.',
@@ -119,7 +119,7 @@ const ALL_EVENTS = [
     dateLabel: 'August 15, 2025',
     time: '10:00 AM',
     fee: '₹50 per Head',
-    venue: 'Conference Room 1, CVV',
+    venue: 'Chinmaya Vishwa Vidyapeeth (CVV)',
     featured: false,
     description:
       'Understand intellectual property rights, how to file patents, and protect your innovations — led by a practising patent attorney with startup industry experience.',
@@ -130,13 +130,13 @@ const ALL_EVENTS = [
   },
   {
     id: 8,
-    title: 'STARTUP WEEKEND CVV',
+    title: 'STARTUP WEEKEND Chinmaya Vishwa Vidyapeeth',
     subtitle: 'DEC 2025',
     date: '2025-12-05',
     dateLabel: 'December 5–7, 2025',
     time: '9:00 AM',
     fee: '₹300 per Head (incl. food)',
-    venue: 'CS Block, CVV',
+    venue: 'Chinmaya Vishwa Vidyapeeth (CVV)',
     featured: false,
     description:
       '54-hour weekend startup experience — learn, network, and build. Teams form on Day 1, validate on Day 2, and pitch to judges on Day 3.',
@@ -153,7 +153,7 @@ const ALL_EVENTS = [
     dateLabel: 'November 12, 2025',
     time: '3:00 PM',
     fee: 'Free Registration',
-    venue: 'Seminar Hall A, CVV',
+    venue: 'Chinmaya Vishwa Vidyapeeth (CVV)',
     featured: true,
     description:
       'Industry partners present real unsolved problems to student innovators. The best solutions get piloted with the partner organisation over the next semester.',
@@ -229,7 +229,7 @@ function EventModal({ event, onClose, past }) {
                 </div>
                 <div className="absolute inset-0 flex items-center justify-center">
                   <div className="rounded-full border border-white/25 p-4 text-center flex flex-col items-center justify-center" style={{ width: '108px', height: '108px', background: 'rgba(255,255,255,0.07)', backdropFilter: 'blur(6px)' }}>
-                    <p className="text-white/50 text-[0.5rem] tracking-[0.2em] uppercase font-bold mb-0.5">IEDC CVV</p>
+                    <p className="text-white/50 text-[0.5rem] tracking-[0.2em] uppercase font-bold mb-0.5">IEDC Chinmaya Vishwa Vidyapeeth</p>
                     <p className="text-white font-black text-xs leading-tight text-center" style={{ fontFamily: 'var(--font-display)', letterSpacing: '-0.01em' }}>{event.subtitle}</p>
                   </div>
                 </div>

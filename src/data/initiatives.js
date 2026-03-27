@@ -3,44 +3,26 @@ import { Lightbulb, Rocket, Users, Globe, Award, BookOpen } from 'lucide-react'
 export const initiatives = [
   {
     id: 1,
-    icon: 'Lightbulb',
-    title: 'Ideation Lab',
-    description: 'A creative space where raw ideas are nurtured into viable concepts through structured workshops, design sprints, and expert mentorship.',
-    color: '#2563EB',
+    icon: 'Globe',
+    title: 'Orbit',
+    subtitle: 'Incubation & Strategy',
+    description: 'We place startups in their optimal trajectory. From essential business modeling and market validation to securing pre-seed funding, providing a stable gravitational pull for your idea to flourish.',
+    color: '#2563EB', // Blue
   },
   {
     id: 2,
-    icon: 'Rocket',
-    title: 'Startup Incubation',
-    description: 'End-to-end incubation support — from business model validation to pre-seed funding access and investor connects for promising startups.',
-    color: '#16A34A',
+    icon: 'Lightbulb',
+    title: 'Eclipse',
+    subtitle: 'Ideation & Disruption',
+    description: 'Where conventional thinking is overshadowed by raw innovation. A creative void designed for brainstorming, rapid prototyping, and transformative workshops that challenge the status quo.',
+    color: '#7C3AED', // Purple
   },
   {
     id: 3,
-    icon: 'Users',
-    title: 'Mentorship Network',
-    description: 'Connect with a curated community of founders, VCs, domain experts, and industry leaders who guide student entrepreneurs through their journey.',
-    color: '#7C3AED',
-  },
-  {
-    id: 4,
-    icon: 'Globe',
-    title: 'Global Exposure',
-    description: 'Participate in state, national, and international startup competitions, accelerator programs, and entrepreneurship summits.',
-    color: '#DC2626',
-  },
-  {
-    id: 5,
-    icon: 'Award',
-    title: 'Competitions & Grants',
-    description: 'IEDC organizes flagship competitions and distributes seed grants annually to the most promising student-led innovation projects.',
-    color: '#D97706',
-  },
-  {
-    id: 6,
-    icon: 'BookOpen',
-    title: 'Skill Development',
-    description: 'Workshops on pitching, financial literacy, product management, UI/UX design, and emerging technologies to sharpen entrepreneurial skills.',
-    color: '#0891B2',
+    icon: 'Rocket',
+    title: 'Horizon',
+    subtitle: 'Scaling & Global Reach',
+    description: 'Expanding the boundaries of what\'s possible. We connect founders with a curated network of VCs, global accelerators, and industry leaders to propel student ventures into the expanding universe of markets.',
+    color: '#DC2626', // Red
   },
 ]
