@@ -1,6 +1,7 @@
 import { useRef } from 'react'
 import { createPortal } from 'react-dom'
 import { motion, useScroll, useTransform, useInView, AnimatePresence, useMotionTemplate } from 'framer-motion'
+import { useNavigate } from 'react-router-dom'
 import { initiatives } from '../data/initiatives'
 
 import { Lightbulb, Rocket, Users, Globe, Award, BookOpen } from 'lucide-react'
@@ -243,6 +244,8 @@ const cardVariants = {
 }
 
 function InitiativesSection() {
+  const navigate = useNavigate()
+  
   return (
     <section style={{
       padding: 'clamp(4rem, 10vw, 7rem) clamp(1.5rem, 5vw, 4rem)',
@@ -405,6 +408,7 @@ function InitiativesSection() {
 
               {/* Themed Button */}
               <motion.button 
+                onClick={() => navigate(`/${item.title.toLowerCase()}`)}
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 style={{
