@@ -1,5 +1,6 @@
 import { useState, useRef, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { ChevronLeft, ChevronRight } from 'lucide-react'
 
 
 const TEAM = [
@@ -18,13 +19,23 @@ const TEAM = [
   { id: 13, name: 'Vaishnav Darsan', role: 'Finance Lead', department: 'Computer Science', linkedinUrl: 'https://linkedin.com', imageUrl: '/narayana.png' },
   { id: 14, name: 'Srihari Krishnakumar', role: 'Media Lead', department: 'Computer Science', linkedinUrl: 'https://linkedin.com', imageUrl: '/narayana.png' },
   { id: 15, name: 'Easwer Dev N S', role: 'Create Lead', department: 'Computer Science', linkedinUrl: 'https://linkedin.com', imageUrl: '/narayana.png' },
-
+  { id: 16, name: '[Name]', role: '[Role]', department: '[Department]', linkedinUrl: 'https://linkedin.com', imageUrl: '/narayana.png' },
+  { id: 17, name: '[Name]', role: '[Role]', department: '[Department]', linkedinUrl: 'https://linkedin.com', imageUrl: '/narayana.png' },
+  { id: 18, name: '[Name]', role: '[Role]', department: '[Department]', linkedinUrl: 'https://linkedin.com', imageUrl: '/narayana.png' },
+  { id: 19, name: '[Name]', role: '[Role]', department: '[Department]', linkedinUrl: 'https://linkedin.com', imageUrl: '/narayana.png' },
+  { id: 20, name: '[Name]', role: '[Role]', department: '[Department]', linkedinUrl: 'https://linkedin.com', imageUrl: '/narayana.png' },
+  { id: 21, name: '[Name]', role: '[Role]', department: '[Department]', linkedinUrl: 'https://linkedin.com', imageUrl: '/narayana.png' },
+  { id: 22, name: '[Name]', role: '[Role]', department: '[Department]', linkedinUrl: 'https://linkedin.com', imageUrl: '/narayana.png' },
+  { id: 23, name: '[Name]', role: '[Role]', department: '[Department]', linkedinUrl: 'https://linkedin.com', imageUrl: '/narayana.png' },
+  { id: 24, name: '[Name]', role: '[Role]', department: '[Department]', linkedinUrl: 'https://linkedin.com', imageUrl: '/narayana.png' },
+  { id: 25, name: '[Name]', role: '[Role]', department: '[Department]', linkedinUrl: 'https://linkedin.com', imageUrl: '/narayana.png' },
 ]
 
 // ─── Row Configuration ────────────────────────────────────────────────────────
 // Each row picks a slice of team members and scrolls at different speed/direction
 const ROW_CONFIG = [
-  { ids: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15], direction: 'left', duration: '70s', heights: [450, 450, 450, 450, 450, 450, 450, 450, 450, 450, 450, 450] }
+  { ids: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15], direction: 'left', duration: '70s', heights: [450, 450, 450, 450, 450, 450, 450, 450, 450, 450, 450, 450, 450, 450, 450] },
+  { ids: [16, 17, 18, 19, 20, 21, 22, 23, 24, 25], direction: 'right', duration: '70s', heights: [450, 450, 450, 450, 450, 450, 450, 450, 450, 450] }
 ]
 
 // Map id → member object
@@ -217,32 +228,123 @@ function MarqueeRow({ memberIds, direction, duration, heights, paused, onHoverSt
   // The duplication trick: two identical sets side by side. CSS translates exactly -50%
   const doubled = [...singleSet, ...singleSet]
 
+  const scrollRef = useRef(null)
+  const [rowHovered, setRowHovered] = useState(false)
+
+  const scrollManually = (dir) => {
+    const el = scrollRef.current
+    if (!el) return
+    const cardWidth = Math.round(450 * 0.85) // approx portrait width
+    const gap = Math.round(window.innerWidth * 0.015)
+    const amount = (cardWidth + gap) * 2
+    el.scrollBy({ left: dir === 'left' ? -amount : amount, behavior: 'smooth' })
+  }
+
   return (
     <div
-      className="native-scroll-container"
-      style={{ overflowX: 'auto', overflowY: 'hidden', position: 'relative', width: '100%', paddingTop: '50px', paddingBottom: '20px' }}
+      style={{ position: 'relative', width: '100%' }}
+      onMouseEnter={() => setRowHovered(true)}
+      onMouseLeave={() => setRowHovered(false)}
     >
+      {/* Left scroll button */}
       <div
-        className={`team-marquee-track go-${direction}${paused ? ' paused' : ''}`}
-        style={{ '--dur': duration, gap: '0px' }}
+        style={{
+          position: 'absolute',
+          left: '1rem',
+          top: '50%',
+          transform: 'translateY(-50%)',
+          zIndex: 20,
+          transition: 'opacity 0.3s',
+          opacity: rowHovered ? 1 : 0,
+          pointerEvents: rowHovered ? 'auto' : 'none',
+        }}
       >
-        {doubled.map((member, i) => (
-          <div
-            key={`${member.id}-${i}`}
-            style={{
-              display: 'flex',
-              alignItems: 'flex-end',
-              padding: '0 clamp(8px, 1.5vw, 20px)',
-            }}
-          >
-            <Portrait
-              member={member}
-              height={450}
-              onHoverStart={onHoverStart}
-              onHoverEnd={onHoverEnd}
-            />
-          </div>
-        ))}
+        <button
+          onClick={() => scrollManually('left')}
+          style={{
+            width: '3.5rem',
+            height: '3.5rem',
+            borderRadius: '9999px',
+            background: '#fff',
+            border: 'none',
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            boxShadow: '0 8px 30px rgba(0,0,0,0.15), 0 0 0 1px rgba(0,0,0,0.05)',
+            transition: 'transform 0.15s',
+          }}
+          onMouseEnter={(e) => { e.currentTarget.style.transform = 'scale(1.08)' }}
+          onMouseLeave={(e) => { e.currentTarget.style.transform = 'scale(1)' }}
+          aria-label="Scroll left"
+        >
+          <ChevronLeft size={26} color="#1a1a1a" />
+        </button>
+      </div>
+
+      {/* Right scroll button */}
+      <div
+        style={{
+          position: 'absolute',
+          right: '1rem',
+          top: '50%',
+          transform: 'translateY(-50%)',
+          zIndex: 20,
+          transition: 'opacity 0.3s',
+          opacity: rowHovered ? 1 : 0,
+          pointerEvents: rowHovered ? 'auto' : 'none',
+        }}
+      >
+        <button
+          onClick={() => scrollManually('right')}
+          style={{
+            width: '3.5rem',
+            height: '3.5rem',
+            borderRadius: '9999px',
+            background: '#fff',
+            border: 'none',
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            boxShadow: '0 8px 30px rgba(0,0,0,0.15), 0 0 0 1px rgba(0,0,0,0.05)',
+            transition: 'transform 0.15s',
+          }}
+          onMouseEnter={(e) => { e.currentTarget.style.transform = 'scale(1.08)' }}
+          onMouseLeave={(e) => { e.currentTarget.style.transform = 'scale(1)' }}
+          aria-label="Scroll right"
+        >
+          <ChevronRight size={26} color="#1a1a1a" />
+        </button>
+      </div>
+
+      <div
+        ref={scrollRef}
+        className="native-scroll-container"
+        style={{ overflowX: 'auto', overflowY: 'hidden', position: 'relative', width: '100%', paddingTop: '50px', paddingBottom: '20px' }}
+      >
+        <div
+          className={`team-marquee-track go-${direction}${paused ? ' paused' : ''}`}
+          style={{ '--dur': duration, gap: '0px' }}
+        >
+          {doubled.map((member, i) => (
+            <div
+              key={`${member.id}-${i}`}
+              style={{
+                display: 'flex',
+                alignItems: 'flex-end',
+                padding: '0 clamp(8px, 1.5vw, 20px)',
+              }}
+            >
+              <Portrait
+                member={member}
+                height={450}
+                onHoverStart={onHoverStart}
+                onHoverEnd={onHoverEnd}
+              />
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   )
