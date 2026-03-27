@@ -1,24 +1,30 @@
 import { useState, useRef, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 
-// ─── Mock Team Data ─────────────────────────────────────────────────────────
-// imageUrl: use DiceBear avatars (full-body style) as transparent-bg placeholders.
-// Replace with real cutout PNGs when available.
+
 const TEAM = [
-  { id: 1, name: 'Arjun Menon', role: 'Nodal Officer', department: 'Faculty', linkedinUrl: 'https://linkedin.com', imageUrl: '/krisshhhhh.png' },
-  { id: 2, name: 'Priya Krishnan', role: 'President', department: 'Computer Science', linkedinUrl: 'https://linkedin.com', imageUrl: '/vaishnavvvv.png' },
-  { id: 3, name: 'Rohit Nair', role: 'Vice President', department: 'Electronics', linkedinUrl: 'https://linkedin.com', imageUrl: '/divvvvvvvvvvv.png' },
-  { id: 4, name: 'Asha Thomas', role: 'Secretary', department: 'Mechanical', linkedinUrl: 'https://linkedin.com', imageUrl: '/poth.png' },
-  { id: 5, name: 'Vishnu Dev', role: 'Treasurer', department: 'Civil', linkedinUrl: 'https://linkedin.com', imageUrl: '/ramdas.png' },
-  { id: 6, name: 'Sneha Pillai', role: 'Design Lead', department: 'Computer Science', linkedinUrl: 'https://linkedin.com', imageUrl: '/daeeeeeeee.png' },
-  { id: 7, name: 'Aditya Raj', role: 'Tech Lead', department: 'Computer Science', linkedinUrl: 'https://linkedin.com', imageUrl: '/narayana.png' },
+  { id: 1, name: 'Ms Anupama Jims', role: 'Nodal Officer', department: 'Faculty', linkedinUrl: 'https://linkedin.com', imageUrl: '/krisshhhhh.png' },
+  { id: 2, name: 'Krishna K', role: 'Student Lead', department: 'Computer Science', linkedinUrl: 'https://linkedin.com', imageUrl: '/images/krishna.png' },
+  { id: 3, name: 'Anuja S Nair', role: 'Student Lead', department: 'Electronics', linkedinUrl: 'https://linkedin.com', imageUrl: '/divvvvvvvvvvv.png' },
+  { id: 4, name: 'Daewik Prasheen', role: 'Technology Lead', department: 'Mechanical', linkedinUrl: 'https://linkedin.com', imageUrl: '/poth.png' },
+  { id: 5, name: 'Anjana Prakash', role: 'Quality & Operations Lead', department: 'Civil', linkedinUrl: 'https://linkedin.com', imageUrl: '/ramdas.png' },
+  { id: 6, name: 'Amrutha S Nair', role: 'Documentation Lead', department: 'Computer Science', linkedinUrl: 'https://linkedin.com', imageUrl: '/daeeeeeeee.png' },
+  { id: 7, name: 'Nibha Bhaskar', role: 'Creative & Innovation Lead', department: 'Computer Science', linkedinUrl: 'https://linkedin.com', imageUrl: '/narayana.png' },
+  { id: 8, name: 'Niranjana Uday', role: 'Women Entreprenuership Lead', department: 'Computer Science', linkedinUrl: 'https://linkedin.com', imageUrl: '/narayana.png' },
+  { id: 9, name: 'Adithyadev Saji', role: 'Marketing & Engagement Lead', department: 'Computer Science', linkedinUrl: 'https://linkedin.com', imageUrl: '/narayana.png' },
+  { id: 10, name: 'Nakshathra S Nair', role: 'Community Lead', department: 'Computer Science', linkedinUrl: 'https://linkedin.com', imageUrl: '/narayana.png' },
+  { id: 11, name: 'Niranjana Gireesh', role: 'Orbit & Talent Development Lead', department: 'Computer Science', linkedinUrl: 'https://linkedin.com', imageUrl: '/narayana.png' },
+  { id: 12, name: 'Kashinathan S', role: 'IPR Lead', department: 'Computer Science', linkedinUrl: 'https://linkedin.com', imageUrl: '/narayana.png' },
+  { id: 13, name: 'Vaishnav Darsan', role: 'Finance Lead', department: 'Computer Science', linkedinUrl: 'https://linkedin.com', imageUrl: '/narayana.png' },
+  { id: 14, name: 'Srihari Krishnakumar', role: 'Media Lead', department: 'Computer Science', linkedinUrl: 'https://linkedin.com', imageUrl: '/narayana.png' },
+  { id: 15, name: 'Easwer Dev N S', role: 'Create Lead', department: 'Computer Science', linkedinUrl: 'https://linkedin.com', imageUrl: '/narayana.png' },
 
 ]
 
 // ─── Row Configuration ────────────────────────────────────────────────────────
 // Each row picks a slice of team members and scrolls at different speed/direction
 const ROW_CONFIG = [
-  { ids: [1, 3, 5, 7, 9, 11, 13, 15, 17, 2, 4, 6], direction: 'left', duration: '70s', heights: [450, 450, 450, 450, 450, 450, 450, 450, 450, 450, 450, 450] }
+  { ids: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15], direction: 'left', duration: '70s', heights: [450, 450, 450, 450, 450, 450, 450, 450, 450, 450, 450, 450] }
 ]
 
 // Map id → member object
@@ -420,33 +426,6 @@ export default function TeamPage() {
           Apply Now →
         </a>
       </motion.div>
-
-      {/* ── Footer ── */}
-      <footer
-        style={{
-          marginTop: 'clamp(3rem, 8vw, 6rem)',
-          background: 'var(--color-brand-black)',
-          color: 'rgba(255,255,255,0.6)',
-          padding: '3rem 2rem',
-          textAlign: 'center',
-          fontFamily: 'var(--font-body)',
-          fontSize: '0.875rem',
-        }}
-      >
-        <div
-          style={{
-            fontFamily: 'var(--font-display)',
-            fontWeight: 800,
-            fontSize: '0.5rem',
-            color: '#fff',
-            marginBottom: '0.3rem',
-          }}
-        >
-          IEDC<span style={{ color: 'var(--color-brand-red)' }}>●</span>CVV
-        </div>
-        <p>Innovation &amp; Entrepreneurship Development Cell — College of Velankanni</p>
-        <p style={{ marginTop: '0.25rem', opacity: 0.4 }}>Powered by Kerala Startup Mission (KSUM)</p>
-      </footer>
     </div>
   )
 }

@@ -7,63 +7,63 @@ import { useNavigate } from 'react-router-dom'
 const ALL_EVENTS = [
   {
     id: 1, title: 'STARTUP PITCH SUMMIT', date: '2026-04-12', dateLabel: 'April 12, 2026',
-    time: '10:00 AM', fee: 'Free Registration', venue: 'College Auditorium, CVV', tag: 'Pitch', featured: true,
+    time: '10:00 AM', fee: 'Free Registration', venue: 'Chinmaya Vishwa Vidyapeeth (CVV)', tag: 'Pitch', featured: true,
     accent: '#2563EB', gradient: 'linear-gradient(160deg,#0f2b5b,#1a4a8a)',
     description: 'The flagship pitching event of IEDC CVV. Top 3 teams win mentorship grants and incubation support.',
     image: '/images/event1.jpg'
   },
   {
     id: 2, title: 'INNOVATEX HACKATHON', date: '2026-05-03', dateLabel: 'May 3–4, 2026',
-    time: '9:00 AM', fee: '₹200 per Team', venue: 'CS Lab Block, CVV', tag: 'Hackathon', featured: true,
+    time: '9:00 AM', fee: '₹200 per Team', venue: 'Chinmaya Vishwa Vidyapeeth (CVV)', tag: 'Hackathon', featured: true,
     accent: '#7C3AED', gradient: 'linear-gradient(160deg,#1a0a4a,#3b1f8a)',
     description: '24-hour hackathon challenging participants to build solutions for real-world problems.',
     image: '/images/event2.jpg'
   },
   {
     id: 3, title: 'DESIGN THINKING BOOTCAMP', date: '2026-06-20', dateLabel: 'June 20, 2026',
-    time: '2:00 PM', fee: '₹150 per Head', venue: 'Seminar Hall B, CVV', tag: 'Workshop', featured: false,
+    time: '2:00 PM', fee: '₹150 per Head', venue: 'Chinmaya Vishwa Vidyapeeth (CVV)', tag: 'Workshop', featured: false,
     accent: '#059669', gradient: 'linear-gradient(160deg,#022c22,#065f46)',
     description: 'A hands-on design thinking bootcamp led by practising UX designers.',
     image: '/images/event3.jpg'
   },
   {
     id: 4, title: 'FOUNDER FIRESIDE CHAT', date: '2026-07-08', dateLabel: 'July 8, 2026',
-    time: '4:00 PM', fee: 'Free (Invite Only)', venue: 'Innovation Hub, CVV', tag: 'Talk', featured: true,
+    time: '4:00 PM', fee: 'Free (Invite Only)', venue: 'Chinmaya Vishwa Vidyapeeth (CVV)', tag: 'Talk', featured: true,
     accent: '#D97706', gradient: 'linear-gradient(160deg,#3b1c08,#92400e)',
     description: 'An intimate session with alumni founders — failure, pivots, fundraising, and growth.',
     image: '/images/event4.jpg'
   },
   {
     id: 5, title: 'IDEA SPRINT 2026', date: '2026-02-14', dateLabel: 'February 14, 2026',
-    time: '11:00 AM', fee: 'Free Registration', venue: 'Innovation Hub, CVV', tag: 'Workshop', featured: false,
+    time: '11:00 AM', fee: 'Free Registration', venue: 'Chinmaya Vishwa Vidyapeeth (CVV)', tag: 'Workshop', featured: false,
     accent: '#0891B2', gradient: 'linear-gradient(160deg,#082f49,#0c4a6e)',
     description: 'A 6-hour rapid ideation sprint where teams brainstorm and prototype ideas in real time.',
     image: '/images/event5.jpg'
   },
   {
     id: 6, title: 'SOCIAL INNOVATION CHALLENGE', date: '2025-09-10', dateLabel: 'September 10, 2025',
-    time: '9:00 AM', fee: '₹100 per Team', venue: 'Mini Auditorium, CVV', tag: 'Competition', featured: true,
+    time: '9:00 AM', fee: '₹100 per Team', venue: 'Chinmaya Vishwa Vidyapeeth (CVV)', tag: 'Competition', featured: true,
     accent: '#16A34A', gradient: 'linear-gradient(160deg,#052e16,#14532d)',
     description: 'Teams present actionable social solutions. Winners receive IEDC seed funding.',
     image: '/images/event6.jpg'
   },
   {
     id: 7, title: 'IP & PATENT WORKSHOP', date: '2025-08-15', dateLabel: 'August 15, 2025',
-    time: '10:00 AM', fee: '₹50 per Head', venue: 'Conference Room 1, CVV', tag: 'Workshop', featured: false,
+    time: '10:00 AM', fee: '₹50 per Head', venue: 'Chinmaya Vishwa Vidyapeeth (CVV)', tag: 'Workshop', featured: false,
     accent: '#6366F1', gradient: 'linear-gradient(160deg,#1e1b4b,#3730a3)',
     description: 'Understand intellectual property rights and how to protect your innovations.',
     image: '/images/event1.jpg'
   },
   {
     id: 8, title: 'STARTUP WEEKEND CVV', date: '2025-12-05', dateLabel: 'December 5–7, 2025',
-    time: '9:00 AM', fee: '₹300 per Head (incl. food)', venue: 'CS Block, CVV', tag: 'Competition', featured: false,
+    time: '9:00 AM', fee: '₹300 per Head (incl. food)', venue: 'Chinmaya Vishwa Vidyapeeth (CVV)', tag: 'Competition', featured: false,
     accent: '#DC2626', gradient: 'linear-gradient(160deg,#450a0a,#991b1b)',
     description: '54-hour weekend startup experience — learn, network, and build.',
     image: '/images/event2.jpg'
   },
   {
     id: 9, title: 'OPEN INNOVATION FORUM', date: '2025-11-12', dateLabel: 'November 12, 2025',
-    time: '3:00 PM', fee: 'Free Registration', venue: 'Seminar Hall A, CVV', tag: 'Hackathon', featured: true,
+    time: '3:00 PM', fee: 'Free Registration', venue: 'Chinmaya Vishwa Vidyapeeth (CVV)', tag: 'Hackathon', featured: true,
     accent: '#CA8A04', gradient: 'linear-gradient(160deg,#422006,#713f12)',
     description: 'Industry partners present real unsolved problems to student innovators.',
     image: '/images/event3.jpg'

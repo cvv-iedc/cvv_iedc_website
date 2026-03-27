@@ -10,5 +10,5 @@ export const gallery = [
   { id: 9, src: '/images/gallery1.jpg', title: 'Team Building Day 2024', date: 'December 2024', width: 'tall' },
   { id: 10, src: '/images/gallery1.jpg', title: 'Campus Connect Program', date: 'January 2025', width: 'square' },
   { id: 11, src: '/images/gallery1.jpg', title: 'Open Innovation Forum', date: 'February 2025', width: 'wide' },
-  { id: 12, src: '/images/gallery1.jpg', title: 'Startup Weekend CVV', date: 'March 2025', width: 'tall' },
+  { id: 12, src: '/images/gallery1.jpg', title: 'Startup Weekend Chinmaya Vishwa Vidyapeeth', date: 'March 2025', width: 'tall' },
 ]

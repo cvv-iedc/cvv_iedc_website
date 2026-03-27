@@ -4,7 +4,7 @@ export const milestones = [
     year: '2018',
     month: 'March 2018',
     title: 'IEDC Established',
-    description: 'IEDC CVV was officially established under KERALA STARTUP MISSION with the aim of fostering an innovation-driven culture among students.',
+    description: 'IEDC Chinmaya Vishwa Vidyapeeth was officially established under KERALA STARTUP MISSION with the aim of fostering an innovation-driven culture among students.',
     image: '/images/milestone1.jpg',
   },
   {
@@ -36,7 +36,7 @@ export const milestones = [
     year: '2022',
     month: 'April 2022',
     title: 'State Award — Best IEDC',
-    description: 'IEDC CVV won the "Best IEDC in the South Zone" award at the KSUM Annual Summit, recognising our initiatives, events, and community impact.',
+    description: 'IEDC Chinmaya Vishwa Vidyapeeth won the "Best IEDC in the South Zone" award at the KSUM Annual Summit, recognising our initiatives, events, and community impact.',
     image: '/images/milestone5.jpg',
   },
   {
