@@ -1,35 +1,7 @@
-import { useState, useRef, useCallback } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { useState, useRef } from 'react'
+import { motion } from 'framer-motion'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
-
-
-const TEAM = [
-  { id: 1, name: 'Ms Anupama Jims', role: 'Nodal Officer', department: 'Faculty', linkedinUrl: 'https://linkedin.com', imageUrl: '/krisshhhhh.png' },
-  { id: 2, name: 'Krishna K', role: 'Student Lead', department: 'Computer Science', linkedinUrl: 'https://linkedin.com', imageUrl: '/images/krishna.png' },
-  { id: 3, name: 'Anuja S Nair', role: 'Student Lead', department: 'Electronics', linkedinUrl: 'https://linkedin.com', imageUrl: '/divvvvvvvvvvv.png' },
-  { id: 4, name: 'Daewik Prasheen', role: 'Technology Lead', department: 'Mechanical', linkedinUrl: 'https://linkedin.com', imageUrl: '/poth.png' },
-  { id: 5, name: 'Anjana Prakash', role: 'Quality & Operations Lead', department: 'Civil', linkedinUrl: 'https://linkedin.com', imageUrl: '/ramdas.png' },
-  { id: 6, name: 'Amrutha S Nair', role: 'Documentation Lead', department: 'Computer Science', linkedinUrl: 'https://linkedin.com', imageUrl: '/daeeeeeeee.png' },
-  { id: 7, name: 'Nibha Bhaskar', role: 'Creative & Innovation Lead', department: 'Computer Science', linkedinUrl: 'https://linkedin.com', imageUrl: '/narayana.png' },
-  { id: 8, name: 'Niranjana Uday', role: 'Women Entreprenuership Lead', department: 'Computer Science', linkedinUrl: 'https://linkedin.com', imageUrl: '/narayana.png' },
-  { id: 9, name: 'Adithyadev Saji', role: 'Marketing & Engagement Lead', department: 'Computer Science', linkedinUrl: 'https://linkedin.com', imageUrl: '/narayana.png' },
-  { id: 10, name: 'Nakshathra S Nair', role: 'Community Lead', department: 'Computer Science', linkedinUrl: 'https://linkedin.com', imageUrl: '/narayana.png' },
-  { id: 11, name: 'Niranjana Gireesh', role: 'Orbit & Talent Development Lead', department: 'Computer Science', linkedinUrl: 'https://linkedin.com', imageUrl: '/narayana.png' },
-  { id: 12, name: 'Kashinathan S', role: 'IPR Lead', department: 'Computer Science', linkedinUrl: 'https://linkedin.com', imageUrl: '/narayana.png' },
-  { id: 13, name: 'Vaishnav Darsan', role: 'Finance Lead', department: 'Computer Science', linkedinUrl: 'https://linkedin.com', imageUrl: '/narayana.png' },
-  { id: 14, name: 'Srihari Krishnakumar', role: 'Media Lead', department: 'Computer Science', linkedinUrl: 'https://linkedin.com', imageUrl: '/narayana.png' },
-  { id: 15, name: 'Easwer Dev N S', role: 'Create Lead', department: 'Computer Science', linkedinUrl: 'https://linkedin.com', imageUrl: '/narayana.png' },
-  { id: 16, name: '[Name]', role: '[Role]', department: '[Department]', linkedinUrl: 'https://linkedin.com', imageUrl: '/narayana.png' },
-  { id: 17, name: '[Name]', role: '[Role]', department: '[Department]', linkedinUrl: 'https://linkedin.com', imageUrl: '/narayana.png' },
-  { id: 18, name: '[Name]', role: '[Role]', department: '[Department]', linkedinUrl: 'https://linkedin.com', imageUrl: '/narayana.png' },
-  { id: 19, name: '[Name]', role: '[Role]', department: '[Department]', linkedinUrl: 'https://linkedin.com', imageUrl: '/narayana.png' },
-  { id: 20, name: '[Name]', role: '[Role]', department: '[Department]', linkedinUrl: 'https://linkedin.com', imageUrl: '/narayana.png' },
-  { id: 21, name: '[Name]', role: '[Role]', department: '[Department]', linkedinUrl: 'https://linkedin.com', imageUrl: '/narayana.png' },
-  { id: 22, name: '[Name]', role: '[Role]', department: '[Department]', linkedinUrl: 'https://linkedin.com', imageUrl: '/narayana.png' },
-  { id: 23, name: '[Name]', role: '[Role]', department: '[Department]', linkedinUrl: 'https://linkedin.com', imageUrl: '/narayana.png' },
-  { id: 24, name: '[Name]', role: '[Role]', department: '[Department]', linkedinUrl: 'https://linkedin.com', imageUrl: '/narayana.png' },
-  { id: 25, name: '[Name]', role: '[Role]', department: '[Department]', linkedinUrl: 'https://linkedin.com', imageUrl: '/narayana.png' },
-]
+import { TEAM } from '../data/team'
 
 // ─── Row Configuration ────────────────────────────────────────────────────────
 // Each row picks a slice of team members and scrolls at different speed/direction
@@ -51,42 +23,11 @@ function LinkedInIcon() {
 }
 
 // ─── Portrait Card ─────────────────────────────────────────────────────────────
-function Portrait({ member, height, onHoverStart, onHoverEnd }) {
-  const [hovered, setHovered] = useState(false)
-  const [popupPos, setPopupPos] = useState({ side: 'right' })
-  const ref = useRef(null)
-
-  const handleMouseEnter = useCallback(() => {
-    setHovered(true)
-    onHoverStart()
-    if (ref.current) {
-      const rect = ref.current.getBoundingClientRect()
-      // Detect if the portrait is on the right half of the screen
-      const side = rect.left > window.innerWidth / 2 ? 'left' : 'right'
-      setPopupPos({ side })
-    }
-  }, [onHoverStart])
-
-  const handleMouseLeave = useCallback(() => {
-    setHovered(false)
-    onHoverEnd()
-  }, [onHoverEnd])
-
-  const popupStyle = {
-    position: 'absolute',
-    top: '50%',
-    transform: 'translateY(-50%)',
-    zIndex: 50,
-    ...(popupPos.side === 'right'
-      ? { left: 'calc(100% + 12px)' }
-      : { right: 'calc(100% + 12px)' }),
-  }
+function Portrait({ member, height }) {
+  const [isHovered, setIsHovered] = useState(false)
 
   return (
     <div
-      ref={ref}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
       style={{
         position: 'relative',
         flexShrink: 0,
@@ -94,128 +35,100 @@ function Portrait({ member, height, onHoverStart, onHoverEnd }) {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        cursor: 'pointer',
         userSelect: 'none',
       }}
     >
-      {/* Portrait — transparent cutout PNG/SVG, NO card/box */}
-      <a
-        href={member.linkedinUrl}
-        target="_blank"
-        rel="noopener noreferrer"
-        style={{ display: 'block', width: '100%', height: `${height}px` }}
-        tabIndex={-1}
-        aria-label={`${member.name} — ${member.role}`}
+      {/* Portrait image wrapper */}
+      <div
+        style={{ display: 'block', width: '100%', height: `${height}px`, position: 'relative' }}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
       >
-        <motion.img
+        {/* Performance-friendly "drop-shadow" background layer */}
+        <img
           src={member.imageUrl}
-          alt={member.name}
+          alt=""
           draggable={false}
-          animate={{ scale: hovered ? 1.06 : 1, filter: hovered ? 'drop-shadow(0 12px 24px rgba(0,0,0,0.22))' : 'drop-shadow(0 4px 8px rgba(0,0,0,0.10))' }}
-          transition={{ duration: 0.35, ease: [0.34, 1.56, 0.64, 1] }}
           style={{
+            position: 'absolute',
+            inset: 0,
             width: '100%',
             height: '100%',
             objectFit: 'contain',
             objectPosition: 'bottom center',
             display: 'block',
+            pointerEvents: 'none',
+            zIndex: 0,
+            filter: 'blur(24px) saturate(1.2)',
+            opacity: isHovered ? 0.65 : 0.35,
+            transition: 'opacity 0.3s, transform 0.3s',
             transformOrigin: 'bottom center',
+            transform: isHovered ? 'scale(1.04) translateY(12px)' : 'scale(1) translateY(8px)',
           }}
-          onError={(e) => {
-            // Fallback: show initials silhouette
-            e.target.style.display = 'none'
-          }}
+          onError={(e) => { e.target.style.display = 'none' }}
         />
-      </a>
 
-      {/* Persistent Label below Portrait */}
-      <div style={{ marginTop: '16px', textAlign: 'center' }}>
-        <p style={{ margin: 0, fontFamily: 'var(--font-heading)', fontWeight: 700, fontSize: '1.2rem', color: 'var(--color-text-primary)' }}>{member.name}</p>
-        <p style={{ margin: '4px 0 0', fontFamily: 'var(--font-sans)', fontSize: '0.95rem', color: 'var(--color-text-secondary)', fontWeight: 500 }}>{member.role}</p>
+        {/* Crisp foreground layer */}
+        <img
+          src={member.imageUrl}
+          alt={member.name}
+          draggable={false}
+          style={{
+            position: 'relative',
+            zIndex: 1,
+            width: '100%',
+            height: '100%',
+            objectFit: 'contain',
+            objectPosition: 'bottom center',
+            display: 'block',
+            transition: 'transform 0.3s',
+            transformOrigin: 'bottom center',
+            transform: isHovered ? 'scale(1.04)' : 'scale(1)',
+          }}
+          onError={(e) => { e.target.style.display = 'none' }}
+        />
       </div>
 
-      {/* Hover Popup */}
-      <AnimatePresence>
-        {hovered && (
-          <motion.div
-            key="popup"
-            initial={{ opacity: 0, scale: 0.88, y: '-46%' }}
-            animate={{ opacity: 1, scale: 1, y: '-50%' }}
-            exit={{ opacity: 0, scale: 0.88, y: '-46%' }}
-            transition={{ duration: 0.22, ease: 'easeOut' }}
+      {/* Label: name + LinkedIn icon + role */}
+      <div style={{ marginTop: '14px', textAlign: 'center' }}>
+        <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', justifyContent: 'center' }}>
+          <p style={{ margin: 0, fontFamily: 'var(--font-heading)', fontWeight: 700, fontSize: '1.2rem', color: 'var(--color-text-primary)' }}>
+            {member.name}
+          </p>
+          <a
+            href={member.linkedinUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={`${member.name} on LinkedIn`}
             style={{
-              ...popupStyle,
-              background: '#fff',
-              borderRadius: '12px',
-              padding: '14px 18px',
-              boxShadow: '0 8px 40px rgba(0,0,0,0.14), 0 1px 4px rgba(0,0,0,0.06)',
-              minWidth: '170px',
-              pointerEvents: 'auto',
-              border: '1px solid rgba(0,0,0,0.06)',
+              display: 'inline-flex',
+              alignItems: 'center',
+              color: '#0A66C2',
+              transition: 'opacity 0.2s, transform 0.2s',
+              lineHeight: 1,
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.opacity = '0.75'
+              e.currentTarget.style.transform = 'scale(1.15)'
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.opacity = '1'
+              e.currentTarget.style.transform = 'scale(1)'
             }}
           >
-            <p
-              style={{
-                fontFamily: 'var(--font-heading)',
-                fontWeight: 700,
-                fontSize: '0.9rem',
-                color: 'var(--color-text-primary)',
-                marginBottom: '2px',
-                whiteSpace: 'nowrap',
-              }}
-            >
-              {member.name}
-            </p>
-            <p
-              style={{
-                fontFamily: 'var(--font-body)',
-                fontSize: '0.76rem',
-                color: 'var(--color-primary)',
-                fontWeight: 600,
-                marginBottom: '10px',
-                whiteSpace: 'nowrap',
-              }}
-            >
-              {member.role}
-            </p>
-            <a
-              href={member.linkedinUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '6px',
-                fontFamily: 'var(--font-heading)',
-                fontWeight: 600,
-                fontSize: '0.72rem',
-                color: '#0A66C2',
-                textDecoration: 'none',
-                padding: '5px 10px',
-                border: '1.5px solid #0A66C2',
-                borderRadius: '9999px',
-                transition: 'background 0.2s, color 0.2s',
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.background = '#0A66C2'
-                e.currentTarget.style.color = '#fff'
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.background = 'transparent'
-                e.currentTarget.style.color = '#0A66C2'
-              }}
-            >
-              <LinkedInIcon /> View LinkedIn
-            </a>
-          </motion.div>
-        )}
-      </AnimatePresence>
+            <LinkedInIcon />
+          </a>
+        </div>
+        <p style={{ margin: '4px 0 0', fontFamily: 'var(--font-sans)', fontSize: '0.95rem', color: 'var(--color-text-secondary)', fontWeight: 500 }}>
+          {member.role}
+        </p>
+      </div>
     </div>
   )
 }
 
 // ─── Marquee Row ──────────────────────────────────────────────────────────────
-function MarqueeRow({ memberIds, direction, duration, heights, paused, onHoverStart, onHoverEnd }) {
+function MarqueeRow({ memberIds, direction, duration, heights }) {
   const baseMembers = memberIds.map((id) => TEAM_MAP[id]).filter(Boolean)
   if (baseMembers.length === 0) return null
 
@@ -324,7 +237,7 @@ function MarqueeRow({ memberIds, direction, duration, heights, paused, onHoverSt
         style={{ overflowX: 'auto', overflowY: 'hidden', position: 'relative', width: '100%', paddingTop: '50px', paddingBottom: '20px' }}
       >
         <div
-          className={`team-marquee-track go-${direction}${paused ? ' paused' : ''}`}
+          className={`team-marquee-track go-${direction}${rowHovered ? ' paused' : ''}`}
           style={{ '--dur': duration, gap: '0px' }}
         >
           {doubled.map((member, i) => (
@@ -339,8 +252,6 @@ function MarqueeRow({ memberIds, direction, duration, heights, paused, onHoverSt
               <Portrait
                 member={member}
                 height={450}
-                onHoverStart={onHoverStart}
-                onHoverEnd={onHoverEnd}
               />
             </div>
           ))}
@@ -352,18 +263,6 @@ function MarqueeRow({ memberIds, direction, duration, heights, paused, onHoverSt
 
 // ─── Main Page ────────────────────────────────────────────────────────────────
 export default function TeamPage() {
-  const [paused, setPaused] = useState(false)
-  const hoverCount = useRef(0)
-
-  const onHoverStart = useCallback(() => {
-    hoverCount.current += 1
-    setPaused(true)
-  }, [])
-
-  const onHoverEnd = useCallback(() => {
-    hoverCount.current = Math.max(0, hoverCount.current - 1)
-    if (hoverCount.current === 0) setPaused(false)
-  }, [])
 
   return (
     <div
@@ -440,9 +339,6 @@ export default function TeamPage() {
             direction={row.direction}
             duration={row.duration}
             heights={row.heights}
-            paused={paused}
-            onHoverStart={onHoverStart}
-            onHoverEnd={onHoverEnd}
           />
         ))}
       </div>
