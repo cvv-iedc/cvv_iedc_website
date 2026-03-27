@@ -218,7 +218,7 @@ function ManifestoSection({ scrollYProgress = 0 }) {
             margin: '0 auto'
           }}
         >
-          We are the engine of student-led innovation at Chinmaya Vishwa Vidyapeeth — building ideas into impact since 2018.
+          We are the engine of student-led innovation @ Chinmaya Vishwa Vidyapeeth, building ideas into impact since 2024.
         </motion.p>
       </div>
     </section>
@@ -247,9 +247,6 @@ function InitiativesSection() {
         transition={{ duration: 0.6 }}
         style={{ textAlign: 'center', marginBottom: 'clamp(2.5rem, 6vw, 4rem)' }}
       >
-        <p style={{ fontFamily: 'var(--font-heading)', fontWeight: 700, fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '0.15em', color: 'var(--color-primary)', marginBottom: '0.75rem' }}>
-          What We Do
-        </p>
         <h2 style={{
           fontFamily: 'var(--font-display)',
           fontWeight: 800,
