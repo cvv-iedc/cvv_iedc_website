@@ -39,7 +39,6 @@ function AboutIntro() {
           {[
             { title: 'Our Mission', body: 'To cultivate a thriving ecosystem where students can explore, experiment, and execute their entrepreneurial ideas — transforming them from concepts into impactful startups.' },
             { title: 'Our Vision', body: 'To be the most dynamic student innovation hub in Kerala, producing tomorrow\'s startup founders, changemakers, and technology leaders from the campus of Chinmaya Vishwa Vidyapeeth.' },
-            { title: 'About Us', body: 'IEDC CVV is a Kerala Startup Mission (KSUM) initiative at Chinmaya Vishwa Vidyapeeth. Since 2018, we\'ve hosted 50+ events, incubated 5 startups, and built a 500+ member strong community.' },
           ].map(({ title, body }) => (
             <motion.div
               key={title}

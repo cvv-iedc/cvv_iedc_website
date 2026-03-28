@@ -23,7 +23,7 @@ export const TEAM = [
   { id: 22, name: 'Isha S Nair', role: 'Community Sub-Lead', linkedinUrl: 'https://linkedin.com', imageUrl: '/narayana.png' },
   { id: 23, name: 'Karthik S R', role: 'Orbit & Talent Development Sub-Lead', linkedinUrl: 'https://linkedin.com', imageUrl: '/narayana.png' },
   { id: 24, name: 'Sandra S Kumar', role: 'IPR Sub-Lead', linkedinUrl: 'https://linkedin.com', imageUrl: '/narayana.png' },
-  { id: 25, name: 'Aayathri Anil', role: 'Finance Sub-Lead', linkedinUrl: 'https://linkedin.com', imageUrl: '/narayana.png' },
+  { id: 25, name: 'Gayathri Anil', role: 'Finance Sub-Lead', linkedinUrl: 'https://linkedin.com', imageUrl: '/narayana.png' },
   { id: 26, name: 'Navadev Santhosh', role: 'Media Sub-Lead', linkedinUrl: 'https://linkedin.com', imageUrl: '/narayana.png' },
   { id: 27, name: 'Mahinish Manjith Mohan', role: 'Create Sub-Lead', linkedinUrl: 'https://linkedin.com', imageUrl: '/narayana.png' },
 ]

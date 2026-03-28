@@ -5,7 +5,7 @@ export const milestones = [
     month: 'March',
     title: 'IEDC Established',
     description: 'IEDC Chinmaya Vishwa Vidyapeeth was officially established with the aim of fostering innovation MISSION with the aim of fostering an innovation-driven culture among students.',
-    image: '/images/milestone1.jpg',
+    image: '/milestones/milestone_1.webp',
   },
   {
     id: 2,
@@ -13,7 +13,7 @@ export const milestones = [
     month: 'November',
     title: 'Catalyst 2024',
     description: 'Our first idea pitching competition in collaboration with IIC, bringing together innovative minds and fostering entrepreneurial spirit.',
-    image: '/images/milestone2.jpg',
+    image: '/milestones/milestone_2.webp',
   },
   {
     id: 3,
@@ -21,7 +21,7 @@ export const milestones = [
     month: 'February',
     title: 'RSET IEDC x CVV IEDC',
     description: 'Strategic collaboration with Rajagiri School of Engineering and Technology, expanding our network and sharing best practices.',
-    image: '/images/milestone4.jpg',
+    image: '/milestones/milestone_3.jpg',
   },
   {
     id: 4,
@@ -29,7 +29,7 @@ export const milestones = [
     month: 'March',
     title: 'Aarohi : Ascending Beyond Limits',
     description: 'International Womens Day celebration empowering women in technology and entrepreneurship with inspiring talks and competitions.',
-    image: '/images/milestone5.jpg',
+    image: '/milestones/milestone_4.webp',
   },
   {
     id: 5,
@@ -37,7 +37,7 @@ export const milestones = [
     month: 'July',
     title: 'Catalyst 2',
     description: 'Second edition of our idea pitching competition in collaboration with IIC, bringing together innovative minds and fostering entrepreneurial spirit.',
-    image: '/images/milestone7.jpg',
+    image: '/milestones/milestone_5.webp',
   },
   {
     id: 6,
@@ -45,7 +45,7 @@ export const milestones = [
     month: 'September',
     title: 'BRIK x CVV IEDC',
     description: 'Collaboration with BRIK, for accelerating campus innovation and startup ecosystem',
-    image: '/images/milestone8.jpg',
+    image: '/milestones/milestone_6.webp',
   },
   {
     id: 7,
@@ -53,6 +53,6 @@ export const milestones = [
     month: 'March',
     title: 'Establishment of IEDC ORBIT',
     description: 'Formation of new leadership team with fresh perspectives and renewed commitment to innovation and excellence.',
-    image: '/images/milestone3.jpg',
+    image: '/milestones/milestone_7.webp',
   },
 ]
