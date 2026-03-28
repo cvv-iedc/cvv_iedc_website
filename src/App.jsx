@@ -1,6 +1,5 @@
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
-import ScrollToTop from './components/ScrollToTop'
 import Layout from './components/Layout'
 import LandingPage from './pages/LandingPage'
 import EventsPage from './pages/EventsPage'
@@ -14,7 +13,7 @@ import EclipsePage from './pages/EclipsePage'
 function AnimatedRoutes() {
   const location = useLocation()
   return (
-    <AnimatePresence mode="wait">
+    <AnimatePresence mode="wait" onExitComplete={() => window.scrollTo(0, 0)}>
       <motion.div
         key={location.pathname}
         initial={{ opacity: 0, y: 12 }}
@@ -42,7 +41,6 @@ function AnimatedRoutes() {
 export default function App() {
   return (
     <BrowserRouter>
-      <ScrollToTop />
       <Layout>
         <AnimatedRoutes />
       </Layout>
