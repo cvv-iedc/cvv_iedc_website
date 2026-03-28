@@ -14,11 +14,18 @@ const ROW_CONFIG = [
 const TEAM_MAP = Object.fromEntries(TEAM.map((m) => [m.id, m]))
 
 // ─── LinkedIn Icon ────────────────────────────────────────────────────────────
-function LinkedInIcon() {
+function LinkedInLogo() {
   return (
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style={{ flexShrink: 0 }}>
-      <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
-    </svg>
+    <img 
+      src="/linkedin_logo.svg" 
+      alt="LinkedIn" 
+      style={{
+        height: '18px', 
+        width: 'auto', 
+        display: 'block',
+        flexShrink: 0
+      }} 
+    />
   )
 }
 
@@ -89,39 +96,45 @@ function Portrait({ member, height }) {
         />
       </div>
 
-      {/* Label: name + LinkedIn icon + role */}
+      {/* Label: name + role + LinkedIn icon */}
       <div style={{ marginTop: '14px', textAlign: 'center' }}>
-        <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', justifyContent: 'center' }}>
-          <p style={{ margin: 0, fontFamily: 'var(--font-heading)', fontWeight: 700, fontSize: '1.2rem', color: 'var(--color-text-primary)' }}>
-            {member.name}
-          </p>
-          <a
-            href={member.linkedinUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label={`${member.name} on LinkedIn`}
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              color: '#0A66C2',
-              transition: 'opacity 0.2s, transform 0.2s',
-              lineHeight: 1,
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.opacity = '0.75'
-              e.currentTarget.style.transform = 'scale(1.15)'
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.opacity = '1'
-              e.currentTarget.style.transform = 'scale(1)'
-            }}
-          >
-            <LinkedInIcon />
-          </a>
-        </div>
-        <p style={{ margin: '4px 0 0', fontFamily: 'var(--font-sans)', fontSize: '0.95rem', color: 'var(--color-text-secondary)', fontWeight: 500 }}>
+        <p style={{ margin: 0, fontFamily: 'var(--font-heading)', fontWeight: 700, fontSize: '1.2rem', color: 'var(--color-text-primary)' }}>
+          {member.name}
+        </p>
+        <p style={{ margin: '4px 0 6px', fontFamily: 'var(--font-sans)', fontSize: '0.95rem', color: 'var(--color-text-secondary)', fontWeight: 500 }}>
           {member.role}
         </p>
+        <a
+          href={member.linkedinUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={`${member.name} on LinkedIn`}
+          style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            background: '#ffffff',
+            border: '1px solid rgba(0,0,0,0.06)',
+            boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
+            borderRadius: '9999px',
+            transition: 'transform 0.2s, box-shadow 0.2s, background 0.2s',
+            padding: '8px 16px',
+            textDecoration: 'none',
+            marginTop: '8px'
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.transform = 'translateY(-2px)'
+            e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.08)'
+            e.currentTarget.style.background = '#fefefe'
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.transform = 'translateY(0)'
+            e.currentTarget.style.boxShadow = '0 2px 8px rgba(0,0,0,0.04)'
+            e.currentTarget.style.background = '#ffffff'
+          }}
+        >
+          <LinkedInLogo />
+        </a>
       </div>
     </div>
   )
@@ -304,7 +317,7 @@ export default function TeamPage() {
           style={{
             fontFamily: 'var(--font-display)',
             fontWeight: 800,
-            fontSize: 'clamp(4rem, 16vw, 13rem)',
+            fontSize: 'clamp(3rem, 10vw, 8rem)',
             letterSpacing: '-0.05em',
             lineHeight: 0.88,
             color: 'var(--color-text-primary)',
