@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
-import { gallery } from '../data/gallery'
+import { supabase } from '../lib/supabaseClient'
 import LightboxModal from '../components/LightboxModal'
 
 const pattern = [
@@ -19,6 +19,19 @@ export default function GalleryPage() {
   const targetRef = useRef(null)
   const trackRef = useRef(null)
   const [scrollRange, setScrollRange] = useState(0)
+  const [gallery, setGallery] = useState([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    supabase
+      .from('gallery')
+      .select('id, title, image_url, date')
+      .order('date', { ascending: true })
+      .then(({ data, error }) => {
+        if (!error) setGallery(data ?? [])
+        setLoading(false)
+      })
+  }, [])
 
   useEffect(() => {
     const updateScrollRange = () => {
@@ -29,7 +42,7 @@ export default function GalleryPage() {
     updateScrollRange()
     window.addEventListener("resize", updateScrollRange)
     return () => window.removeEventListener("resize", updateScrollRange)
-  }, []) // Remove 'gallery' dependency as it's static and prevents unnecessary re-binds. If gallery relies on data fetching, add it.
+  }, [gallery])
 
   // Use framer-motion useScroll to map exactly to the target element
   const { scrollYProgress } = useScroll({
@@ -41,6 +54,8 @@ export default function GalleryPage() {
 
   const openLightbox = (i) => setLightboxIndex(i)
   const handleNav = (dir) => setLightboxIndex((prev) => (prev + dir + gallery.length) % gallery.length)
+
+  if (loading) return <div style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>Loading...</div>
 
   return (
     <div ref={targetRef} style={{ height: '400vh', background: 'var(--color-surface)', position: 'relative' }}>
@@ -121,7 +136,7 @@ export default function GalleryPage() {
                     background: `hsl(${200 + i * 20}, 40%, 75%)`,
                   }}>
                     <img
-                      src={img.src}
+                      src={img.image_url}
                       alt={img.title}
                       draggable={false}
                       loading={i > 3 ? "lazy" : "eager"}

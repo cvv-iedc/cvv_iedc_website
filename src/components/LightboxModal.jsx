@@ -31,7 +31,7 @@ export default function LightboxModal({ images, activeIndex, onClose, onNav }) {
           style={{ position: 'relative', maxWidth: '90vw', maxHeight: '90vh' }}
         >
           <img
-            src={image.src}
+            src={image.image_url || image.src}
             alt={image.title}
             style={{
               maxWidth: '90vw', maxHeight: '80vh',
