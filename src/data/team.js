@@ -13,6 +13,7 @@ export const TEAM = [
   { id: 12, name: 'Kashinathan S', role: 'IPR Lead', department: 'Computer Science', linkedinUrl: 'https://linkedin.com', imageUrl: '/images/kashinath-paper.png' },
   { id: 13, name: 'Vaishnav Darsan', role: 'Finance Lead', department: 'Computer Science', linkedinUrl: 'https://linkedin.com', imageUrl: '/images/vaishnav-paper.png' },
   { id: 14, name: 'Srihari Krishnakumar', role: 'Media Lead', department: 'Computer Science', linkedinUrl: 'https://linkedin.com', imageUrl: '/images/srihari-paper.png' },
+  { id: 15, name: 'Easwer Dev N S', role: 'Create Lead', department: 'Computer Science', linkedinUrl: 'https://linkedin.com', imageUrl: '/images/easwar-paper.png' },
   { id: 16, name: 'Navya Prajith', role: 'Technology Sub-Lead', linkedinUrl: 'https://linkedin.com', imageUrl: '/poth.png' },
   { id: 17, name: 'Akash K', role: 'Quality & Operations Sub-Lead', linkedinUrl: 'https://linkedin.com', imageUrl: '/ramdas.png' },
   { id: 18, name: 'Anulekshmi A', role: 'Documentation Sub-Lead', linkedinUrl: 'https://linkedin.com', imageUrl: '/daeeeeeeee.png' },
