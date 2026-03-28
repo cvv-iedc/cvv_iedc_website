@@ -2,22 +2,8 @@ import { MapPin, Mail, Instagram, Linkedin, Youtube, User } from 'lucide-react'
 
 export default function Footer() {
   return (
-    <footer style={{
-      background: 'var(--color-brand-black)',
-      color: 'rgba(255,255,255,0.7)',
-      padding: '3rem 2rem 1.5rem',
-      fontFamily: 'var(--font-body)',
-      fontSize: '0.9rem',
-      width: '100%',
-    }}>
-      <div style={{
-        maxWidth: '1200px',
-        margin: '0 auto',
-        display: 'grid',
-        gridTemplateColumns: 'repeat(4, 1fr)', // 4 even columns
-        gap: '2rem',
-        alignItems: 'flex-start',
-      }}>
+    <footer className="footer-root">
+      <div className="footer-grid">
 
         {/* Column 1: Brand */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
@@ -90,22 +76,63 @@ export default function Footer() {
       </div>
 
       {/* Bottom Copyright Bar */}
-      <div style={{
-        maxWidth: '1200px',
-        margin: '2.5rem auto 0',
-        paddingTop: '1.5rem',
-        borderTop: '1px solid rgba(255,255,255,0.08)',
-        display: 'flex',
-        flexWrap: 'wrap',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        gap: '1rem',
-        fontSize: '0.8rem',
-        color: 'rgba(255,255,255,0.4)'
-      }}>
+      <div className="footer-bottom">
         <p>&copy; {new Date().getFullYear()} IEDC Chinmaya Vishwa Vidyapeeth. All rights reserved.</p>
         <p>Built with innovation by IEDC Tech Team.</p>
       </div>
+      <style>{`
+        .footer-root {
+          background: var(--color-brand-black);
+          color: rgba(255,255,255,0.7);
+          padding: 3rem 2rem 1.5rem;
+          font-family: var(--font-body);
+          font-size: 0.9rem;
+          width: 100%;
+        }
+        .footer-grid {
+          max-width: 1200px;
+          margin: 0 auto;
+          display: grid;
+          grid-template-columns: 1fr 1fr 1fr 1fr;
+          gap: 2rem;
+          align-items: flex-start;
+        }
+        .footer-bottom {
+          max-width: 1200px;
+          margin: 2.5rem auto 0;
+          padding-top: 1.5rem;
+          border-top: 1px solid rgba(255,255,255,0.08);
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: space-between;
+          align-items: center;
+          gap: 1rem;
+          font-size: 0.8rem;
+          color: rgba(255,255,255,0.4);
+        }
+        @media (max-width: 900px) {
+          .footer-grid {
+            grid-template-columns: 1fr 1fr;
+          }
+        }
+        @media (max-width: 600px) {
+          .footer-grid {
+            grid-template-columns: 1fr;
+            gap: 2.2rem;
+          }
+          .footer-root {
+            padding: 2.2rem 1rem 1.2rem;
+            font-size: 0.98rem;
+          }
+          .footer-bottom {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 0.5rem;
+            padding-top: 1.1rem;
+            font-size: 0.85rem;
+          }
+        }
+      `}</style>
     </footer>
   )
 }
