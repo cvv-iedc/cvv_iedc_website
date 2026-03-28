@@ -72,8 +72,9 @@ function InteractiveParticles() {
     let animationFrameId
     let particles = []
 
-    // Mouse state
-    let mouse = { x: -1000, y: -1000, radius: 150 }
+    // ─── Radial Wave Settings ───
+    const minDistance = 100 // Area for the logo
+    const maxDistance = 800 // Far edge
 
     const init = () => {
       canvas.width = canvas.offsetWidth
@@ -83,95 +84,69 @@ function InteractiveParticles() {
 
     const createParticles = () => {
       particles = []
-      // Optimized density: significantly fewer particles for smoother transitions
-      const numParticles = Math.floor((canvas.width * canvas.height) / 8000)
-      const colors = ['#2563eb', '#dc2626', '#60a5fa', '#f87171']
+      // High-performance count while maintaining a lush feel
+      const numParticles = 600
+      const colors = ['#e32636', '#ff55a3', '#8b008b  ', '	#00693e', '#f87171']
 
       for (let i = 0; i < numParticles; i++) {
         particles.push({
-          x: Math.random() * canvas.width,
-          y: Math.random() * canvas.height,
-          vx: (Math.random() - 0.5) * 0.4,
-          vy: (Math.random() - 0.5) * 0.4,
-          baseRadius: Math.random() * 1.5 + 0.5,
+          angle: Math.random() * Math.PI * 2,
+          distance: minDistance + Math.random() * (maxDistance - minDistance),
+          speed: 0.8 + Math.random() * 1.5,
+          size: Math.random() * 1.8 + 0.6,
           color: colors[Math.floor(Math.random() * colors.length)]
         })
       }
     }
 
-    window.addEventListener('resize', init)
-    init()
-
-    const handleMouseMove = (e) => {
-      const rect = canvas.getBoundingClientRect()
-      mouse.x = e.clientX - rect.left
-      mouse.y = e.clientY - rect.top
-    }
-    const handleMouseLeave = () => {
-      mouse.x = -1000
-      mouse.y = -1000
-    }
-
-    canvas.addEventListener('mousemove', handleMouseMove)
-    canvas.addEventListener('mouseleave', handleMouseLeave)
-    window.addEventListener('resize', init)
-
     const animate = () => {
+      if (!canvas) return
       ctx.clearRect(0, 0, canvas.width, canvas.height)
 
+      const centerX = canvas.width / 2
+      const centerY = canvas.height / 2
+
       particles.forEach(p => {
-        p.x += p.vx
-        p.y += p.vy
+        // Simple outward propagation
+        p.distance += p.speed
 
-        if (p.x < 0) p.x = canvas.width
-        if (p.x > canvas.width) p.x = 0
-        if (p.y < 0) p.y = canvas.height
-        if (p.y > canvas.height) p.y = 0
-
-        let dx = mouse.x - p.x
-        let dy = mouse.y - p.y
-        let distanceSq = dx * dx + dy * dy
-        let forcedRadius = mouse.radius
-
-        if (distanceSq < forcedRadius * forcedRadius) {
-          let distance = Math.sqrt(distanceSq)
-          let force = (forcedRadius - distance) / forcedRadius
-          p.x -= (dx / distance) * force * 2.2
-          p.y -= (dy / distance) * force * 2.2
+        // Wrap around when reaching the outer boundary
+        if (p.distance > maxDistance) {
+          p.distance = minDistance
+          p.angle = Math.random() * Math.PI * 2 // Randomize new angle for organic growth
         }
+
+        // Polar to Cartesian conversion
+        const x = centerX + Math.cos(p.angle) * p.distance
+        const y = centerY + Math.sin(p.angle) * p.distance
+
+        // Opacity scaling based on distance (fade in at centre, fade out at edge)
+        const dRatio = (p.distance - minDistance) / (maxDistance - minDistance)
+        // Highest opacity in the "mid-field"
+        const opacity = Math.sin(dRatio * Math.PI) * 0.7
 
         ctx.beginPath()
-        ctx.arc(p.x, p.y, p.baseRadius, 0, Math.PI * 2)
+        ctx.arc(x, y, p.size, 0, Math.PI * 2)
         ctx.fillStyle = p.color
-        ctx.globalAlpha = 0.5
+        ctx.globalAlpha = Math.max(0, opacity)
         ctx.fill()
+
+        // Occasional sparkles for particles closer to the center
+        if (dRatio < 0.25 && Math.random() > 0.98) {
+          ctx.beginPath()
+          ctx.arc(x, y, p.size * 1.5, 0, Math.PI * 2)
+          ctx.fillStyle = '#ffffff'
+          ctx.globalAlpha = 0.9
+          ctx.fill()
+        }
       })
 
-      ctx.lineWidth = 0.4
-      const maxDist = 70
-      for (let i = 0; i < particles.length; i++) {
-        if (i % 2 !== 0) continue; 
-        for (let j = i + 1; j < particles.length; j++) {
-          const p1 = particles[i]
-          const p2 = particles[j]
-          const dx = p1.x - p2.x
-          const dy = p1.y - p2.y
-          const distSq = dx * dx + dy * dy
-
-          if (distSq < maxDist * maxDist) {
-            const distance = Math.sqrt(distSq)
-            ctx.beginPath()
-            ctx.strokeStyle = `rgba(100, 100, 150, ${0.12 * (1 - distance / maxDist)})`
-            ctx.moveTo(p1.x, p1.y)
-            ctx.lineTo(p2.x, p2.y)
-            ctx.stroke()
-          }
-        }
-      }
       animationFrameId = requestAnimationFrame(animate)
     }
 
-    // Delay start to allow page entrance animation to finish smoothly
+    window.addEventListener('resize', init)
+
+    // Smooth deferred start
     const startTimeout = setTimeout(() => {
       init()
       animate()
@@ -179,10 +154,8 @@ function InteractiveParticles() {
 
     return () => {
       clearTimeout(startTimeout)
-      window.removeEventListener('resize', init)
-      canvas.removeEventListener('mousemove', handleMouseMove)
-      canvas.removeEventListener('mouseleave', handleMouseLeave)
       cancelAnimationFrame(animationFrameId)
+      window.removeEventListener('resize', init)
     }
   }, [])
 
@@ -196,8 +169,10 @@ function InteractiveParticles() {
         width: '100%',
         height: '100%',
         zIndex: 0,
-        pointerEvents: 'auto',
-        borderRadius: '2rem'
+        pointerEvents: 'none',
+        borderBottomLeftRadius: '2rem',
+        borderBottomRightRadius: '2rem',
+        willChange: 'transform'
       }}
     />
   )
