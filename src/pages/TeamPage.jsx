@@ -288,7 +288,7 @@ export default function TeamPage() {
       {/* ── Page Header ── */}
       <div
         style={{
-          paddingTop: 'clamp(3.5rem, 8vw, 5.5rem)',
+          paddingTop: 'clamp(7rem, 14vw, 9rem)',
           paddingBottom: '0.5rem',
           paddingInline: 'clamp(1.5rem, 6vw, 5rem)',
         }}
@@ -304,7 +304,8 @@ export default function TeamPage() {
             textTransform: 'uppercase',
             letterSpacing: '0.22em',
             color: 'var(--color-text-secondary)',
-            marginBottom: '0.8rem',
+            marginTop: 0,
+            marginBottom: '0.2rem',
           }}
         >
           Meet the people behind the idea
@@ -321,6 +322,9 @@ export default function TeamPage() {
             letterSpacing: '-0.05em',
             lineHeight: 0.88,
             color: 'var(--color-text-primary)',
+            marginTop: 0,
+            marginBottom: 0,
+            marginLeft: '-0.05em',
           }}
         >
           Execom

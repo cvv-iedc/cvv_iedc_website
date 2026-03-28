@@ -104,6 +104,8 @@ function LogoRevealHero() {
               maskComposite: 'exclude',
               willChange: 'mask-size, -webkit-mask-size, opacity',
             }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
           >
             {/* Scroll hint appended inside the Portaled canvas */}
             <motion.div
