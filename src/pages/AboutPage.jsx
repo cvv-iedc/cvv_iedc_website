@@ -83,16 +83,16 @@ function InteractiveParticles() {
 
     const createParticles = () => {
       particles = []
-      // calculate density based on screen size (decreased divisor for more particles)
-      const numParticles = Math.floor((canvas.width * canvas.height) / 3500)
+      // Optimized density: significantly fewer particles for smoother transitions
+      const numParticles = Math.floor((canvas.width * canvas.height) / 8000)
       const colors = ['#2563eb', '#dc2626', '#60a5fa', '#f87171']
 
       for (let i = 0; i < numParticles; i++) {
         particles.push({
           x: Math.random() * canvas.width,
           y: Math.random() * canvas.height,
-          vx: (Math.random() - 0.5) * 0.5,
-          vy: (Math.random() - 0.5) * 0.5,
+          vx: (Math.random() - 0.5) * 0.4,
+          vy: (Math.random() - 0.5) * 0.4,
           baseRadius: Math.random() * 1.5 + 0.5,
           color: colors[Math.floor(Math.random() * colors.length)]
         })
@@ -114,6 +114,7 @@ function InteractiveParticles() {
 
     canvas.addEventListener('mousemove', handleMouseMove)
     canvas.addEventListener('mouseleave', handleMouseLeave)
+    window.addEventListener('resize', init)
 
     const animate = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height)
@@ -122,62 +123,62 @@ function InteractiveParticles() {
         p.x += p.vx
         p.y += p.vy
 
-        // Wrap around gracefully
         if (p.x < 0) p.x = canvas.width
         if (p.x > canvas.width) p.x = 0
         if (p.y < 0) p.y = canvas.height
         if (p.y > canvas.height) p.y = 0
 
-        // Repel mouse
         let dx = mouse.x - p.x
         let dy = mouse.y - p.y
-        let distance = Math.sqrt(dx * dx + dy * dy)
+        let distanceSq = dx * dx + dy * dy
         let forcedRadius = mouse.radius
 
-        if (distance < forcedRadius) {
-          let forceDirectionX = dx / distance
-          let forceDirectionY = dy / distance
+        if (distanceSq < forcedRadius * forcedRadius) {
+          let distance = Math.sqrt(distanceSq)
           let force = (forcedRadius - distance) / forcedRadius
-
-          // push particles away from cursor
-          let directionX = forceDirectionX * force * 2.5
-          let directionY = forceDirectionY * force * 2.5
-
-          p.x -= directionX
-          p.y -= directionY
+          p.x -= (dx / distance) * force * 2.2
+          p.y -= (dy / distance) * force * 2.2
         }
 
         ctx.beginPath()
         ctx.arc(p.x, p.y, p.baseRadius, 0, Math.PI * 2)
         ctx.fillStyle = p.color
-        ctx.globalAlpha = 0.6
+        ctx.globalAlpha = 0.5
         ctx.fill()
       })
 
-      // Connections
-      ctx.lineWidth = 0.5
+      ctx.lineWidth = 0.4
+      const maxDist = 70
       for (let i = 0; i < particles.length; i++) {
+        if (i % 2 !== 0) continue; 
         for (let j = i + 1; j < particles.length; j++) {
-          const dx = particles[i].x - particles[j].x
-          const dy = particles[i].y - particles[j].y
-          const distance = Math.sqrt(dx * dx + dy * dy)
+          const p1 = particles[i]
+          const p2 = particles[j]
+          const dx = p1.x - p2.x
+          const dy = p1.y - p2.y
+          const distSq = dx * dx + dy * dy
 
-          if (distance < 80) {
+          if (distSq < maxDist * maxDist) {
+            const distance = Math.sqrt(distSq)
             ctx.beginPath()
-            ctx.strokeStyle = `rgba(100, 100, 150, ${0.15 * (1 - distance / 80)})`
-            ctx.moveTo(particles[i].x, particles[i].y)
-            ctx.lineTo(particles[j].x, particles[j].y)
+            ctx.strokeStyle = `rgba(100, 100, 150, ${0.12 * (1 - distance / maxDist)})`
+            ctx.moveTo(p1.x, p1.y)
+            ctx.lineTo(p2.x, p2.y)
             ctx.stroke()
           }
         }
       }
-
       animationFrameId = requestAnimationFrame(animate)
     }
 
-    animate()
+    // Delay start to allow page entrance animation to finish smoothly
+    const startTimeout = setTimeout(() => {
+      init()
+      animate()
+    }, 600)
 
     return () => {
+      clearTimeout(startTimeout)
       window.removeEventListener('resize', init)
       canvas.removeEventListener('mousemove', handleMouseMove)
       canvas.removeEventListener('mouseleave', handleMouseLeave)

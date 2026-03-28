@@ -68,14 +68,7 @@ function LogoRevealHero() {
     target: containerRef,
     offset: ['start start', 'end start'],
   })
-
-  // Add buttery smooth spring physics to absorb harsh mouse-wheel staggered jumps
-  // We remove useSpring entirely to prevent the physics engine from fighting with native browser scroll interpolation!
-  // The zoom effect will now be buttery smooth because it directly syncs to the physical hardware scroll.
-
-  // We use useMotionTemplate to dynamically construct a CSS string and inject it directly into the CSSOM.
-  // This bypasses the React Render Engine completely AND avoids hitting the Chrome GPU texture size limit (>8192px).
-  const maskScale = useTransform(scrollYProgress, [0, 0.4], [40, 25000])
+  const maskScale = useTransform(scrollYProgress, [0, 0.4], [40, 2000])
   const webkitMaskSize = useMotionTemplate`${maskScale}vw, 100% 100%`
 
   const opacity = useTransform(scrollYProgress, [0.4, 0.45], [1, 0])
@@ -226,7 +219,7 @@ function ManifestoSection({ scrollYProgress = 0 }) {
             margin: '0 auto'
           }}
         >
-          We are the engine of student-led innovation at Chinmaya Vishwa Vidyapeeth — building ideas into impact since 2018.
+          We are the engine of student-led innovation @ Chinmaya Vishwa Vidyapeeth, building ideas into impact since 2024.
         </motion.p>
       </div>
     </section>
@@ -245,7 +238,7 @@ const cardVariants = {
 
 function InitiativesSection() {
   const navigate = useNavigate()
-  
+
   return (
     <section style={{
       padding: 'clamp(4rem, 10vw, 7rem) clamp(1.5rem, 5vw, 4rem)',
@@ -257,9 +250,6 @@ function InitiativesSection() {
         transition={{ duration: 0.6 }}
         style={{ textAlign: 'center', marginBottom: 'clamp(2.5rem, 6vw, 4rem)' }}
       >
-        <p style={{ fontFamily: 'var(--font-heading)', fontWeight: 700, fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '0.15em', color: 'var(--color-primary)', marginBottom: '0.75rem' }}>
-          What We Do
-        </p>
         <h2 style={{
           fontFamily: 'var(--font-display)',
           fontWeight: 800,
@@ -337,7 +327,7 @@ function InitiativesSection() {
                 minHeight: '480px', // Increased vertical length
                 boxShadow: '0 4px 24px rgba(0,0,0,0.06)'
               }}>
-              
+
                 {/* Card Header (Icon + Titles) */}
                 <div style={{ display: 'flex', alignItems: 'flex-start', gap: '1.25rem', marginBottom: '1.5rem' }}>
                   <div style={{
@@ -349,7 +339,7 @@ function InitiativesSection() {
                   }}>
                     {Icon && <Icon size={28} style={{ color: item.color }} />}
                   </div>
-                  
+
                   <div style={{ paddingTop: '0.2rem' }}>
                     <h3 style={{
                       fontFamily: 'var(--font-display)',
@@ -406,44 +396,44 @@ function InitiativesSection() {
                   {item.description}
                 </p>
 
-              {/* Themed Button */}
-              <motion.button 
-                onClick={() => navigate(`/${item.title.toLowerCase()}`)}
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                style={{
-                  width: '100%',
-                  padding: '1rem',
-                  borderRadius: '12px',
-                  background: `linear-gradient(135deg, ${item.color}15 0%, ${item.color}05 100%)`,
-                  border: `1px solid ${item.color}30`,
-                  color: item.color,
-                  fontFamily: 'var(--font-heading)',
-                  fontWeight: 600,
-                  fontSize: '0.9rem',
-                  letterSpacing: '0.05em',
-                  cursor: 'pointer',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  gap: '0.5rem',
-                  transition: 'all 0.2s ease',
-                  marginTop: 'auto'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.background = item.color;
-                  e.currentTarget.style.color = '#fff';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.background = `linear-gradient(135deg, ${item.color}15 0%, ${item.color}05 100%)`;
-                  e.currentTarget.style.color = item.color;
-                }}
-              >
-                Explore {item.title}
-                <motion.span animate={{ x: [0, 4, 0] }} transition={{ repeat: Infinity, duration: 1.5, ease: 'easeInOut' }}>
-                  →
-                </motion.span>
-              </motion.button>
+                {/* Themed Button */}
+                <motion.button
+                  onClick={() => navigate(`/${item.title.toLowerCase()}`)}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  style={{
+                    width: '100%',
+                    padding: '1rem',
+                    borderRadius: '12px',
+                    background: `linear-gradient(135deg, ${item.color}15 0%, ${item.color}05 100%)`,
+                    border: `1px solid ${item.color}30`,
+                    color: item.color,
+                    fontFamily: 'var(--font-heading)',
+                    fontWeight: 600,
+                    fontSize: '0.9rem',
+                    letterSpacing: '0.05em',
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '0.5rem',
+                    transition: 'all 0.2s ease',
+                    marginTop: 'auto'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.background = item.color;
+                    e.currentTarget.style.color = '#fff';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.background = `linear-gradient(135deg, ${item.color}15 0%, ${item.color}05 100%)`;
+                    e.currentTarget.style.color = item.color;
+                  }}
+                >
+                  Explore {item.title}
+                  <motion.span animate={{ x: [0, 4, 0] }} transition={{ repeat: Infinity, duration: 1.5, ease: 'easeInOut' }}>
+                    →
+                  </motion.span>
+                </motion.button>
               </div> {/* Close Inner Card Content */}
             </motion.div>
           )

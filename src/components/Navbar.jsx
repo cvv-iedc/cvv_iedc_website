@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, memo } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { motion, AnimatePresence, useScroll, useMotionValueEvent } from 'framer-motion'
 
@@ -18,7 +18,7 @@ const allLinks = [
   ...navLinksRight,
 ]
 
-export default function Navbar() {
+const Navbar = memo(function Navbar() {
   const location = useLocation()
   const [expanded, setExpanded] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
@@ -107,6 +107,7 @@ export default function Navbar() {
       initial={{ y: -100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+      style={{ willChange: 'transform, opacity' }}
     >
       <nav
         className="pointer-events-auto relative bg-black transition-all ease-[cubic-bezier(0.22,1,0.36,1)]"
@@ -185,4 +186,6 @@ export default function Navbar() {
       </nav>
     </motion.div>
   )
-}
+})
+
+export default Navbar
