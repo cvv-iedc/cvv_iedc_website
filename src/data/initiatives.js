@@ -1,4 +1,4 @@
-import { Lightbulb, Rocket, Users, Globe, Award, BookOpen } from 'lucide-react'
+import { Lightbulb, Rocket, Globe } from 'lucide-react'
 
 export const initiatives = [
   {
