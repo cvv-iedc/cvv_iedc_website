@@ -1,187 +1,16 @@
 import { useState, useRef, useEffect } from 'react'
+import { createPortal } from 'react-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { X, MapPin, Calendar, ArrowRight, ChevronLeft, ChevronRight, Clock, Ticket } from 'lucide-react'
+import { useEvents } from '../hooks/useEvents'
 
-// ─── Current time: 2026-03-25 ─────────────────────────────────────────────────
-const NOW = new Date('2026-03-25T18:00:00+05:30')
-
-const ALL_EVENTS = [
-  // ── Upcoming (future relative to NOW) ────────────────────────────────
-  {
-    id: 1,
-    title: 'STARTUP PITCH SUMMIT',
-    subtitle: 'SPRING 2026',
-    date: '2026-04-12',
-    dateLabel: 'April 12, 2026',
-    time: '10:00 AM',
-    fee: 'Free Registration',
-    venue: 'Chinmaya Vishwa Vidyapeeth (CVV)',
-    featured: true,
-    description:
-      'The flagship pitching event of IEDC Chinmaya Vishwa Vidyapeeth. Student entrepreneurs present their startup ideas to a panel of industry experts, VCs, and mentors. Top 3 teams win mentorship grants and incubation support.',
-    image: '/images/event1.jpg',
-    tag: 'Pitch',
-    accent: '#2563EB',
-    gradient: 'linear-gradient(160deg,#0f2b5b 0%,#1a4a8a 100%)',
-  },
-  {
-    id: 2,
-    title: 'INNOVATEX HACKATHON',
-    subtitle: '24 HOURS',
-    date: '2026-05-03',
-    dateLabel: 'May 3–4, 2026',
-    time: '9:00 AM',
-    fee: '₹200 per Team',
-    venue: 'Chinmaya Vishwa Vidyapeeth (CVV)',
-    featured: true,
-    description:
-      '24-hour hackathon challenging participants to build solutions for real-world problems across health, agriculture, education, and sustainability. Open to all disciplines.',
-    image: '/images/event2.jpg',
-    tag: 'Hackathon',
-    accent: '#7C3AED',
-    gradient: 'linear-gradient(160deg,#1a0a4a 0%,#3b1f8a 100%)',
-  },
-  {
-    id: 3,
-    title: 'DESIGN THINKING BOOTCAMP',
-    subtitle: 'WORKSHOP',
-    date: '2026-06-20',
-    dateLabel: 'June 20, 2026',
-    time: '2:00 PM',
-    fee: '₹150 per Head',
-    venue: 'Chinmaya Vishwa Vidyapeeth (CVV)',
-    featured: false,
-    description:
-      'A hands-on design thinking bootcamp led by practising UX designers. Learn empathy mapping, rapid prototyping, and user testing through live case studies.',
-    image: '/images/event3.jpg',
-    tag: 'Workshop',
-    accent: '#059669',
-    gradient: 'linear-gradient(160deg,#022c22 0%,#065f46 100%)',
-  },
-  {
-    id: 4,
-    title: 'FOUNDER FIRESIDE CHAT',
-    subtitle: 'ALUMNI SERIES',
-    date: '2026-07-08',
-    dateLabel: 'July 8, 2026',
-    time: '4:00 PM',
-    fee: 'Free (Invite Only)',
-    venue: 'Chinmaya Vishwa Vidyapeeth (CVV)',
-    featured: true,
-    description:
-      'An intimate fireside session with successful alumni founders. Raw stories about failure, pivots, fundraising, and hypergrowth — followed by an open Q&A.',
-    image: '/images/event4.jpg',
-    tag: 'Talk',
-    accent: '#D97706',
-    gradient: 'linear-gradient(160deg,#3b1c08 0%,#92400e 100%)',
-  },
-
-  // ── Past (before NOW) ─────────────────────────────────────────────────
-  {
-    id: 5,
-    title: 'IDEA SPRINT 2026',
-    subtitle: 'FEB 2026',
-    date: '2026-02-14',
-    dateLabel: 'February 14, 2026',
-    time: '11:00 AM',
-    fee: 'Free Registration',
-    venue: 'Chinmaya Vishwa Vidyapeeth (CVV)',
-    featured: false,
-    description:
-      'A 6-hour rapid ideation sprint where teams brainstorm, sketch, and prototype ideas in real time. Winning concepts get featured in the IEDC annual report.',
-    image: '/images/event5.jpg',
-    tag: 'Workshop',
-    accent: '#0891B2',
-    gradient: 'linear-gradient(160deg,#082f49 0%,#0c4a6e 100%)',
-  },
-  {
-    id: 6,
-    title: 'SOCIAL INNOVATION CHALLENGE',
-    subtitle: 'SEED GRANT',
-    date: '2025-09-10',
-    dateLabel: 'September 10, 2025',
-    time: '9:00 AM',
-    fee: '₹100 per Team',
-    venue: 'Chinmaya Vishwa Vidyapeeth (CVV)',
-    featured: true,
-    description:
-      'Teams present actionable social solutions addressing local community problems. Winning proposals receive IEDC seed funding from the social impact fund.',
-    image: '/images/event6.jpg',
-    tag: 'Competition',
-    accent: '#16A34A',
-    gradient: 'linear-gradient(160deg,#052e16 0%,#14532d 100%)',
-  },
-  {
-    id: 7,
-    title: 'IP & PATENT WORKSHOP',
-    subtitle: 'PROTECT IDEAS',
-    date: '2025-08-15',
-    dateLabel: 'August 15, 2025',
-    time: '10:00 AM',
-    fee: '₹50 per Head',
-    venue: 'Chinmaya Vishwa Vidyapeeth (CVV)',
-    featured: false,
-    description:
-      'Understand intellectual property rights, how to file patents, and protect your innovations — led by a practising patent attorney with startup industry experience.',
-    image: '/images/event1.jpg',
-    tag: 'Workshop',
-    accent: '#6366F1',
-    gradient: 'linear-gradient(160deg,#1e1b4b 0%,#3730a3 100%)',
-  },
-  {
-    id: 8,
-    title: 'STARTUP WEEKEND Chinmaya Vishwa Vidyapeeth',
-    subtitle: 'DEC 2025',
-    date: '2025-12-05',
-    dateLabel: 'December 5–7, 2025',
-    time: '9:00 AM',
-    fee: '₹300 per Head (incl. food)',
-    venue: 'Chinmaya Vishwa Vidyapeeth (CVV)',
-    featured: false,
-    description:
-      '54-hour weekend startup experience — learn, network, and build. Teams form on Day 1, validate on Day 2, and pitch to judges on Day 3.',
-    image: '/images/event2.jpg',
-    tag: 'Competition',
-    accent: '#DC2626',
-    gradient: 'linear-gradient(160deg,#450a0a 0%,#991b1b 100%)',
-  },
-  {
-    id: 9,
-    title: 'OPEN INNOVATION FORUM',
-    subtitle: 'NOV 2025',
-    date: '2025-11-12',
-    dateLabel: 'November 12, 2025',
-    time: '3:00 PM',
-    fee: 'Free Registration',
-    venue: 'Chinmaya Vishwa Vidyapeeth (CVV)',
-    featured: true,
-    description:
-      'Industry partners present real unsolved problems to student innovators. The best solutions get piloted with the partner organisation over the next semester.',
-    image: '/images/event3.jpg',
-    tag: 'Hackathon',
-    accent: '#CA8A04',
-    gradient: 'linear-gradient(160deg,#422006 0%,#713f12 100%)',
-  },
-]
-
-// ─── Helpers ──────────────────────────────────────────────────────────────────
-const isPast = (e) => new Date(e.date) < NOW
-
-// ─── Parallax auto-scroll (CSS transform — truly endless) ───────────────────
-// Injects a one-time <style> tag with the keyframes we need
-const STYLE_ID = 'iedc-marquee-styles'
+// ─── Animations ───────────────────────────────────────────────────────────────
+// Injects a one-time <style> tag for float animation
+const STYLE_ID = 'iedc-events-styles'
 if (typeof document !== 'undefined' && !document.getElementById(STYLE_ID)) {
   const s = document.createElement('style')
   s.id = STYLE_ID
   s.textContent = `
-    @keyframes iedc-marquee {
-      from { transform: translateX(0); }
-      to   { transform: translateX(-50%); }
-    }
-    @keyframes iedc-marquee-reverse {
-      from { transform: translateX(-50%); }
-      to   { transform: translateX(0%); }
-    }
     @keyframes iedc-float {
       0%   { transform: translateY(0px) scale(1); }
       50%  { transform: translateY(-10px) scale(1.01); }
@@ -193,7 +22,24 @@ if (typeof document !== 'undefined' && !document.getElementById(STYLE_ID)) {
 
 // ─── Modal ────────────────────────────────────────────────────────────────────
 function EventModal({ event, onClose, past }) {
-  return (
+  useEffect(() => {
+    if (event) {
+      const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth
+      document.body.style.overflow = 'hidden'
+      document.body.style.paddingRight = `${scrollbarWidth}px`
+    } else {
+      document.body.style.overflow = ''
+      document.body.style.paddingRight = ''
+    }
+    return () => {
+      document.body.style.overflow = ''
+      document.body.style.paddingRight = ''
+    }
+  }, [event])
+
+  if (typeof document === 'undefined') return null
+
+  return createPortal(
     <AnimatePresence>
       {event && (
         <motion.div
@@ -224,15 +70,7 @@ function EventModal({ event, onClose, past }) {
                     <Clock size={11} className="text-white/70" /><span className="text-white/70 text-[0.65rem] font-bold uppercase tracking-wide">Past</span>
                   </div>
                 )}
-                <div className="absolute top-5 left-5">
-                  <span className="text-white text-[0.65rem] font-black px-3 py-1 rounded-full uppercase tracking-widest" style={{ background: event.accent }}>{event.tag}</span>
-                </div>
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="rounded-full border border-white/25 p-4 text-center flex flex-col items-center justify-center" style={{ width: '108px', height: '108px', background: 'rgba(255,255,255,0.07)', backdropFilter: 'blur(6px)' }}>
-                    <p className="text-white/50 text-[0.5rem] tracking-[0.2em] uppercase font-bold mb-0.5">IEDC Chinmaya Vishwa Vidyapeeth</p>
-                    <p className="text-white font-black text-xs leading-tight text-center" style={{ fontFamily: 'var(--font-display)', letterSpacing: '-0.01em' }}>{event.subtitle}</p>
-                  </div>
-                </div>
+
                 <div className="absolute bottom-5 left-5 right-5">
                   <p className="text-white/50 text-xs font-medium mb-0.5">{event.dateLabel}</p>
                   <p className="text-white text-xs font-semibold">{event.venue}</p>
@@ -244,7 +82,6 @@ function EventModal({ event, onClose, past }) {
                 <button onClick={onClose} className="absolute top-5 right-5 w-8 h-8 flex items-center justify-center rounded-full bg-slate-100 hover:bg-slate-200 transition-colors">
                   <X size={15} className="text-slate-500" />
                 </button>
-                <p className="text-xs font-black uppercase tracking-[0.18em] mb-3" style={{ color: event.accent, fontFamily: 'var(--font-heading)' }}>{event.tag}</p>
                 <h2 className="font-extrabold text-slate-900 leading-none mb-5 pr-8" style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.3rem,3.5vw,1.8rem)', letterSpacing: '-0.03em' }}>{event.title}</h2>
                 <div className="flex flex-col gap-2.5 mb-5">
                   {[
@@ -270,19 +107,38 @@ function EventModal({ event, onClose, past }) {
                     <Clock size={15} /> Event Concluded
                   </div>
                 ) : (
-                  <motion.a href="#" whileHover={{ y: -2 }} whileTap={{ scale: 0.98 }}
-                    className="flex items-center justify-center gap-2 w-full py-3.5 rounded-full text-white font-bold text-sm"
-                    style={{ background: event.accent, fontFamily: 'var(--font-heading)' }}
-                  >
-                    Register Now <ArrowRight size={15} />
-                  </motion.a>
+                  event.register_url ? (
+                    <motion.a
+                      href={event.register_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      whileHover={{ y: -2 }}
+                      whileTap={{ scale: 0.98 }}
+                      className="flex items-center justify-center gap-2 w-full py-3.5 rounded-full text-white font-bold text-sm"
+                      style={{ background: event.accent, fontFamily: 'var(--font-heading)', textDecoration: 'none' }}
+                    >
+                      Register Now <ArrowRight size={15} />
+                    </motion.a>
+                  ) : (
+                    <div
+                      className="flex items-center justify-center gap-2 w-full py-3 rounded-full text-sm font-bold"
+                      style={{
+                        background: 'var(--color-surface)',
+                        color: 'var(--color-text-secondary)',
+                        fontFamily: 'var(--font-heading)'
+                      }}
+                    >
+                      Registration not open yet
+                    </div>
+                  )
                 )}
               </div>
             </div>
           </motion.div>
         </motion.div>
       )}
-    </AnimatePresence>
+    </AnimatePresence>,
+    document.body
   )
 }
 
@@ -297,11 +153,15 @@ function EventCard({ event, onClick, past }) {
     const rect = el.getBoundingClientRect()
     const x = ((e.clientX - rect.left) / rect.width - 0.5) * 12
     const y = ((e.clientY - rect.top) / rect.height - 0.5) * 8
+    el.style.transition = 'box-shadow 0.2s ease'
     el.style.transform = `perspective(800px) rotateY(${x}deg) rotateX(${-y}deg) scale(1.04)`
   }
   const handleMouseLeave = (e) => {
     const el = cardRef.current
-    if (el) el.style.transform = 'perspective(800px) rotateY(0deg) rotateX(0deg) scale(1)'
+    if (el) {
+      el.style.transition = 'transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.2s ease'
+      el.style.transform = 'perspective(800px) rotateY(0deg) rotateX(0deg) scale(1)'
+    }
   }
 
   return (
@@ -315,7 +175,7 @@ function EventCard({ event, onClick, past }) {
         width: 'clamp(260px, 26vw, 380px)',
         height: 'clamp(360px, 46vw, 500px)',
         borderRadius: '1.25rem',
-        transition: 'transform 0.25s ease, box-shadow 0.25s ease',
+        transition: 'transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.2s ease',
         transformStyle: 'preserve-3d',
         boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
         filter: past ? 'brightness(0.85) saturate(0.7)' : 'none',
@@ -328,10 +188,10 @@ function EventCard({ event, onClick, past }) {
           style={{ opacity: past ? 0.45 : 0.65, transition: 'opacity 0.4s ease' }}
           onError={(e) => { e.target.style.display = 'none' }} loading="lazy" />
       </div>
-      <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent" style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.55) 40%, transparent 70%)' }} />
+      <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.55) 40%, transparent 70%)' }} />
       <div className="absolute inset-0 bg-gradient-to-b from-black/30 to-transparent" />
 
-      {/* ── TOP ROW: time (left) | tag pill (right) — same baseline ── */}
+      {/* ── TOP ROW: time (left) ── */}
       <div className="absolute top-0 left-0 right-0 flex items-center justify-between px-3.5 pt-3.5">
         {/* Time */}
         <span
@@ -339,14 +199,6 @@ function EventCard({ event, onClick, past }) {
           style={{ fontFamily: 'var(--font-heading)', textShadow: '0 1px 6px rgba(0,0,0,0.8)' }}
         >
           {event.time}
-        </span>
-
-        {/* Tag pill */}
-        <span
-          className="text-[0.68rem] font-black uppercase tracking-wider px-3 py-1 rounded-full"
-          style={{ background: event.accent, color: '#fff' }}
-        >
-          {event.tag}
         </span>
       </div>
 
@@ -550,9 +402,22 @@ function SectionHeading({ title, sub, count }) {
 export default function EventsSection() {
   const [selectedEvent, setSelectedEvent] = useState(null)
   const [isSelectedPast, setIsSelectedPast] = useState(false)
+  const { events, loading } = useEvents()
 
-  const upcoming = ALL_EVENTS.filter((e) => !isPast(e))
-  const featuredOnly = ALL_EVENTS.filter((e) => e.featured)
+  const upcoming = events.filter((e) => !e.isPast)
+  const featuredOnly = events.filter((e) => e.featured)
+
+  if (loading) return (
+    <div style={{
+      height: '100vh', display: 'flex', alignItems: 'center',
+      justifyContent: 'center',
+      background: 'linear-gradient(180deg,#f5f5f7 0%,#ebebed 100%)',
+      fontFamily: 'var(--font-body)', color: 'var(--color-text-secondary)',
+      fontSize: '0.95rem'
+    }}>
+      Loading events...
+    </div>
+  )
 
   const openModal = (event, pastFlag) => {
     setSelectedEvent(event)
@@ -587,7 +452,7 @@ export default function EventsSection() {
         <SectionHeading title="Featured" sub="Handpicked highlights & flagships." count={featuredOnly.length} />
         <div className="mt-2 text-center pb-8">
           {/* Featured carousel scrolls in reverse */}
-          <CarouselRow events={featuredOnly} reverse={true} onCardClick={(ev) => openModal(ev, isPast(ev))} past={false} />
+          <CarouselRow events={featuredOnly} reverse={true} onCardClick={(ev) => openModal(ev, ev.isPast)} past={false} />
           
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
