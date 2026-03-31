@@ -213,7 +213,7 @@ export default function GalleryPage() {
                 flexShrink: 0,
                 contentVisibility: 'auto' // Native CSS Virtualization implicitly culls offscreen elements
               }}>
-                <img src={img.image_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block', borderRadius: '0.5rem' }} draggable={false} loading="lazy" />
+                <img src={img.image_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block', borderRadius: '0' }} draggable={false} loading="lazy" />
               </div>
             )
           })}
@@ -246,7 +246,7 @@ export default function GalleryPage() {
                    y: p.y,
                    rotate: p.r,
                    zIndex: p.z,
-                   borderRadius: '1rem',
+                   borderRadius: '0',
                    overflow: 'hidden',
                    boxShadow: '0 12px 40px rgba(0,0,0,0.2)',
                    cursor: 'pointer',
