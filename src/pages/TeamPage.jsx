@@ -163,7 +163,27 @@ function MarqueeRow({ memberIds, direction, duration, heights }) {
     const cardWidth = Math.round(450 * 0.85) // approx portrait width
     const gap = Math.round(window.innerWidth * 0.015)
     const amount = (cardWidth + gap) * 2
-    el.scrollBy({ left: dir === 'left' ? -amount : amount, behavior: 'smooth' })
+
+    const halfWidth = el.scrollWidth / 2
+    const prevBehavior = el.style.scrollBehavior
+
+    if (dir === 'left') {
+      if (el.scrollLeft < amount) {
+        el.style.scrollBehavior = 'auto'
+        el.scrollLeft += halfWidth
+        const _ = el.offsetWidth // force reflow
+        el.style.scrollBehavior = prevBehavior
+      }
+      el.scrollBy({ left: -amount, behavior: 'smooth' })
+    } else {
+      if (el.scrollLeft >= halfWidth) {
+        el.style.scrollBehavior = 'auto'
+        el.scrollLeft -= halfWidth
+        const _ = el.offsetWidth // force reflow
+        el.style.scrollBehavior = prevBehavior
+      }
+      el.scrollBy({ left: amount, behavior: 'smooth' })
+    }
   }
 
   return (
