@@ -371,8 +371,7 @@ function InitiativesSection() {
                   width: '100%',
                   height: '100px',
                   borderRadius: '12px',
-                  background: `${item.color}08`,
-                  border: `1px dashed ${item.color}40`,
+                  background: 'white',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
@@ -383,7 +382,7 @@ function InitiativesSection() {
                   letterSpacing: '0.05em',
                   textTransform: 'uppercase'
                 }}>
-                  {item.title} Logo
+                  <img src={item.logo} alt={item.title} style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
                 </div>
 
                 {/* Card Body */}

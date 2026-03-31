@@ -240,7 +240,10 @@ function AboutLogoSection() {
             lineHeight: 1.8,
             textAlign: 'center'
           }}>
-            Our logo is a symbol of synergy between innovation, technology, and entrepreneurship. The clean, modern typography represents our commitment to clarity and professional excellence, while the red dot signifies the spark of an idea that ignites the engine of progress.
+            <i style={{ color: 'darkred', fontWeight: 'bold' }}>Our logo represents the spirit of innovation, continuity, and transformation at IEDC.</i>
+            <br />
+            The bold, flowing typography reflects creativity in motion, ideas that are not static, but constantly evolving. The continuous line forming the initial strokes symbolizes an unbroken journey of innovation, where one idea seamlessly leads to another.
+            The interplay between curves and sharp edges reflects the balance between creativity and precision, a core principle of every successful startup.
           </p>
         </div>
       </motion.div>
