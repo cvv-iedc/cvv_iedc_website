@@ -382,7 +382,7 @@ function InitiativesSection() {
                   letterSpacing: '0.05em',
                   textTransform: 'uppercase'
                 }}>
-                  <img src={item.logo} alt={item.title} style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+                  <img src={item.logo} loading='lazy' alt={item.title} style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
                 </div>
 
                 {/* Card Body */}
