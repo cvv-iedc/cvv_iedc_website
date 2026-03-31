@@ -436,7 +436,25 @@ export default function EventsSection() {
       <section>
         <SectionHeading title="Upcoming" sub="Events you can't afford to miss." count={upcoming.length} />
         <div className="mt-2">
-          <CarouselRow events={upcoming} reverse={false} onCardClick={(ev) => openModal(ev, false)} past={false} />
+          {upcoming.length > 0 ? (
+            <CarouselRow events={upcoming} reverse={false} onCardClick={(ev) => openModal(ev, false)} past={false} />
+          ) : (
+            <div className="px-8 md:px-16 py-12 flex justify-center">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="max-w-2xl text-center px-8 py-12 rounded-[2rem] border border-slate-200/50 bg-white/50 backdrop-blur-sm shadow-[0_8px_30px_rgb(0,0,0,0.04)]"
+              >
+                <p className="text-lg md:text-xl text-slate-800 font-medium leading-relaxed" style={{ fontFamily: 'var(--font-body)' }}>
+                  Looks like our event calendar is taking a quick breather right now! 🚀<br className="hidden md:block mt-2" />
+                  <span className="text-base md:text-lg text-slate-500 font-normal mt-2 inline-block">
+                    Keep an eye out for upcoming opportunities, or dive into our past highlights to see what we've been building.
+                  </span>
+                </p>
+              </motion.div>
+            </div>
+          )}
         </div>
       </section>
 
