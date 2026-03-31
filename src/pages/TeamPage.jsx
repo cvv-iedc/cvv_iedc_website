@@ -7,7 +7,7 @@ import { TEAM } from '../data/team'
 // Each row picks a slice of team members and scrolls at different speed/direction
 const ROW_CONFIG = [
   { ids: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15], direction: 'left', duration: '70s', heights: [450, 450, 450, 450, 450, 450, 450, 450, 450, 450, 450, 450, 450, 450, 450] },
-  { ids: [16, 17, 18, 19, 20, 21, 22, 23, 24, 25], direction: 'right', duration: '70s', heights: [450, 450, 450, 450, 450, 450, 450, 450, 450, 450] }
+  { ids: [16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28], direction: 'right', duration: '70s', heights: [450, 450, 450, 450, 450, 450, 450, 450, 450, 450] }
 ]
 
 // Map id → member object
@@ -16,15 +16,15 @@ const TEAM_MAP = Object.fromEntries(TEAM.map((m) => [m.id, m]))
 // ─── LinkedIn Icon ────────────────────────────────────────────────────────────
 function LinkedInLogo() {
   return (
-    <img 
-      src="/linkedin_logo.svg" 
-      alt="LinkedIn" 
+    <img
+      src="/linkedin_logo.svg"
+      alt="LinkedIn"
       style={{
-        height: '18px', 
-        width: 'auto', 
+        height: '18px',
+        width: 'auto',
         display: 'block',
         flexShrink: 0
-      }} 
+      }}
     />
   )
 }
