@@ -251,34 +251,42 @@ function AboutLogoSection() {
   )
 }
 
-// ─── Horizontal Timeline (desktop) / Vertical (mobile) ───────────────────────
-function TimelineNode({ milestone, isActive }) {
+// ─── Horizontal Timeline (desktop & mobile) ───────────────────────
+function TimelineNode({ milestone, isActive, isMobile }) {
+  const nodeWidth = isMobile ? 320 : 500
+  const imageSize = isMobile ? (isActive ? 180 : 130) : (isActive ? 280 : 200)
+  const topOffset = isMobile ? 140 : 220
+  const bottomOffset = isMobile ? 130 : 200
+
   return (
     <div style={{
       position: 'relative',
-      width: '380px',
+      width: `${nodeWidth}px`,
       flexShrink: 0,
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
+      justifyContent: 'center',
+      height: '100%',
     }}>
-      {/* Month label */}
+      {/* Month label - Centered relative to node */}
       <div style={{
         position: 'absolute',
-        top: 'calc(50% - 120px)',
-        left: '2rem',
+        top: `calc(50% - ${topOffset}px)`,
+        width: '100%',
+        textAlign: 'center',
         fontFamily: 'var(--font-heading)',
         fontWeight: 700,
-        fontSize: '0.8rem',
+        fontSize: isMobile ? '0.75rem' : '0.9rem',
         color: isActive ? 'var(--color-primary)' : 'var(--color-text-muted)',
-        letterSpacing: '0.1em',
+        letterSpacing: '0.12em',
         textTransform: 'uppercase',
         transition: 'color 0.3s ease',
       }}>
         {milestone.month}
       </div>
 
-      {/* Center dot on timeline line */}
+      {/* Center Group (Image + Dot) - Fixed alignment */}
       <div style={{
         position: 'absolute',
         top: '50%',
@@ -291,16 +299,16 @@ function TimelineNode({ milestone, isActive }) {
       }}>
         {/* Circle photo */}
         <div style={{
-          width: isActive ? '100px' : '80px',
-          height: isActive ? '100px' : '80px',
+          width: `${imageSize}px`,
+          height: `${imageSize}px`,
           borderRadius: '50%',
           overflow: 'hidden',
-          border: `4px solid ${isActive ? 'var(--color-primary)' : '#fff'}`,
-          boxShadow: isActive ? '0 8px 32px rgba(37,99,235,0.35)' : '0 4px 16px rgba(0,0,0,0.12)',
+          border: `${isMobile ? '4px' : '6px'} solid ${isActive ? 'var(--color-primary)' : '#fff'}`,
+          boxShadow: isActive ? '0 12px 48px rgba(37,99,235,0.4)' : '0 6px 20px rgba(0,0,0,0.15)',
           background: `hsl(${milestone.id * 45 + 200}, 50%, 70%)`,
-          transition: 'all 0.4s ease',
+          transition: 'all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
           flexShrink: 0,
-          marginBottom: '1rem',
+          marginBottom: isMobile ? '1rem' : '1.5rem',
         }}>
           <img
             src={milestone.image}
@@ -310,32 +318,45 @@ function TimelineNode({ milestone, isActive }) {
           />
         </div>
 
-        {/* Dot marker */}
+        {/* Dot marker - Positioned exactly on the timeline line */}
         <div style={{
-          width: isActive ? '20px' : '12px',
-          height: isActive ? '20px' : '12px',
+          width: isActive ? (isMobile ? '18px' : '24px') : (isMobile ? '10px' : '14px'),
+          height: isActive ? (isMobile ? '18px' : '24px') : (isMobile ? '10px' : '14px'),
           borderRadius: '50%',
           background: isActive ? 'var(--color-primary)' : '#fff',
-          border: `3px solid ${isActive ? 'var(--color-primary)' : 'var(--color-text-muted)'}`,
+          border: `${isMobile ? '3px' : '4px'} solid ${isActive ? 'var(--color-primary)' : 'var(--color-text-muted)'}`,
           transition: 'all 0.4s ease',
-          boxShadow: isActive ? '0 0 0 6px rgba(37,99,235,0.15)' : 'none',
+          boxShadow: isActive ? '0 0 0 8px rgba(37,99,235,0.2)' : 'none',
         }} />
       </div>
 
-      {/* Description below center */}
+      {/* Description below center - Centered relative to node */}
       <div style={{
         position: 'absolute',
-        top: 'calc(50% + 100px)',
-        left: '1.5rem',
-        right: '1.5rem',
+        top: `calc(50% + ${bottomOffset}px)`,
+        width: '100%',
+        padding: isMobile ? '0 1.5rem' : '0 2rem',
         textAlign: 'center',
         opacity: isActive ? 1 : 0.45,
-        transition: 'opacity 0.3s ease',
+        transition: 'opacity 0.4s ease',
       }}>
-        <h3 style={{ fontFamily: 'var(--font-heading)', fontWeight: 700, fontSize: '1rem', color: 'var(--color-text-primary)', marginBottom: '0.4rem' }}>
+        <h3 style={{ 
+          fontFamily: 'var(--font-heading)', 
+          fontWeight: 700, 
+          fontSize: isMobile ? '0.95rem' : '1.15rem', 
+          color: 'var(--color-text-primary)', 
+          marginBottom: isMobile ? '0.4rem' : '0.6rem' 
+        }}>
           {milestone.title}
         </h3>
-        <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.82rem', color: 'var(--color-text-secondary)', lineHeight: 1.6 }}>
+        <p style={{ 
+          fontFamily: 'var(--font-body)', 
+          fontSize: isMobile ? '0.8rem' : '0.9rem', 
+          color: 'var(--color-text-secondary)', 
+          lineHeight: isMobile ? 1.5 : 1.7,
+          maxWidth: isMobile ? '260px' : '350px',
+          margin: '0 auto'
+        }}>
           {milestone.description}
         </p>
       </div>
@@ -343,9 +364,11 @@ function TimelineNode({ milestone, isActive }) {
   )
 }
 
-function HorizontalTimeline() {
+function HorizontalTimeline({ isMobile }) {
   const sectionRef = useRef(null)
   const [activeIdx, setActiveIdx] = useState(0)
+  const nodeWidth = isMobile ? 320 : 500
+
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ['start start', 'end end'],
@@ -354,7 +377,7 @@ function HorizontalTimeline() {
   const xTranslate = useTransform(
     scrollYProgress,
     [0, 1],
-    [0, -(milestones.length - 1) * 380]
+    [0, -(milestones.length - 1) * nodeWidth]
   )
 
   useEffect(() => {
@@ -395,7 +418,7 @@ function HorizontalTimeline() {
               style={{
                 fontFamily: 'var(--font-display)',
                 fontWeight: 900,
-                fontSize: 'clamp(14rem, 30vw, 35rem)',
+                fontSize: isMobile ? 'clamp(10rem, 50vw, 20rem)' : 'clamp(14rem, 30vw, 35rem)',
                 color: 'var(--color-text-primary)',
                 lineHeight: 1,
                 userSelect: 'none',
@@ -409,14 +432,14 @@ function HorizontalTimeline() {
         </div>
 
         {/* Section header */}
-        <div style={{ position: 'relative', zIndex: 10, padding: '0 3rem', marginBottom: '1rem', textAlign: 'center' }}>
+        <div style={{ position: 'relative', zIndex: 10, padding: isMobile ? '0 1.5rem' : '0 3rem', marginBottom: '1rem', textAlign: 'center' }}>
           <p style={{ fontFamily: 'var(--font-heading)', fontWeight: 700, fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '0.15em', color: 'var(--color-primary)' }}>
             Our Journey
           </p>
           <h2 style={{
             fontFamily: 'var(--font-display)',
             fontWeight: 800,
-            fontSize: 'clamp(1.5rem, 4vw, 3rem)',
+            fontSize: isMobile ? '2.2rem' : 'clamp(1.5rem, 4vw, 3rem)',
             color: 'var(--color-text-primary)',
             letterSpacing: '-0.03em',
           }}>
@@ -425,7 +448,7 @@ function HorizontalTimeline() {
         </div>
 
         {/* Timeline line */}
-        <div style={{ position: 'relative', height: '70vh', display: 'flex', alignItems: 'center' }}>
+        <div style={{ position: 'relative', height: '75vh', display: 'flex', alignItems: 'center' }}>
           <div className="timeline-line" />
 
           {/* Scrolling nodes */}
@@ -441,16 +464,16 @@ function HorizontalTimeline() {
             }}
           >
             {milestones.map((m, i) => (
-              <TimelineNode key={m.id} milestone={m} isActive={i === activeIdx} />
+              <TimelineNode key={m.id} milestone={m} isActive={i === activeIdx} isMobile={isMobile} />
             ))}
           </motion.div>
         </div>
 
         {/* Progress indicator */}
-        <div style={{ display: 'flex', gap: '0.5rem', justifyContent: 'center', marginTop: '1rem' }}>
+        <div style={{ display: 'flex', gap: '0.5rem', justifyContent: 'center', marginTop: isMobile ? '0.5rem' : '1rem' }}>
           {milestones.map((_, i) => (
             <div key={i} style={{
-              width: i === activeIdx ? '24px' : '8px',
+              width: i === activeIdx ? (isMobile ? '20px' : '24px') : '8px',
               height: '8px',
               borderRadius: '9999px',
               background: i === activeIdx ? 'var(--color-primary)' : 'var(--color-text-muted)',
@@ -460,53 +483,6 @@ function HorizontalTimeline() {
         </div>
       </div>
     </div>
-  )
-}
-
-// Mobile vertical timeline
-function VerticalTimeline() {
-  return (
-    <section style={{ padding: 'clamp(3rem, 8vw, 6rem) clamp(1.5rem, 5vw, 3rem)', background: 'var(--color-surface)' }}>
-      <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
-        <p style={{ fontFamily: 'var(--font-heading)', fontWeight: 700, fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '0.15em', color: 'var(--color-primary)', marginBottom: '0.5rem' }}>Our Journey</p>
-        <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '2.5rem', color: 'var(--color-text-primary)', letterSpacing: '-0.03em' }}>Milestones</h2>
-      </div>
-
-      <div style={{ position: 'relative', maxWidth: '600px', margin: '0 auto' }}>
-        {/* Vertical line */}
-        <div style={{
-          position: 'absolute', left: '20px', top: 0, bottom: 0,
-          width: '2px',
-          background: 'linear-gradient(to bottom, transparent, var(--color-primary), transparent)',
-        }} />
-
-        {milestones.map((m) => (
-          <motion.div
-            key={m.id}
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            style={{ display: 'flex', gap: '1.5rem', marginBottom: '2.5rem', paddingLeft: '48px', position: 'relative' }}
-          >
-            {/* Dot */}
-            <div style={{
-              position: 'absolute', left: '10px', top: '4px',
-              width: '20px', height: '20px', borderRadius: '50%',
-              background: 'var(--color-primary)',
-              border: '3px solid #fff',
-              boxShadow: '0 0 0 3px rgba(37,99,235,0.2)',
-              flexShrink: 0,
-            }} />
-            <div>
-              <p style={{ fontFamily: 'var(--font-heading)', fontWeight: 700, fontSize: '0.75rem', color: 'var(--color-primary)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '0.3rem' }}>{m.month}</p>
-              <h3 style={{ fontFamily: 'var(--font-heading)', fontWeight: 700, fontSize: '1.05rem', color: 'var(--color-text-primary)', marginBottom: '0.4rem' }}>{m.title}</h3>
-              <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.88rem', color: 'var(--color-text-secondary)', lineHeight: 1.65 }}>{m.description}</p>
-            </div>
-          </motion.div>
-        ))}
-      </div>
-    </section>
   )
 }
 
@@ -524,9 +500,7 @@ export default function AboutPage() {
     <div style={{ background: '#fff' }}>
       <AboutIntro />
       <AboutLogoSection />
-      {isMobile ? <VerticalTimeline /> : <HorizontalTimeline />}
-
-
+      <HorizontalTimeline isMobile={isMobile} />
     </div>
   )
 }
