@@ -120,7 +120,7 @@ function HeroSection() {
           transition={{ duration: 0.8, delay: 0.4 }}
           style={{
             fontFamily: 'var(--font-body)',
-            fontSize: 'clamp(1.1rem, 2vw, 1.35rem)',
+            fontSize: 'clamp(1rem, 1.5vw, 1.15rem)',
             color: '#475569',
             maxWidth: '700px',
             margin: '0 auto',
