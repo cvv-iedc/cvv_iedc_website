@@ -105,11 +105,13 @@ function CarouselRow({ events, reverse = false, onCardClick, past }) {
   const [isManualStuck, setIsManualStuck] = useState(false) // temporary disable auto-scroll after manual interaction
   const manualTimeout = useRef(null)
 
+  const isSingle = events.length <= 1
   // Double the list so the seam is invisible
-  const doubled = [...events, ...events]
+  const displayEvents = isSingle ? events : [...events, ...events]
 
   // Track manual native scroll (trackpad/touch)
   const handleNativeScroll = () => {
+    if (isSingle) return
     if (scrollRef.current && isManualStuck) {
       exactPos.current = scrollRef.current.scrollLeft
     }
@@ -117,6 +119,7 @@ function CarouselRow({ events, reverse = false, onCardClick, past }) {
 
   // Trigger manual scroll block
   const blockAutoScroll = () => {
+    if (isSingle) return
     setIsManualStuck(true)
     if (manualTimeout.current) clearTimeout(manualTimeout.current)
     manualTimeout.current = setTimeout(() => {
@@ -127,6 +130,7 @@ function CarouselRow({ events, reverse = false, onCardClick, past }) {
 
   // Button click smooth scroll
   const scrollManually = () => {
+    if (isSingle) return
     blockAutoScroll()
     const el = scrollRef.current
     if (!el) return
@@ -138,6 +142,7 @@ function CarouselRow({ events, reverse = false, onCardClick, past }) {
 
   // RAF Loop
   useEffect(() => {
+    if (isSingle) return
     const el = scrollRef.current
     if (!el) return
 
@@ -173,7 +178,7 @@ function CarouselRow({ events, reverse = false, onCardClick, past }) {
 
     rafId = requestAnimationFrame(tick)
     return () => cancelAnimationFrame(rafId)
-  }, [paused, isManualStuck, reverse])
+  }, [paused, isManualStuck, reverse, isSingle])
 
   return (
     <div
@@ -182,21 +187,27 @@ function CarouselRow({ events, reverse = false, onCardClick, past }) {
       onMouseLeave={() => setPaused(false)}
     >
       {/* Edge fades */}
-      <div className="hidden md:block absolute left-0 top-0 bottom-0 w-24 pointer-events-none z-10"
-        style={{ background: 'linear-gradient(to right, #f5f5f7, transparent)' }} />
-      <div className="hidden md:block absolute right-0 top-0 bottom-0 w-24 pointer-events-none z-10"
-        style={{ background: 'linear-gradient(to left, #ebebed, transparent)' }} />
+      {!isSingle && (
+        <>
+          <div className="hidden md:block absolute left-0 top-0 bottom-0 w-24 pointer-events-none z-10"
+            style={{ background: 'linear-gradient(to right, #f5f5f7, transparent)' }} />
+          <div className="hidden md:block absolute right-0 top-0 bottom-0 w-24 pointer-events-none z-10"
+            style={{ background: 'linear-gradient(to left, #ebebed, transparent)' }} />
+        </>
+      )}
 
       {/* Floating Manual Advance Button (Only in moving direction) */}
-      <div className={`absolute top-1/2 -translate-y-1/2 z-20 transition-all duration-300 ${reverse ? 'left-4 opacity-0 group-hover:opacity-100' : 'right-4 opacity-0 group-hover:opacity-100'}`}>
-        <button 
-          onClick={scrollManually}
-          className="w-14 h-14 rounded-full bg-white text-slate-900 flex items-center justify-center hover:scale-105 active:scale-95 transition-transform"
-          style={{ boxShadow: '0 8px 30px rgba(0,0,0,0.15), 0 0 0 1px rgba(0,0,0,0.05)' }}
-        >
-          {reverse ? <ChevronLeft size={28} /> : <ChevronRight size={28} />}
-        </button>
-      </div>
+      {!isSingle && (
+        <div className={`absolute top-1/2 -translate-y-1/2 z-20 transition-all duration-300 ${reverse ? 'left-4 opacity-0 group-hover:opacity-100' : 'right-4 opacity-0 group-hover:opacity-100'}`}>
+          <button 
+            onClick={scrollManually}
+            className="w-14 h-14 rounded-full bg-white text-slate-900 flex items-center justify-center hover:scale-105 active:scale-95 transition-transform"
+            style={{ boxShadow: '0 8px 30px rgba(0,0,0,0.15), 0 0 0 1px rgba(0,0,0,0.05)' }}
+          >
+            {reverse ? <ChevronLeft size={28} /> : <ChevronRight size={28} />}
+          </button>
+        </div>
+      )}
 
       {/* Track */}
       <div
@@ -204,7 +215,7 @@ function CarouselRow({ events, reverse = false, onCardClick, past }) {
         onScroll={handleNativeScroll}
         onTouchStart={blockAutoScroll}
         onWheel={blockAutoScroll}
-        className="flex overflow-x-auto"
+        className={`flex overflow-x-auto ${isSingle ? 'justify-start px-8 md:px-16' : ''}`}
         style={{
           gap: '1.25rem',
           scrollbarWidth: 'none',
@@ -214,7 +225,7 @@ function CarouselRow({ events, reverse = false, onCardClick, past }) {
           paddingTop: '1.5rem',
         }}
       >
-        {doubled.map((event, i) => (
+        {displayEvents.map((event, i) => (
           <div
             key={`${event.id}-${i}`}
             style={{
