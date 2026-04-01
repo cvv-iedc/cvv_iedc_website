@@ -46,13 +46,5 @@ export const milestones = [
     title: 'BRIK x CVV IEDC',
     description: 'Collaboration with BRIK, for accelerating campus innovation and startup ecosystem',
     image: '/milestones/milestone_6.webp',
-  },
-  {
-    id: 7,
-    year: '2026',
-    month: 'March',
-    title: 'Establishment of IEDC ORBIT',
-    description: 'Formation of new leadership team with fresh perspectives and renewed commitment to innovation and excellence.',
-    image: '/milestones/milestone_7.webp',
-  },
+  }
 ]

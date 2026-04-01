@@ -18,9 +18,8 @@ function SmallEventCard({ event, onClick }) {
     >
       {/* Image strip */}
       <div className="relative h-40 overflow-hidden" style={{ background: event.gradient }}>
-        <img src={event.image} alt={event.title} className="w-full h-full object-cover opacity-40 mix-blend-luminosity"
+        <img src={event.image} alt={event.title} className="w-full h-full object-cover"
           onError={e => { e.target.style.display = 'none' }} loading="lazy" />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
         {past && (
           <div className="absolute top-2.5 left-2.5 bg-black/40 backdrop-blur rounded-full px-2 py-0.5 flex items-center gap-1">
             <Clock size={9} className="text-white/70" />
@@ -178,11 +177,16 @@ export default function AllEventsPage() {
   const [selectedEvent, setSelectedEvent] = useState(null)
   const { events: ALL_EVENTS, loading } = useEvents()
 
+  const sortedEvents = useMemo(() => {
+    // Reverse chronological: newest date first
+    return [...ALL_EVENTS].sort((a, b) => new Date(b.date) - new Date(a.date))
+  }, [ALL_EVENTS])
+
   const filtered = useMemo(() => {
-    if (!query) return ALL_EVENTS
+    if (!query) return sortedEvents
     const q = query.toLowerCase()
-    return ALL_EVENTS.filter(e => e.searchString.includes(q))
-  }, [query, ALL_EVENTS])
+    return sortedEvents.filter(e => e.searchString.includes(q))
+  }, [query, sortedEvents])
 
   if (loading) return (
     <div style={{
