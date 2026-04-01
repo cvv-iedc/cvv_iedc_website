@@ -243,19 +243,22 @@ function InitiativesSection() {
 
   return (
     <section style={{
-      padding: 'clamp(4rem, 10vw, 7rem) clamp(1.5rem, 5vw, 4rem)',
+      position: 'relative',
+      overflow: 'hidden',
+      padding: 'clamp(5rem, 12vw, 8rem) clamp(1.5rem, 5vw, 4rem)',
     }}>
+
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.6 }}
-        style={{ textAlign: 'center', marginBottom: 'clamp(2.5rem, 6vw, 4rem)' }}
+        style={{ position: 'relative', zIndex: 10, textAlign: 'center', marginBottom: 'clamp(3rem, 7vw, 5rem)' }}
       >
         <h2 style={{
           fontFamily: 'var(--font-display)',
           fontWeight: 800,
-          fontSize: 'clamp(2rem, 6vw, 4rem)',
+          fontSize: 'clamp(2.5rem, 6vw, 4.5rem)',
           letterSpacing: '-0.03em',
           color: 'var(--color-text-primary)',
           lineHeight: 1.1,
@@ -270,168 +273,152 @@ function InitiativesSection() {
         whileInView="visible"
         viewport={{ once: true, margin: '-50px' }}
         style={{
+          position: 'relative',
+          zIndex: 10,
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-          gap: '2rem',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+          gap: '2.5rem',
           maxWidth: '1200px',
           margin: '0 auto',
         }}
       >
         {initiatives.map((item) => {
-          const Icon = iconMap[item.icon]
           return (
             <motion.div
               key={item.id}
               variants={cardVariants}
-              whileHover={{ y: -8, boxShadow: '0 30px 60px rgba(0,0,0,0.1)' }}
+              whileHover={{ y: -12 }}
               style={{
                 position: 'relative',
-                borderRadius: 'var(--radius-card)',
-                padding: '1px', // Space for the glowing border
+                borderRadius: '1.5rem',
                 height: '100%',
                 display: 'flex',
                 flexDirection: 'column',
+                overflow: 'hidden', // Clip the rotating border
               }}
             >
-              {/* Glowing Accent Border (Always On) */}
+              {/* Spinning Neon Border Layer */}
               <div
                 style={{
                   position: 'absolute',
-                  inset: 0,
-                  borderRadius: 'var(--radius-card)',
-                  background: `linear-gradient(135deg, ${item.color}80 0%, transparent 50%, ${item.color}80 100%)`,
+                  top: '50%',
+                  left: '50%',
+                  width: '150%',
+                  height: '150%',
+                  background: `conic-gradient(from 0deg, transparent 70%, ${item.color} 80%, ${item.color} 100%)`,
+                  animation: 'border-rotate 2s linear infinite', // Increased speed
                   zIndex: 0,
-                  filter: 'blur(8px)',
-                  opacity: 0.8,
-                }}
-              />
-              <div
-                style={{
-                  position: 'absolute',
-                  inset: 0,
-                  borderRadius: 'var(--radius-card)',
-                  background: `linear-gradient(135deg, ${item.color} 0%, transparent 50%, ${item.color} 100%)`,
-                  zIndex: 0,
-                  opacity: 0.3,
                 }}
               />
 
-              {/* Inner Card Content */}
+              {/* Inner Frosted Glass Card Content */}
               <div style={{
-                background: '#fff',
-                borderRadius: 'calc(var(--radius-card) - 1px)',
-                padding: '2.5rem',
+                background: '#ffffff', // Opaque to hide the light behind text
+                backdropFilter: 'blur(24px)',
+                WebkitBackdropFilter: 'blur(24px)',
+                borderRadius: 'calc(1.5rem - 2px)',
+                margin: '2px', // The actual border thickness
+                padding: '3.5rem 2.5rem',
                 display: 'flex',
                 flexDirection: 'column',
-                height: '100%',
+                height: 'calc(100% - 4px)',
                 position: 'relative',
                 zIndex: 1,
-                minHeight: '480px', // Increased vertical length
-                boxShadow: '0 4px 24px rgba(0,0,0,0.06)'
+                minHeight: '476px',
+                border: '1px solid rgba(0, 0, 0, 0.05)',
+                boxShadow: `
+                  0 20px 40px rgba(0,0,0,0.04), 
+                  inset 0 1px 0 rgba(255,255,255,0.8)
+                `,
               }}>
 
-                {/* Card Header (Icon + Titles) */}
-                <div style={{ display: 'flex', alignItems: 'flex-start', gap: '1.25rem', marginBottom: '1.5rem' }}>
-                  <div style={{
-                    width: '56px', height: '56px',
-                    borderRadius: '16px',
-                    background: `${item.color}15`,
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    flexShrink: 0
-                  }}>
-                    {Icon && <Icon size={28} style={{ color: item.color }} />}
-                  </div>
-
-                  <div style={{ paddingTop: '0.2rem' }}>
-                    <h3 style={{
-                      fontFamily: 'var(--font-display)',
-                      fontWeight: 800,
-                      fontSize: '1.4rem',
-                      letterSpacing: '-0.02em',
-                      color: 'var(--color-text-primary)',
-                      marginBottom: '0.25rem',
-                    }}>
-                      {item.title}
-                    </h3>
-                    <p style={{
-                      fontFamily: 'var(--font-heading)',
-                      fontWeight: 600,
-                      fontSize: '0.8rem',
-                      color: item.color,
-                      textTransform: 'uppercase',
-                      letterSpacing: '0.1em'
-                    }}>
-                      {item.subtitle}
-                    </p>
-                  </div>
-                </div>
-
-                {/* Logo Placeholder */}
+                {/* Logo as Title */}
                 <div style={{
                   width: '100%',
-                  height: '100px',
-                  borderRadius: '12px',
-                  background: 'white',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  marginBottom: '1.5rem',
-                  color: `${item.color}80`,
-                  fontFamily: 'var(--font-heading)',
-                  fontSize: '0.8rem',
-                  letterSpacing: '0.05em',
-                  textTransform: 'uppercase'
+                  marginBottom: '2.5rem',
                 }}>
-                  <img src={item.logo} loading='lazy' alt={item.title} style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+                  <motion.div
+                    whileHover={{ scale: 1.05 }}
+                    style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+                  >
+                    <img
+                      src={item.logo}
+                      loading="lazy"
+                      alt={item.title}
+                      style={{
+                        height: 'clamp(4rem, 8vw, 5.5rem)',
+                        width: 'auto',
+                        objectFit: 'contain',
+                        filter: `drop-shadow(0px 8px 24px ${item.color}35)`
+                      }}
+                    />
+                  </motion.div>
                 </div>
 
-                {/* Card Body */}
+                {/* Description */}
                 <p style={{
                   fontFamily: 'var(--font-body)',
-                  fontSize: '0.95rem',
+                  fontSize: '1.05rem',
                   color: 'var(--color-text-secondary)',
                   lineHeight: 1.7,
-                  marginBottom: '2rem',
+                  marginBottom: '3rem',
+                  textAlign: 'center',
                   flex: 1
                 }}>
                   {item.description}
                 </p>
 
-                {/* Themed Button */}
+                {/* Themed Button - Dark Navy Refinement */}
                 <motion.button
                   onClick={() => navigate(`/${item.title.toLowerCase()}`)}
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
+                  initial="initial"
+                  whileHover="hovered"
+                  whileTap="pressed"
+                  variants={{
+                    initial: {
+                      scale: 1,
+                      backgroundColor: `rgba(0, 31, 63, 0.05)`, // Subtle navy tint
+                      color: '#001F3F', // Dark Navy
+                      borderColor: `rgba(0, 31, 63, 0.15)`,
+                    },
+                    hovered: {
+                      scale: 1, // Removed pop-up scale
+                      backgroundColor: '#001F3F', // Dark Navy background
+                      color: '#ffffff',
+                      borderColor: '#001F3F',
+                    },
+                    pressed: { scale: 0.98 }
+                  }}
                   style={{
                     width: '100%',
-                    padding: '1rem',
-                    borderRadius: '12px',
-                    background: `linear-gradient(135deg, ${item.color}15 0%, ${item.color}05 100%)`,
-                    border: `1px solid ${item.color}30`,
-                    color: item.color,
+                    padding: '1.1rem',
+                    borderRadius: '1rem',
+                    border: '1px solid',
                     fontFamily: 'var(--font-heading)',
-                    fontWeight: 600,
-                    fontSize: '0.9rem',
+                    fontWeight: 700,
+                    fontSize: '0.95rem',
                     letterSpacing: '0.05em',
                     cursor: 'pointer',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
                     gap: '0.5rem',
-                    transition: 'all 0.2s ease',
-                    marginTop: 'auto'
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.background = item.color;
-                    e.currentTarget.style.color = '#fff';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.background = `linear-gradient(135deg, ${item.color}15 0%, ${item.color}05 100%)`;
-                    e.currentTarget.style.color = item.color;
+                    marginTop: 'auto',
+                    outline: 'none',
+                    transition: 'border 0.15s ease, background-color 0.15s ease, color 0.15s ease' // Faster speed
                   }}
                 >
                   Explore {item.title}
-                  <motion.span animate={{ x: [0, 4, 0] }} transition={{ repeat: Infinity, duration: 1.5, ease: 'easeInOut' }}>
+                  <motion.span
+                    variants={{
+                      initial: { x: 0, opacity: 0.8 },
+                      hovered: { x: 6, opacity: 1 }
+                    }}
+                    transition={{ type: "spring", stiffness: 400, damping: 25 }}
+                  >
                     →
                   </motion.span>
                 </motion.button>

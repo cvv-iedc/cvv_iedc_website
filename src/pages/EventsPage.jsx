@@ -373,7 +373,7 @@ function CarouselRow({ events, reverse = false, onCardClick, past }) {
 }
 
 // ─── Section header ───────────────────────────────────────────────────────────
-function SectionHeading({ title, sub, count }) {
+function SectionHeading({ title, sub }) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -391,9 +391,6 @@ function SectionHeading({ title, sub, count }) {
         </h2>
         <p className="text-slate-400 font-medium mt-4 text-base" style={{ fontFamily: 'var(--font-body)' }}>{sub}</p>
       </div>
-      <span className="text-slate-300 font-black text-5xl mb-2 select-none" style={{ fontFamily: 'var(--font-display)' }}>
-        {String(count).padStart(2, '0')}
-      </span>
     </motion.div>
   )
 }
@@ -434,7 +431,7 @@ export default function EventsSection() {
           UPCOMING EVENTS
       ══════════════════════════════════════════ */}
       <section>
-        <SectionHeading title="Upcoming" sub="Events you can't afford to miss." count={upcoming.length} />
+        <SectionHeading title="Upcoming" sub="Events you can't afford to miss." />
         <div className="mt-2">
           {upcoming.length > 0 ? (
             <CarouselRow events={upcoming} reverse={false} onCardClick={(ev) => openModal(ev, false)} past={false} />
@@ -467,7 +464,7 @@ export default function EventsSection() {
           FEATURED EVENTS
       ══════════════════════════════════════════ */}
       <section className="pb-16 flex flex-col">
-        <SectionHeading title="Featured" sub="Handpicked highlights & flagships." count={featuredOnly.length} />
+        <SectionHeading title="Featured" sub="Handpicked highlights & flagships." />
         <div className="mt-2 text-center pb-8">
           {/* Featured carousel scrolls in reverse */}
           <CarouselRow events={featuredOnly} reverse={true} onCardClick={(ev) => openModal(ev, ev.isPast)} past={false} />

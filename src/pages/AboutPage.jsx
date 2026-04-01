@@ -1,12 +1,13 @@
 import { useRef, useState, useEffect } from 'react'
-import { motion, useScroll, useTransform, useInView, AnimatePresence } from 'framer-motion'
+import { motion, useScroll, useTransform, useInView, AnimatePresence, animate } from 'framer-motion'
 import { milestones } from '../data/milestones'
+import { useEvents } from '../hooks/useEvents'
 
 // ─── Vertical Intro ───────────────────────────────────────────────────────────
 function AboutIntro() {
   return (
     <section style={{
-      padding: 'clamp(5rem, 12vw, 9rem) clamp(1.5rem, 6vw, 5rem)',
+      padding: 'clamp(5rem, 12vw, 9rem) clamp(1.5rem, 6vw, 5rem) 2rem',
       maxWidth: '1100px', margin: '0 auto',
     }}>
       <motion.div
@@ -54,8 +55,6 @@ function AboutIntro() {
           ))}
         </div>
       </motion.div>
-
-
     </section>
   )
 }
@@ -177,6 +176,141 @@ function InteractiveParticles() {
   )
 }
 
+// ─── Our Impact Section ───────────────────────────────────────────────────────
+function AnimatedCounter({ from = 0, to, duration = 2.5 }) {
+  const ref = useRef(null)
+  const inView = useInView(ref, { once: true, margin: "0px 0px -50px 0px" })
+
+  useEffect(() => {
+    if (inView) {
+      const controls = animate(from, to, {
+        duration,
+        ease: "easeOut",
+        onUpdate(value) {
+          if (ref.current) {
+            ref.current.textContent = Math.round(value)
+          }
+        }
+      })
+      return () => controls.stop()
+    }
+  }, [inView, from, to, duration])
+
+  return <span ref={ref}>{from}</span>
+}
+
+function OurImpactSection() {
+  const { events } = useEvents()
+  const totalEvents = events?.length || 0
+
+  const metrics = [
+    { id: 1, label: 'Total Events', value: totalEvents },
+    { id: 2, label: 'Total Members', value: 350 },
+    { id: 3, label: 'Validated Ideas', value: 15 },
+  ]
+
+  return (
+    <section style={{
+      padding: '0rem clamp(1.5rem, 6vw, 5rem) 4rem',
+      maxWidth: '1100px',
+      margin: '0 auto',
+      background: '#fff'
+    }}>
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.7 }}
+        style={{ textAlign: 'center', marginBottom: '4rem' }}
+      >
+        <h2 style={{
+          fontFamily: 'var(--font-display)',
+          fontWeight: 800,
+          fontSize: 'clamp(2rem, 5vw, 3.5rem)',
+          letterSpacing: '-0.03em',
+          color: 'var(--color-text-primary)'
+        }}>
+          Our Impact
+        </h2>
+      </motion.div>
+
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+        gap: '2.5rem',
+      }}>
+        {metrics.map((metric, index) => (
+          <motion.div
+            key={metric.id}
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-50px" }}
+            whileHover={{ y: -10, boxShadow: '0 25px 50px rgba(0,0,0,0.08)' }}
+            transition={{
+              duration: 0.6,
+              delay: index * 0.15,
+              ease: [0.25, 0.46, 0.45, 0.94]
+            }}
+            style={{
+              background: '#fff',
+              border: '1px solid rgba(0,0,0,0.06)',
+              borderRadius: '2rem',
+              padding: '3.5rem 2rem',
+              textAlign: 'center',
+              boxShadow: '0 4px 20px rgba(0,0,0,0.04)',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+              position: 'relative',
+              overflow: 'hidden'
+            }}
+          >
+            {/* Subtle glow internally */}
+            <div style={{
+              position: 'absolute',
+              top: '-50px',
+              left: '50%',
+              transform: 'translateX(-50%)',
+              width: '100px',
+              height: '100px',
+              background: 'var(--color-primary)',
+              filter: 'blur(70px)',
+              opacity: 0.15,
+              pointerEvents: 'none'
+            }} />
+            <div style={{
+              fontFamily: 'var(--font-display)',
+              fontWeight: 800,
+              fontSize: '4.5rem',
+              color: 'var(--color-text-primary)',
+              lineHeight: 1,
+              marginBottom: '1rem',
+              letterSpacing: '-0.02em',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '4px'
+            }}>
+              <AnimatedCounter to={metric.value} duration={2.5} />
+              <span style={{ color: 'var(--color-primary)', fontSize: '3.5rem' }}>+</span>
+            </div>
+            <div style={{
+              fontFamily: 'var(--font-heading)',
+              fontWeight: 700,
+              fontSize: '1.05rem',
+              color: 'var(--color-text-secondary)',
+              textTransform: 'uppercase',
+              letterSpacing: '0.15em'
+            }}>
+              {metric.label}
+            </div>
+          </motion.div>
+        ))}
+      </div>
+    </section>
+  )
+}
+
 // ─── About Logo Section ───────────────────────────────────────────────────────
 function AboutLogoSection() {
   return (
@@ -265,15 +399,18 @@ function TimelineNode({ milestone, isActive }) {
       {/* Month label */}
       <div style={{
         position: 'absolute',
-        top: 'calc(50% - 120px)',
-        left: '2rem',
+        top: isActive ? 'calc(50% - 185px)' : 'calc(50% - 130px)',
+        left: 0,
+        right: 0,
+        textAlign: 'center',
         fontFamily: 'var(--font-heading)',
         fontWeight: 700,
-        fontSize: '0.8rem',
+        fontSize: '0.85rem',
         color: isActive ? 'var(--color-primary)' : 'var(--color-text-muted)',
-        letterSpacing: '0.1em',
+        letterSpacing: '0.12em',
         textTransform: 'uppercase',
-        transition: 'color 0.3s ease',
+        transition: 'all 0.4s ease',
+        zIndex: 10,
       }}>
         {milestone.month}
       </div>
@@ -291,8 +428,8 @@ function TimelineNode({ milestone, isActive }) {
       }}>
         {/* Circle photo */}
         <div style={{
-          width: isActive ? '100px' : '80px',
-          height: isActive ? '100px' : '80px',
+          width: isActive ? '250px' : '140px',
+          height: isActive ? '250px' : '140px',
           borderRadius: '50%',
           overflow: 'hidden',
           border: `4px solid ${isActive ? 'var(--color-primary)' : '#fff'}`,
@@ -300,7 +437,7 @@ function TimelineNode({ milestone, isActive }) {
           background: `hsl(${milestone.id * 45 + 200}, 50%, 70%)`,
           transition: 'all 0.4s ease',
           flexShrink: 0,
-          marginBottom: '1rem',
+          marginBottom: '0.8rem',
         }}>
           <img
             src={milestone.image}
@@ -325,12 +462,12 @@ function TimelineNode({ milestone, isActive }) {
       {/* Description below center */}
       <div style={{
         position: 'absolute',
-        top: 'calc(50% + 100px)',
+        top: isActive ? 'calc(50% + 155px)' : 'calc(50% + 110px)',
         left: '1.5rem',
         right: '1.5rem',
         textAlign: 'center',
         opacity: isActive ? 1 : 0.45,
-        transition: 'opacity 0.3s ease',
+        transition: 'all 0.4s ease',
       }}>
         <h3 style={{ fontFamily: 'var(--font-heading)', fontWeight: 700, fontSize: '1rem', color: 'var(--color-text-primary)', marginBottom: '0.4rem' }}>
           {milestone.title}
@@ -523,6 +660,7 @@ export default function AboutPage() {
   return (
     <div style={{ background: '#fff' }}>
       <AboutIntro />
+      <OurImpactSection />
       <AboutLogoSection />
       {isMobile ? <VerticalTimeline /> : <HorizontalTimeline />}
 
