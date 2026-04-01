@@ -16,8 +16,8 @@ function HeroSection() {
       size: Math.random() * 4 + 3,
       duration: Math.random() * 4 + 4,
       delay: Math.random() * 4,
-      targetX: (Math.random() - 0.5) * 800,
-      targetY: (Math.random() - 0.5) * 800,
+      targetXFactor: (Math.random() - 0.5),
+      targetYFactor: (Math.random() - 0.5),
       color: Math.random() > 0.5 ? '#FFD700' : '#001F3F',
     }))
   }, [])
@@ -67,8 +67,8 @@ function HeroSection() {
               animate={{
                 opacity: [0, 0.6, 0],
                 scale: [0.5, 1.5, 0.5],
-                x: [0, p.targetX],
-                y: [0, p.targetY],
+                x: [0, `calc(${p.targetXFactor} * 80vw)`],
+                y: [0, `calc(${p.targetYFactor} * 80vh)`],
               }}
               transition={{
                 duration: p.duration,
@@ -115,7 +115,7 @@ function HeroSection() {
           transition={{ duration: 0.8, delay: 0.4 }}
           style={{
             fontFamily: 'var(--font-body)',
-            fontSize: 'clamp(1.1rem, 2vw, 1.35rem)',
+            fontSize: 'clamp(1rem, 1.5vw, 1.15rem)',
             color: '#475569',
             maxWidth: '700px',
             margin: '0 auto',

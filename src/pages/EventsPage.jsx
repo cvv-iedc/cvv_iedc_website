@@ -3,144 +3,7 @@ import { createPortal } from 'react-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { X, MapPin, Calendar, ArrowRight, ChevronLeft, ChevronRight, Clock, Ticket } from 'lucide-react'
 import { useEvents } from '../hooks/useEvents'
-
-// ─── Animations ───────────────────────────────────────────────────────────────
-// Injects a one-time <style> tag for float animation
-const STYLE_ID = 'iedc-events-styles'
-if (typeof document !== 'undefined' && !document.getElementById(STYLE_ID)) {
-  const s = document.createElement('style')
-  s.id = STYLE_ID
-  s.textContent = `
-    @keyframes iedc-float {
-      0%   { transform: translateY(0px) scale(1); }
-      50%  { transform: translateY(-10px) scale(1.01); }
-      100% { transform: translateY(0px) scale(1); }
-    }
-  `
-  document.head.appendChild(s)
-}
-
-// ─── Modal ────────────────────────────────────────────────────────────────────
-function EventModal({ event, onClose, past }) {
-  useEffect(() => {
-    if (event) {
-      const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth
-      document.body.style.overflow = 'hidden'
-      document.body.style.paddingRight = `${scrollbarWidth}px`
-    } else {
-      document.body.style.overflow = ''
-      document.body.style.paddingRight = ''
-    }
-    return () => {
-      document.body.style.overflow = ''
-      document.body.style.paddingRight = ''
-    }
-  }, [event])
-
-  if (typeof document === 'undefined') return null
-
-  return createPortal(
-    <AnimatePresence>
-      {event && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.2 }}
-          onClick={onClose}
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-8"
-          style={{ background: 'rgba(255,255,255,0.72)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)' }}
-        >
-          <motion.div
-            initial={{ opacity: 0, scale: 0.96, y: 24 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.96, y: 24 }}
-            transition={{ duration: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
-            onClick={(e) => e.stopPropagation()}
-            className="w-full bg-white overflow-hidden"
-            style={{ maxWidth: '800px', maxHeight: '90vh', borderRadius: '1.5rem', boxShadow: '0 40px 100px rgba(0,0,0,0.15), 0 0 0 1px rgba(0,0,0,0.05)' }}
-          >
-            <div className="flex flex-col md:flex-row" style={{ maxHeight: '90vh' }}>
-              {/* Left image */}
-              <div className="relative flex-shrink-0 md:w-[42%] min-h-[240px]" style={{ background: event.gradient }}>
-                <img src={event.image} alt={event.title} className="absolute inset-0 w-full h-full object-cover opacity-50" onError={(e) => { e.target.style.display = 'none' }} />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
-                {past && (
-                  <div className="absolute top-5 right-5 bg-black/40 backdrop-blur rounded-full px-3 py-1 flex items-center gap-1.5">
-                    <Clock size={11} className="text-white/70" /><span className="text-white/70 text-[0.65rem] font-bold uppercase tracking-wide">Past</span>
-                  </div>
-                )}
-
-                <div className="absolute bottom-5 left-5 right-5">
-                  <p className="text-white/50 text-xs font-medium mb-0.5">{event.dateLabel}</p>
-                  <p className="text-white text-xs font-semibold">{event.venue}</p>
-                </div>
-              </div>
-
-              {/* Right details */}
-              <div className="flex-1 p-8 flex flex-col overflow-y-auto relative">
-                <button onClick={onClose} className="absolute top-5 right-5 w-8 h-8 flex items-center justify-center rounded-full bg-slate-100 hover:bg-slate-200 transition-colors">
-                  <X size={15} className="text-slate-500" />
-                </button>
-                <h2 className="font-extrabold text-slate-900 leading-none mb-5 pr-8" style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.3rem,3.5vw,1.8rem)', letterSpacing: '-0.03em' }}>{event.title}</h2>
-                <div className="flex flex-col gap-2.5 mb-5">
-                  {[
-                    { id: 'date', Icon: Calendar, text: event.dateLabel },
-                    { id: 'time', Icon: Clock, text: event.time },
-                    { id: 'venue', Icon: MapPin, text: event.venue },
-                    { id: 'fee', Icon: Ticket, text: event.fee },
-                  ]
-                    .filter((item) => item.text)
-                    .map(({ id, Icon, text }) => (
-                      <div key={id} className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: `${event.accent}18` }}>
-                          <Icon size={13} style={{ color: event.accent }} />
-                        </div>
-                        <span className="text-sm text-slate-500">{text}</span>
-                      </div>
-                    ))}
-                </div>
-                <div className="h-px bg-slate-100 mb-5" />
-                <p className="text-[0.88rem] text-slate-500 leading-relaxed flex-1 mb-6">{event.description}</p>
-                {past ? (
-                  <div className="flex items-center justify-center gap-2 w-full py-3 rounded-full bg-slate-100 text-slate-400 font-bold text-sm" style={{ fontFamily: 'var(--font-heading)' }}>
-                    <Clock size={15} /> Event Concluded
-                  </div>
-                ) : (
-                  event.register_url ? (
-                    <motion.a
-                      href={event.register_url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      whileHover={{ y: -2 }}
-                      whileTap={{ scale: 0.98 }}
-                      className="flex items-center justify-center gap-2 w-full py-3.5 rounded-full text-white font-bold text-sm"
-                      style={{ background: event.accent, fontFamily: 'var(--font-heading)', textDecoration: 'none' }}
-                    >
-                      Register Now <ArrowRight size={15} />
-                    </motion.a>
-                  ) : (
-                    <div
-                      className="flex items-center justify-center gap-2 w-full py-3 rounded-full text-sm font-bold"
-                      style={{
-                        background: 'var(--color-surface)',
-                        color: 'var(--color-text-secondary)',
-                        fontFamily: 'var(--font-heading)'
-                      }}
-                    >
-                      Registration not open yet
-                    </div>
-                  )
-                )}
-              </div>
-            </div>
-          </motion.div>
-        </motion.div>
-      )}
-    </AnimatePresence>,
-    document.body
-  )
-}
+import EventModal from '../components/EventModal'
 
 // ─── Single poster card ──────────────────────────────────────────────────────
 function EventCard({ event, onClick, past }) {
@@ -242,11 +105,13 @@ function CarouselRow({ events, reverse = false, onCardClick, past }) {
   const [isManualStuck, setIsManualStuck] = useState(false) // temporary disable auto-scroll after manual interaction
   const manualTimeout = useRef(null)
 
+  const isSingle = events.length <= 1
   // Double the list so the seam is invisible
-  const doubled = [...events, ...events]
+  const displayEvents = isSingle ? events : [...events, ...events]
 
   // Track manual native scroll (trackpad/touch)
   const handleNativeScroll = () => {
+    if (isSingle) return
     if (scrollRef.current && isManualStuck) {
       exactPos.current = scrollRef.current.scrollLeft
     }
@@ -254,6 +119,7 @@ function CarouselRow({ events, reverse = false, onCardClick, past }) {
 
   // Trigger manual scroll block
   const blockAutoScroll = () => {
+    if (isSingle) return
     setIsManualStuck(true)
     if (manualTimeout.current) clearTimeout(manualTimeout.current)
     manualTimeout.current = setTimeout(() => {
@@ -264,6 +130,7 @@ function CarouselRow({ events, reverse = false, onCardClick, past }) {
 
   // Button click smooth scroll
   const scrollManually = () => {
+    if (isSingle) return
     blockAutoScroll()
     const el = scrollRef.current
     if (!el) return
@@ -275,6 +142,7 @@ function CarouselRow({ events, reverse = false, onCardClick, past }) {
 
   // RAF Loop
   useEffect(() => {
+    if (isSingle) return
     const el = scrollRef.current
     if (!el) return
 
@@ -310,7 +178,7 @@ function CarouselRow({ events, reverse = false, onCardClick, past }) {
 
     rafId = requestAnimationFrame(tick)
     return () => cancelAnimationFrame(rafId)
-  }, [paused, isManualStuck, reverse])
+  }, [paused, isManualStuck, reverse, isSingle])
 
   return (
     <div
@@ -319,21 +187,27 @@ function CarouselRow({ events, reverse = false, onCardClick, past }) {
       onMouseLeave={() => setPaused(false)}
     >
       {/* Edge fades */}
-      <div className="hidden md:block absolute left-0 top-0 bottom-0 w-24 pointer-events-none z-10"
-        style={{ background: 'linear-gradient(to right, #f5f5f7, transparent)' }} />
-      <div className="hidden md:block absolute right-0 top-0 bottom-0 w-24 pointer-events-none z-10"
-        style={{ background: 'linear-gradient(to left, #ebebed, transparent)' }} />
+      {!isSingle && (
+        <>
+          <div className="hidden md:block absolute left-0 top-0 bottom-0 w-24 pointer-events-none z-10"
+            style={{ background: 'linear-gradient(to right, #f5f5f7, transparent)' }} />
+          <div className="hidden md:block absolute right-0 top-0 bottom-0 w-24 pointer-events-none z-10"
+            style={{ background: 'linear-gradient(to left, #ebebed, transparent)' }} />
+        </>
+      )}
 
       {/* Floating Manual Advance Button (Only in moving direction) */}
-      <div className={`absolute top-1/2 -translate-y-1/2 z-20 transition-all duration-300 ${reverse ? 'left-4 opacity-0 group-hover:opacity-100' : 'right-4 opacity-0 group-hover:opacity-100'}`}>
-        <button 
-          onClick={scrollManually}
-          className="w-14 h-14 rounded-full bg-white text-slate-900 flex items-center justify-center hover:scale-105 active:scale-95 transition-transform"
-          style={{ boxShadow: '0 8px 30px rgba(0,0,0,0.15), 0 0 0 1px rgba(0,0,0,0.05)' }}
-        >
-          {reverse ? <ChevronLeft size={28} /> : <ChevronRight size={28} />}
-        </button>
-      </div>
+      {!isSingle && (
+        <div className={`absolute top-1/2 -translate-y-1/2 z-20 transition-all duration-300 ${reverse ? 'left-4 opacity-0 group-hover:opacity-100' : 'right-4 opacity-0 group-hover:opacity-100'}`}>
+          <button 
+            onClick={scrollManually}
+            className="w-14 h-14 rounded-full bg-white text-slate-900 flex items-center justify-center hover:scale-105 active:scale-95 transition-transform"
+            style={{ boxShadow: '0 8px 30px rgba(0,0,0,0.15), 0 0 0 1px rgba(0,0,0,0.05)' }}
+          >
+            {reverse ? <ChevronLeft size={28} /> : <ChevronRight size={28} />}
+          </button>
+        </div>
+      )}
 
       {/* Track */}
       <div
@@ -341,7 +215,7 @@ function CarouselRow({ events, reverse = false, onCardClick, past }) {
         onScroll={handleNativeScroll}
         onTouchStart={blockAutoScroll}
         onWheel={blockAutoScroll}
-        className="flex overflow-x-auto"
+        className={`flex overflow-x-auto ${isSingle ? 'justify-start px-8 md:px-16' : ''}`}
         style={{
           gap: '1.25rem',
           scrollbarWidth: 'none',
@@ -351,7 +225,7 @@ function CarouselRow({ events, reverse = false, onCardClick, past }) {
           paddingTop: '1.5rem',
         }}
       >
-        {doubled.map((event, i) => (
+        {displayEvents.map((event, i) => (
           <div
             key={`${event.id}-${i}`}
             style={{
