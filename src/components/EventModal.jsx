@@ -1,205 +1,133 @@
+import { useEffect } from 'react'
+import { createPortal } from 'react-dom'
 import { motion, AnimatePresence } from 'framer-motion'
-import { X, MapPin, Clock, Calendar, ExternalLink } from 'lucide-react'
+import { X, MapPin, Calendar, ArrowRight, Clock, Ticket } from 'lucide-react'
 
-export default function EventModal({ event, onClose }) {
-  if (!event) return null
+export default function EventModal({ event, onClose, past }) {
+  useEffect(() => {
+    if (event) {
+      const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth
+      document.body.style.overflow = 'hidden'
+      document.body.style.paddingRight = `${scrollbarWidth}px`
+    } else {
+      document.body.style.overflow = ''
+      document.body.style.paddingRight = ''
+    }
+    return () => {
+      document.body.style.overflow = ''
+      document.body.style.paddingRight = ''
+    }
+  }, [event])
 
-  return (
+  if (typeof document === 'undefined') return null
+
+  return createPortal(
     <AnimatePresence>
-      <motion.div
-        key="backdrop"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        onClick={onClose}
-        style={{
-          position: 'fixed',
-          inset: 0,
-          background: 'rgba(15,23,42,0.65)',
-          backdropFilter: 'blur(8px)',
-          WebkitBackdropFilter: 'blur(8px)',
-          zIndex: 2000,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          padding: '1rem',
-        }}
-      >
+      {event && (
         <motion.div
-          key="modal"
-          initial={{ opacity: 0, scale: 0.93, y: 40 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.93, y: 40 }}
-          transition={{ duration: 0.35, ease: [0.25, 0.46, 0.45, 0.94] }}
-          onClick={(e) => e.stopPropagation()}
-          style={{
-            background: '#fff',
-            borderRadius: 'var(--radius-modal)',
-            overflow: 'hidden',
-            width: '100%',
-            maxWidth: '860px',
-            maxHeight: '90vh',
-            display: 'grid',
-            gridTemplateColumns: 'minmax(0, 1fr) minmax(0, 1fr)',
-            boxShadow: '0 32px 80px rgba(0,0,0,0.25)',
-          }}
-          className="event-modal-grid"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.2 }}
+          onClick={onClose}
+          className="fixed inset-0 z-[2000] flex items-center justify-center p-4 md:p-8"
+          style={{ background: 'rgba(255,255,255,0.72)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)' }}
         >
-          {/* Left: Image */}
-          <div style={{ position: 'relative', minHeight: '300px' }}>
-            <img
-              src={event.image}
-              alt={event.title}
-              style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
-              onError={(e) => {
-                e.target.style.background = 'linear-gradient(135deg, #2563EB22, #16A34A22)'
-                e.target.src = ''
-              }}
-            />
-            {/* Gradient overlay */}
-            <div style={{
-              position: 'absolute', inset: 0,
-              background: 'linear-gradient(to top, rgba(15,23,42,0.7) 0%, transparent 60%)',
-            }} />
-            {/* Date badge */}
-            <div style={{
-              position: 'absolute', top: '1rem', left: '1rem',
-              background: 'var(--color-primary)', color: '#fff',
-              borderRadius: '0.75rem', padding: '0.4rem 0.85rem',
-              fontSize: '0.8rem', fontWeight: 700, fontFamily: 'var(--font-heading)',
-            }}>
-              {new Date(event.date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
-            </div>
-            {/* Tags */}
-            <div style={{ position: 'absolute', bottom: '1rem', left: '1rem', display: 'flex', gap: '0.4rem', flexWrap: 'wrap' }}>
-              {event.tags?.map((tag) => (
-                <span key={tag} style={{
-                  background: 'rgba(255,255,255,0.2)', backdropFilter: 'blur(8px)',
-                  color: '#fff', borderRadius: '9999px', padding: '0.2rem 0.65rem',
-                  fontSize: '0.72rem', fontWeight: 600, border: '1px solid rgba(255,255,255,0.3)',
-                }}>
-                  {tag}
-                </span>
-              ))}
-            </div>
-          </div>
-
-          {/* Right: Details */}
-          <div style={{ padding: '2rem', overflowY: 'auto', position: 'relative' }}>
-            {/* Close button */}
-            <button
-              onClick={onClose}
-              style={{
-                position: 'absolute', top: '1rem', right: '1rem',
-                background: 'rgba(15,23,42,0.06)', border: 'none', borderRadius: '50%',
-                width: '36px', height: '36px', cursor: 'pointer',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                color: 'var(--color-text-secondary)',
-              }}
-            >
-              <X size={18} />
-            </button>
-
-            <h2 style={{
-              fontFamily: 'var(--font-display)',
-              fontSize: 'clamp(1.2rem, 3vw, 1.6rem)',
-              fontWeight: 800,
-              color: 'var(--color-text-primary)',
-              lineHeight: 1.2,
-              marginBottom: '1rem',
-              paddingRight: '2rem',
-            }}>
-              {event.title}
-            </h2>
-
-            {/* Meta info */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', marginBottom: '1.25rem' }}>
-              {[
-                { icon: Calendar, text: new Date(event.date).toLocaleDateString('en-IN', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }) },
-                { icon: Clock, text: event.time },
-                { icon: MapPin, text: event.location },
-              ].map(({ icon: Icon, text }) => (
-                <div key={text} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--color-text-secondary)', fontSize: '0.875rem' }}>
-                  <Icon size={15} style={{ flexShrink: 0, color: 'var(--color-primary)' }} />
-                  <span style={{ fontFamily: 'var(--font-body)' }}>{text}</span>
+          <motion.div
+            initial={{ opacity: 0, scale: 0.96, y: 24 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.96, y: 24 }}
+            transition={{ duration: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
+            onClick={(e) => e.stopPropagation()}
+            className="w-full bg-white overflow-hidden shadow-2xl flex flex-col md:flex-row"
+            style={{ maxWidth: '850px', maxHeight: 'min(90vh, 700px)', borderRadius: '1.5rem', border: '1px solid rgba(0,0,0,0.05)' }}
+          >
+            {/* Left image area */}
+            <div className="relative flex-shrink-0 md:w-[45%] h-[200px] md:h-auto" style={{ background: event.gradient || 'var(--color-primary)' }}>
+              <img src={event.image} alt={event.title} className="absolute inset-0 w-full h-full object-cover opacity-60" onError={(e) => { e.target.style.display = 'none' }} />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+              {past && (
+                <div className="absolute top-4 right-4 bg-black/40 backdrop-blur rounded-full px-3 py-1 flex items-center gap-1.5">
+                  <Clock size={11} className="text-white/70" /><span className="text-white/70 text-[0.65rem] font-bold uppercase tracking-wide">Past</span>
                 </div>
-              ))}
+              )}
+
+              <div className="absolute bottom-5 left-6 right-6">
+                <p className="text-white/60 text-xs font-medium mb-1 tracking-wider uppercase">{event.dateLabel}</p>
+                <p className="text-white text-sm font-semibold">{event.venue || event.location}</p>
+              </div>
             </div>
 
-            <p style={{
-              fontFamily: 'var(--font-body)',
-              fontSize: '0.9rem',
-              color: 'var(--color-text-secondary)',
-              lineHeight: 1.7,
-              marginBottom: '1.5rem',
-            }}>
-              {event.description}
-            </p>
+            {/* Right content area */}
+            <div className="flex-1 p-6 md:p-10 flex flex-col overflow-y-auto relative bg-white">
+              <button onClick={onClose} className="absolute top-5 right-5 w-9 h-9 flex items-center justify-center rounded-full bg-slate-100 hover:bg-slate-200 transition-colors z-10 text-slate-500">
+                <X size={18} />
+              </button>
+              
+              <div className="mb-6">
+                <h2 className="font-extrabold text-slate-900 leading-tight pr-10 mb-2" style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.5rem, 4vw, 2rem)', letterSpacing: '-0.02em' }}>
+                  {event.title}
+                </h2>
+                <div className="h-1 w-12 bg-primary rounded-full" />
+              </div>
 
-            {/* Tiers */}
-            {event.tiers?.length > 0 && (
-              <div style={{ marginBottom: '1.5rem' }}>
-                <p style={{ fontFamily: 'var(--font-heading)', fontWeight: 700, fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--color-text-muted)', marginBottom: '0.75rem' }}>
-                  Registration Tiers
-                </p>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem' }}>
-                  {event.tiers.map((tier, i) => (
-                    <div
-                      key={tier.name}
-                      style={{
-                        border: `1px solid ${i === 0 ? 'rgba(37,99,235,0.3)' : 'rgba(0,0,0,0.08)'}`,
-                        borderRadius: '0.875rem',
-                        padding: '0.75rem 1rem',
-                        background: i === 0 ? 'rgba(37,99,235,0.04)' : '#fafafa',
-                      }}
-                    >
-                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.4rem' }}>
-                        <span style={{ fontFamily: 'var(--font-heading)', fontWeight: 700, fontSize: '0.9rem', color: 'var(--color-text-primary)' }}>{tier.name}</span>
-                        <span style={{ fontFamily: 'var(--font-heading)', fontWeight: 800, fontSize: '0.95rem', color: 'var(--color-primary)' }}>{tier.price}</span>
-                      </div>
-                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.35rem' }}>
-                        {tier.perks.map((perk) => (
-                          <span key={perk} style={{ background: 'rgba(22,163,74,0.1)', color: 'var(--color-secondary)', borderRadius: '9999px', padding: '0.15rem 0.55rem', fontSize: '0.72rem', fontWeight: 600 }}>
-                            ✓ {perk}
-                          </span>
-                        ))}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+                {[
+                  { id: 'date', Icon: Calendar, text: event.dateLabel, label: 'Date' },
+                  { id: 'time', Icon: Clock, text: event.time, label: 'Time' },
+                  { id: 'venue', Icon: MapPin, text: event.venue || event.location, label: 'Location' },
+                  { id: 'fee', Icon: Ticket, text: event.fee, label: 'Registration Fee' },
+                ]
+                  .filter((item) => item.text)
+                  .map(({ id, Icon, text, label }) => (
+                    <div key={id} className="flex flex-col gap-1">
+                      <span className="text-[0.65rem] font-bold text-slate-400 uppercase tracking-widest">{label}</span>
+                      <div className="flex items-center gap-2 text-slate-600">
+                        <Icon size={14} className="text-primary" />
+                        <span className="text-sm font-medium">{text}</span>
                       </div>
                     </div>
                   ))}
-                </div>
               </div>
-            )}
 
-            {/* CTA */}
-            <a
-              href={event.registerUrl || '#'}
-              style={{
-                display: 'block', textAlign: 'center', textDecoration: 'none',
-                padding: '0.8rem 1.5rem',
-                background: 'var(--color-primary)', color: '#fff',
-                borderRadius: 'var(--radius-button)',
-                fontFamily: 'var(--font-heading)', fontWeight: 700, fontSize: '0.95rem',
-                transition: 'all 0.2s ease',
-                marginBottom: '0.75rem',
-              }}
-              onMouseEnter={(e) => { e.target.style.background = 'var(--color-accent)'; e.target.style.transform = 'translateY(-2px)' }}
-              onMouseLeave={(e) => { e.target.style.background = 'var(--color-primary)'; e.target.style.transform = 'translateY(0)' }}
-            >
-              Register Now →
-            </a>
-            <a
-              href="#"
-              style={{
-                display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.4rem',
-                textDecoration: 'none', color: 'var(--color-text-secondary)',
-                fontFamily: 'var(--font-body)', fontSize: '0.85rem',
-              }}
-            >
-              <ExternalLink size={14} /> Add to Calendar
-            </a>
-          </div>
+              <div className="space-y-4 mb-8 flex-1">
+                 <p className="text-[0.92rem] text-slate-500 leading-relaxed font-body">
+                   {event.description}
+                 </p>
+              </div>
+
+              <div className="mt-auto">
+                {past ? (
+                  <div className="flex items-center justify-center gap-2 w-full py-4 rounded-2xl bg-slate-100 text-slate-400 font-bold text-sm tracking-wide">
+                    <Clock size={16} /> EVENT CONCLUDED
+                  </div>
+                ) : (
+                  (event.register_url || event.registerUrl) ? (
+                    <motion.a
+                      href={event.register_url || event.registerUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      className="flex items-center justify-center gap-2 w-full py-4 rounded-2xl text-white font-bold text-sm tracking-wide shadow-lg shadow-primary/20"
+                      style={{ background: event.accent || 'var(--color-primary)', fontFamily: 'var(--font-heading)', textDecoration: 'none' }}
+                    >
+                      REGISTER NOW <ArrowRight size={16} />
+                    </motion.a>
+                  ) : (
+                    <div
+                      className="flex items-center justify-center gap-2 w-full py-4 rounded-2xl text-sm font-bold bg-slate-50 text-slate-400 border border-slate-100"
+                    >
+                      REGISTRATION NOT OPEN YET
+                    </div>
+                  )
+                )}
+              </div>
+            </div>
+          </motion.div>
         </motion.div>
-      </motion.div>
-    </AnimatePresence>
+      )}
+    </AnimatePresence>,
+    document.body
   )
 }
