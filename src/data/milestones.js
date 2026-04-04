@@ -4,7 +4,7 @@ export const milestones = [
     year: '2024',
     month: 'March',
     title: 'IEDC Established',
-    description: 'IEDC Chinmaya Vishwa Vidyapeeth was officially established with the aim of fostering innovation MISSION with the aim of fostering an innovation-driven culture among students.',
+    description: 'IEDC Chinmaya Vishwa Vidyapeeth was officially established with the aim of fostering an innovation-driven culture among students.',
     image: '/milestones/milestone_1.webp',
   },
   {
@@ -45,6 +45,6 @@ export const milestones = [
     month: 'September',
     title: 'BRIK x CVV IEDC',
     description: 'Collaboration with BRIK, for accelerating campus innovation and startup ecosystem',
-    image: '/milestones/milestone_6.webp',
+    image: '/milestones/milestone_1.webp',
   }
 ]

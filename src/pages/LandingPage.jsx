@@ -1,12 +1,8 @@
 import { useRef } from 'react'
 import { createPortal } from 'react-dom'
-import { motion, useScroll, useTransform, useInView, AnimatePresence, useMotionTemplate } from 'framer-motion'
+import { motion, useScroll, useTransform, useMotionTemplate } from 'framer-motion'
 import { useNavigate } from 'react-router-dom'
 import { initiatives } from '../data/initiatives'
-
-import { Lightbulb, Rocket, Users, Globe, Award, BookOpen } from 'lucide-react'
-
-const iconMap = { Lightbulb, Rocket, Users, Globe, Award, BookOpen }
 
 // ─── Word Cloud (Horizontal Tracks) ───────────────────────────────────────────
 const words = ['innovation', 'build', 'pitch', 'disrupt', 'launch', 'ideate', 'scale', 'impact', 'prototype', 'hustle', 'dream', 'execute', 'venture', 'create', 'iterate', 'pivot', 'startup', 'grow', 'inspire', 'design', 'code', 'lead', 'fund', 'accelerate', 'mentor', 'network', 'learn', 'adapt', 'solve']

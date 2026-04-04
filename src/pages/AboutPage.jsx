@@ -84,7 +84,7 @@ function InteractiveParticles() {
       particles = []
       // High-performance count while maintaining a lush feel
       const numParticles = 600
-      const colors = ['#e32636', '#ff55a3', '#8b008b  ', '	#00693e', '#f87171']
+      const colors = ['#e32636', '#ff55a3', '#8b008b', '#00693e', '#f87171']
 
       for (let i = 0; i < numParticles; i++) {
         particles.push({
@@ -292,7 +292,7 @@ function OurImpactSection() {
               gap: '4px'
             }}>
               <AnimatedCounter to={metric.value} duration={2.5} />
-              <span style={{ color: 'var(--color-primary)', fontSize: '3.5rem' }}>+</span>
+              <span style={{ color: '#D71515', fontSize: '3.5rem' }}>+</span>
             </div>
             <div style={{
               fontFamily: 'var(--font-heading)',
@@ -374,7 +374,7 @@ function AboutLogoSection() {
             lineHeight: 1.8,
             textAlign: 'center'
           }}>
-            <i style={{ color: 'darkred', fontWeight: 'bold' }}>Our logo represents the spirit of innovation, continuity, and transformation at IEDC.</i>
+            <i style={{ color: '#d71515', fontWeight: 'bold' }}>Our logo represents the spirit of innovation, continuity, and transformation at IEDC.</i>
             <br />
             The bold, flowing typography reflects creativity in motion, ideas that are not static, but constantly evolving. The continuous line forming the initial strokes symbolizes an unbroken journey of innovation, where one idea seamlessly leads to another.
             The interplay between curves and sharp edges reflects the balance between creativity and precision, a core principle of every successful startup.
@@ -406,7 +406,7 @@ function TimelineNode({ milestone, isActive }) {
         fontFamily: 'var(--font-heading)',
         fontWeight: 700,
         fontSize: '0.85rem',
-        color: isActive ? 'var(--color-primary)' : 'var(--color-text-muted)',
+        color: isActive ? '#d71515' : 'var(--color-text-muted)',
         letterSpacing: '0.12em',
         textTransform: 'uppercase',
         transition: 'all 0.4s ease',
@@ -432,8 +432,8 @@ function TimelineNode({ milestone, isActive }) {
           height: isActive ? '250px' : '140px',
           borderRadius: '50%',
           overflow: 'hidden',
-          border: `4px solid ${isActive ? 'var(--color-primary)' : '#fff'}`,
-          boxShadow: isActive ? '0 8px 32px rgba(37,99,235,0.35)' : '0 4px 16px rgba(0,0,0,0.12)',
+          border: `4px solid ${isActive ? '#d71515' : '#fff'}`,
+          boxShadow: isActive ? '0 8px 32px rgba(215,21,21,0.35)' : '0 4px 16px rgba(0,0,0,0.12)',
           background: `hsl(${milestone.id * 45 + 200}, 50%, 70%)`,
           transition: 'all 0.4s ease',
           flexShrink: 0,
@@ -452,10 +452,10 @@ function TimelineNode({ milestone, isActive }) {
           width: isActive ? '20px' : '12px',
           height: isActive ? '20px' : '12px',
           borderRadius: '50%',
-          background: isActive ? 'var(--color-primary)' : '#fff',
-          border: `3px solid ${isActive ? 'var(--color-primary)' : 'var(--color-text-muted)'}`,
+          background: isActive ? '#d71515' : '#fff',
+          border: `3px solid ${isActive ? '#d71515' : 'var(--color-text-muted)'}`,
           transition: 'all 0.4s ease',
-          boxShadow: isActive ? '0 0 0 6px rgba(37,99,235,0.15)' : 'none',
+          boxShadow: isActive ? '0 0 0 6px rgba(215,21,21,0.15)' : 'none',
         }} />
       </div>
 
@@ -547,7 +547,7 @@ function HorizontalTimeline() {
 
         {/* Section header */}
         <div style={{ position: 'relative', zIndex: 10, padding: '0 3rem', marginBottom: '1rem', textAlign: 'center' }}>
-          <p style={{ fontFamily: 'var(--font-heading)', fontWeight: 700, fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '0.15em', color: 'var(--color-primary)' }}>
+          <p style={{ fontFamily: 'var(--font-heading)', fontWeight: 700, fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '0.15em', color: '#d71515' }}>
             Our Journey
           </p>
           <h2 style={{
@@ -590,7 +590,7 @@ function HorizontalTimeline() {
               width: i === activeIdx ? '24px' : '8px',
               height: '8px',
               borderRadius: '9999px',
-              background: i === activeIdx ? 'var(--color-primary)' : 'var(--color-text-muted)',
+              background: i === activeIdx ? '#d71515' : 'var(--color-text-muted)',
               transition: 'all 0.3s ease',
             }} />
           ))}
@@ -603,9 +603,9 @@ function HorizontalTimeline() {
 // Mobile vertical timeline
 function VerticalTimeline() {
   return (
-    <section style={{ padding: 'clamp(3rem, 8vw, 6rem) clamp(1.5rem, 5vw, 3rem)', background: 'var(--color-surface)' }}>
+    <section style={{ padding: 'clamp(3rem, 8vw, 6rem) clamp(1.5rem, 5vw, 3rem)', background: '#FFFFFF' }}>
       <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
-        <p style={{ fontFamily: 'var(--font-heading)', fontWeight: 700, fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '0.15em', color: 'var(--color-primary)', marginBottom: '0.5rem' }}>Our Journey</p>
+        <p style={{ fontFamily: 'var(--font-heading)', fontWeight: 700, fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '0.15em', color: '#d71515', marginBottom: '0.5rem' }}>Our Journey</p>
         <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '2.5rem', color: 'var(--color-text-primary)', letterSpacing: '-0.03em' }}>Milestones</h2>
       </div>
 
@@ -614,7 +614,7 @@ function VerticalTimeline() {
         <div style={{
           position: 'absolute', left: '20px', top: 0, bottom: 0,
           width: '2px',
-          background: 'linear-gradient(to bottom, transparent, var(--color-primary), transparent)',
+          background: 'linear-gradient(to bottom, transparent, #d71515, transparent)',
         }} />
 
         {milestones.map((m) => (
@@ -630,13 +630,13 @@ function VerticalTimeline() {
             <div style={{
               position: 'absolute', left: '10px', top: '4px',
               width: '20px', height: '20px', borderRadius: '50%',
-              background: 'var(--color-primary)',
+              background: '#d71515',
               border: '3px solid #fff',
-              boxShadow: '0 0 0 3px rgba(37,99,235,0.2)',
+              boxShadow: '0 0 0 3px rgba(215,21,21,0.2)',
               flexShrink: 0,
             }} />
             <div>
-              <p style={{ fontFamily: 'var(--font-heading)', fontWeight: 700, fontSize: '0.75rem', color: 'var(--color-primary)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '0.3rem' }}>{m.month}</p>
+              <p style={{ fontFamily: 'var(--font-heading)', fontWeight: 700, fontSize: '0.75rem', color: '#d71515', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '0.3rem' }}>{m.month}</p>
               <h3 style={{ fontFamily: 'var(--font-heading)', fontWeight: 700, fontSize: '1.05rem', color: 'var(--color-text-primary)', marginBottom: '0.4rem' }}>{m.title}</h3>
               <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.88rem', color: 'var(--color-text-secondary)', lineHeight: 1.65 }}>{m.description}</p>
             </div>

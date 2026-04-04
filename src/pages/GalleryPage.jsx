@@ -149,7 +149,7 @@ export default function GalleryPage() {
   const scrollHeightMultiplier = Math.max(3, gallery.length * 0.4) 
 
   return (
-    <div ref={targetRef} style={{ height: `${scrollHeightMultiplier * 100}vh`, background: 'var(--color-surface)', position: 'relative' }}>
+    <div ref={targetRef} style={{ height: `${scrollHeightMultiplier * 100}vh`, background: '#FFFFFF', position: 'relative' }}>
 
       {/* Fixed Sticky Viewer Container */}
       <div style={{ position: 'sticky', top: 0, height: '100vh', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
@@ -176,7 +176,7 @@ export default function GalleryPage() {
              letterSpacing: '-0.04em',
              color: 'var(--color-text-primary)',
              lineHeight: 1,
-             textShadow: '0 4px 12px var(--color-surface)'
+             textShadow: '0 4px 12px #FFFFFF'
           }}>
              Gallery
           </h1>
@@ -186,7 +186,7 @@ export default function GalleryPage() {
              fontSize: 'clamp(1rem, 1.5vw, 1.25rem)',
              color: 'var(--color-text-secondary)',
              marginTop: '1.25rem',
-             textShadow: '0 2px 8px var(--color-surface)'
+             textShadow: '0 2px 8px #FFFFFF'
           }}>
              A collection of moments and milestones.
           </p>

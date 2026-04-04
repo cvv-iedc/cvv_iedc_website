@@ -385,7 +385,7 @@ export default function TeamPage() {
 
   const pageStyle = useMemo(() => ({
     minHeight: '100vh',
-    backgroundColor: globalHover ? '#0A0A0A' : '#F5F5F0',
+    backgroundColor: globalHover ? '#0A0A0A' : '#FFFFFF',
     overflow: 'hidden',
     transition: 'background-color 0.5s ease',
     '--color-text-primary': globalHover ? '#FFFFFF' : '#0F172A',
@@ -483,82 +483,6 @@ export default function TeamPage() {
         ))}
       </div>
 
-      {/* ── Join CTA ── */}
-      <motion.div
-        initial={{ opacity: 0, y: 32 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.65 }}
-        style={ctaStyle}
-      >
-        <div>
-          <p
-            style={{
-              fontFamily: 'var(--font-heading)',
-              fontWeight: 600,
-              fontSize: '0.75rem',
-              textTransform: 'uppercase',
-              letterSpacing: '0.2em',
-              color: 'var(--color-text-muted)',
-              marginBottom: '0.6rem',
-            }}
-          >
-            Join Us
-          </p>
-          <h2
-            style={{
-              fontFamily: 'var(--font-display)',
-              fontWeight: 800,
-              fontSize: 'clamp(1.6rem, 4vw, 2.8rem)',
-              letterSpacing: '-0.03em',
-              color: 'var(--color-text-primary)',
-              lineHeight: 1.1,
-              maxWidth: '480px',
-            }}
-          >
-            Want to be part of the team?
-          </h2>
-          <p
-            style={{
-              fontFamily: 'var(--font-body)',
-              fontSize: '0.95rem',
-              color: 'var(--color-text-secondary)',
-              marginTop: '0.8rem',
-              lineHeight: 1.7,
-              maxWidth: '400px',
-            }}
-          >
-            We recruit passionate innovators, designers, developers, and storytellers each year.
-          </p>
-        </div>
-        <a
-          href="mailto:iedc@cvv.ac.in"
-          style={{
-            display: 'inline-block',
-            textDecoration: 'none',
-            padding: '0.95rem 2.5rem',
-            background: 'var(--color-text-primary)',
-            color: globalHover ? '#0F172A' : '#fff',
-            borderRadius: '9999px',
-            fontFamily: 'var(--font-heading)',
-            fontWeight: 700,
-            fontSize: '0.95rem',
-            letterSpacing: '0.02em',
-            whiteSpace: 'nowrap',
-            transition: 'background 0.2s, color 0.5s ease',
-          }}
-          onMouseEnter={(e) => {
-            if (window.matchMedia && window.matchMedia('(hover: none)').matches) return;
-            e.currentTarget.style.background = 'var(--color-primary)'
-          }}
-          onMouseLeave={(e) => {
-            if (window.matchMedia && window.matchMedia('(hover: none)').matches) return;
-            e.currentTarget.style.background = 'var(--color-text-primary)'
-          }}
-        >
-          Apply Now →
-        </a>
-      </motion.div>
     </div>
   )
 }

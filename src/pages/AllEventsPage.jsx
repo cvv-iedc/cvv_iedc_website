@@ -199,7 +199,7 @@ export default function AllEventsPage() {
   )
 
   return (
-    <div className="min-h-screen" style={{ background: 'linear-gradient(160deg, #f8f9fb 0%, #eef1f8 100%)', paddingTop: '6rem' }}>
+    <div className="min-h-screen" style={{ background: '#FFFFFF', paddingTop: '6rem' }}>
 
       {/* ── Header ── */}
       <motion.div

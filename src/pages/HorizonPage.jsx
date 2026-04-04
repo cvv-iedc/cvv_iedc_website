@@ -1,9 +1,11 @@
 import { useRef, useEffect } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
+import { useNavigate } from 'react-router-dom'
 import { initiatives } from '../data/initiatives'
-import { Rocket, Lightbulb, TrendingUp, Handshake } from 'lucide-react'
+import { Lightbulb, TrendingUp, Handshake, ChevronRight } from 'lucide-react'
 
 const horizonData = initiatives.find(i => i.title === 'Horizon')
+const orbitData = initiatives.find(i => i.title === 'Orbit')
 
 function HorizonCanvas() {
   const canvasRef = useRef(null)
@@ -42,8 +44,8 @@ function HorizonCanvas() {
 
       // Giant glowing background sun/horizon
       const bgGradient = ctx.createRadialGradient(cx, horizonY, 0, cx, horizonY, canvas.width * 0.6)
-      bgGradient.addColorStop(0, 'rgba(254, 221, 54, 0.12)') // Lighter red glow
-      bgGradient.addColorStop(0.5, 'rgba(254, 221, 54, 0.03)')
+      bgGradient.addColorStop(0, 'rgba(0, 31, 63, 0.08)') // Navy horizon glow
+      bgGradient.addColorStop(0.5, 'rgba(0, 31, 63, 0.02)')
       bgGradient.addColorStop(1, 'rgba(255, 255, 255, 0)')
 
       ctx.fillStyle = bgGradient
@@ -147,9 +149,9 @@ function HeroSection() {
 
 function AboutSection() {
   const features = [
-    { icon: <Handshake color="#DC2626" size={32} />, title: "Community Impact", desc: "Solving real-world challenges faced by the local community through actionable and sustainable solutions." },
-    { icon: <Lightbulb color="#DC2626" size={32} />, title: "Problem Bank", desc: "A curated repository of pain points requiring technological intervention, open for students to tackle." },
-    { icon: <TrendingUp color="#DC2626" size={32} />, title: "Scaling Ideas", desc: "Taking solutions built on campus and deploying them into the real world for measurable impact." }
+    { icon: <Handshake color="#001F3F" size={32} />, title: "Community Impact", desc: "Solving real-world challenges faced by the local community through actionable and sustainable solutions." },
+    { icon: <Lightbulb color="#001F3F" size={32} />, title: "Problem Bank", desc: "A curated repository of pain points requiring technological intervention, open for students to tackle." },
+    { icon: <TrendingUp color="#001F3F" size={32} />, title: "Scaling Ideas", desc: "Taking solutions built on campus and deploying them into the real world for measurable impact." }
   ]
 
   return (
@@ -158,7 +160,7 @@ function AboutSection() {
         <div style={{ textAlign: 'center', marginBottom: '5rem' }}>
           <motion.p
             initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
-            style={{ color: '#DC2626', fontFamily: 'var(--font-heading)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '1rem' }}
+            style={{ color: '#001F3F', fontFamily: 'var(--font-heading)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '1rem' }}
           >
             Our Scope
           </motion.p>
@@ -180,18 +182,18 @@ function AboutSection() {
               transition={{ delay: i * 0.15, duration: 0.6 }}
               whileHover={{ y: -10 }}
               style={{
-                background: '#FEF2F2',
+                background: '#F8FAFC',
                 borderRadius: '1.5rem',
                 padding: '3rem 2.5rem',
                 boxShadow: '0 4px 20px rgba(0,0,0,0.03)',
-                border: '1px solid #FEE2E2',
+                border: '1px solid #E2E8F0',
                 position: 'relative',
                 overflow: 'hidden'
               }}
             >
-              <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '4px', background: 'linear-gradient(to right, #DC2626, #F87171)' }} />
+              <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '4px', background: 'linear-gradient(to right, #001F3F, #FFD700)' }} />
               <div style={{
-                width: '64px', height: '64px', borderRadius: '1rem', background: '#FEE2E2', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '2rem'
+                width: '64px', height: '64px', borderRadius: '1rem', background: 'rgba(0, 31, 63, 0.05)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '2rem'
               }}>
                 {f.icon}
               </div>
@@ -211,8 +213,8 @@ function AboutSection() {
 
 function CTASection() {
   return (
-    <section style={{ padding: '6rem 2rem', background: '#FEF2F2', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
-      <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(circle at center, rgba(220,38,38,0.08) 0%, transparent 70%)' }} />
+    <section style={{ padding: '6rem 2rem', background: '#FFFFFF', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
+      <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(circle at center, rgba(0, 31, 63, 0.06) 0%, transparent 70%)' }} />
       <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} style={{ position: 'relative', zIndex: 10, maxWidth: '800px', margin: '0 auto' }}>
         <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2.5rem, 5vw, 4rem)', fontWeight: 800, color: '#0F172A', marginBottom: '1.5rem' }}>
           Expand the Horizon
@@ -222,7 +224,7 @@ function CTASection() {
         </p>
         <button style={{
           padding: '1.2rem 3rem',
-          background: '#DC2626',
+          background: '#001F3F',
           color: '#FFF',
           border: 'none',
           borderRadius: '999px',
@@ -231,13 +233,13 @@ function CTASection() {
           fontSize: '1.1rem',
           letterSpacing: '0.05em',
           cursor: 'pointer',
-          boxShadow: '0 10px 25px rgba(220,38,38,0.3)',
+          boxShadow: '0 10px 25px rgba(0, 31, 63, 0.2)',
           transition: 'transform 0.2s ease, box-shadow 0.2s ease'
         }}
-          onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 15px 35px rgba(220,38,38,0.4)' }}
-          onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 10px 25px rgba(220,38,38,0.3)' }}
+          onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 15px 35px rgba(0, 31, 63, 0.3)' }}
+          onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 10px 25px rgba(0, 31, 63, 0.2)' }}
         >
-          VIEW PROBLEM STATEMENTS
+          SUBMIT PROBLEM STATEMENTS
         </button>
       </motion.div>
     </section>
@@ -245,11 +247,53 @@ function CTASection() {
 }
 
 export default function HorizonPage() {
+  const navigate = useNavigate()
+
   return (
-    <div style={{ background: '#FFF' }}>
+    <div style={{ background: '#FFF', position: 'relative' }}>
       <HeroSection />
       <AboutSection />
       <CTASection />
+
+      {/* Next Initiative Pill */}
+      <motion.div
+        initial={{ opacity: 0, y: 50 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 1, duration: 0.8 }}
+        style={{
+          position: 'fixed',
+          bottom: '2rem',
+          right: '2rem',
+          zIndex: 100,
+        }}
+      >
+        <motion.button
+          onClick={() => navigate('/orbit')}
+          whileHover={{ scale: 1.05, x: -5 }}
+          whileTap={{ scale: 0.95 }}
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.75rem',
+            padding: '0.8rem 1.5rem',
+            background: '#001F3F',
+            color: '#FFF',
+            border: '1px solid rgba(255, 215, 0, 0.3)',
+            borderRadius: '999px',
+            fontFamily: 'var(--font-heading)',
+            fontWeight: 700,
+            fontSize: '0.9rem',
+            letterSpacing: '0.05em',
+            cursor: 'pointer',
+            boxShadow: '0 10px 30px rgba(0,0,0,0.2), 0 0 15px rgba(255, 215, 0, 0.1)',
+            backdropFilter: 'blur(8px)',
+          }}
+        >
+          <span style={{ opacity: 0.7, fontSize: '0.8rem', fontWeight: 500 }}>NEXT:</span>
+          {orbitData.title}
+          <ChevronRight size={18} color="#FFD700" strokeWidth={3} />
+        </motion.button>
+      </motion.div>
     </div>
   )
 }

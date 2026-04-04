@@ -1,9 +1,11 @@
-import { useRef, useEffect, useMemo } from 'react'
+import { useMemo } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
+import { useNavigate } from 'react-router-dom'
 import { initiatives } from '../data/initiatives'
-import { Lightbulb, Fingerprint, Activity, Network } from 'lucide-react'
+import { Fingerprint, Activity, Network, ChevronRight } from 'lucide-react'
 
 const eclipseData = initiatives.find(i => i.title === 'Eclipse')
+const horizonData = initiatives.find(i => i.title === 'Horizon')
 
 function HeroSection() {
   const { scrollY } = useScroll()
@@ -104,7 +106,7 @@ function HeroSection() {
               objectFit: 'contain',
               position: 'relative',
               zIndex: 1,
-              filter: `drop-shadow(0 15px 35px rgba(20, 7, 144, 0.2))`
+              filter: `drop-shadow(0 15px 35px rgba(0, 31, 63, 0.2))`
             }}
           />
         </motion.div>
@@ -142,9 +144,9 @@ function HeroSection() {
 
 function AboutSection() {
   const features = [
-    { icon: <Fingerprint color="#7C3AED" size={32} />, title: "Identity & Origin", desc: "A centralized record of submitted ideas, mapping the DNA of every pitch generated during our events." },
-    { icon: <Activity color="#7C3AED" size={32} />, title: "Progress Tracking", desc: "Structured guidance and monitoring to ensure fledgling concepts receive the momentum they need." },
-    { icon: <Network color="#7C3AED" size={32} />, title: "Startup Registration", desc: "Facilitating the transition from a mere concept to a recognized, registered startup entity." }
+    { icon: <Fingerprint color="#001F3F" size={32} />, title: "Identity & Origin", desc: "A centralized record of submitted ideas, mapping the DNA of every pitch generated during our events." },
+    { icon: <Activity color="#001F3F" size={32} />, title: "Progress Tracking", desc: "Structured guidance and monitoring to ensure fledgling concepts receive the momentum they need." },
+    { icon: <Network color="#001F3F" size={32} />, title: "Startup Registration", desc: "Facilitating the transition from a mere concept to a recognized, registered startup entity." }
   ]
 
   return (
@@ -153,7 +155,7 @@ function AboutSection() {
         <div style={{ textAlign: 'center', marginBottom: '5rem' }}>
           <motion.p
             initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
-            style={{ color: '#7C3AED', fontFamily: 'var(--font-heading)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '1rem' }}
+            style={{ color: '#001F3F', fontFamily: 'var(--font-heading)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '1rem' }}
           >
             Our Mechanism
           </motion.p>
@@ -175,18 +177,18 @@ function AboutSection() {
               transition={{ delay: i * 0.15, duration: 0.6 }}
               whileHover={{ y: -10 }}
               style={{
-                background: '#FAF5FF',
+                background: '#F8FAFC',
                 borderRadius: '1.5rem',
                 padding: '3rem 2.5rem',
                 boxShadow: '0 4px 20px rgba(0,0,0,0.03)',
-                border: '1px solid #F3E8FF',
+                border: '1px solid #E2E8F0',
                 position: 'relative',
                 overflow: 'hidden'
               }}
             >
-              <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '4px', background: 'linear-gradient(to right, #7C3AED, #A78BFA)' }} />
+              <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '4px', background: 'linear-gradient(to right, #001F3F, #FFD700)' }} />
               <div style={{
-                width: '64px', height: '64px', borderRadius: '1rem', background: '#F3E8FF', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '2rem'
+                width: '64px', height: '64px', borderRadius: '1rem', background: 'rgba(0,31,63,0.05)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '2rem'
               }}>
                 {f.icon}
               </div>
@@ -206,8 +208,8 @@ function AboutSection() {
 
 function CTASection() {
   return (
-    <section style={{ padding: '6rem 2rem', background: '#FAF5FF', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
-      <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(circle at center, rgba(124,38,237,0.08) 0%, transparent 70%)' }} />
+    <section style={{ padding: '6rem 2rem', background: '#FFFFFF', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
+      <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(circle at center, rgba(0,31,63,0.06) 0%, transparent 70%)' }} />
       <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} style={{ position: 'relative', zIndex: 10, maxWidth: '800px', margin: '0 auto' }}>
         <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2.5rem, 5vw, 4rem)', fontWeight: 800, color: '#0F172A', marginBottom: '1.5rem' }}>
           Step out of the Shadow
@@ -217,7 +219,7 @@ function CTASection() {
         </p>
         <button style={{
           padding: '1.2rem 3rem',
-          background: '#7C3AED',
+          background: '#001F3F',
           color: '#FFF',
           border: 'none',
           borderRadius: '999px',
@@ -226,13 +228,13 @@ function CTASection() {
           fontSize: '1.1rem',
           letterSpacing: '0.05em',
           cursor: 'pointer',
-          boxShadow: '0 10px 25px rgba(124,58,237,0.3)',
+          boxShadow: '0 10px 25px rgba(0,31,63,0.2)',
           transition: 'transform 0.2s ease, box-shadow 0.2s ease'
         }}
-          onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 15px 35px rgba(124,58,237,0.4)' }}
-          onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 10px 25px rgba(124,58,237,0.3)' }}
+          onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 15px 35px rgba(0,31,63,0.3)' }}
+          onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 10px 25px rgba(0,31,63,0.2)' }}
         >
-          PITCH YOUR IDEA
+          SUBMIT YOUR IDEA
         </button>
       </motion.div>
     </section>
@@ -240,11 +242,53 @@ function CTASection() {
 }
 
 export default function EclipsePage() {
+  const navigate = useNavigate()
+
   return (
-    <div style={{ background: '#FFF' }}>
+    <div style={{ background: '#FFF', position: 'relative' }}>
       <HeroSection />
       <AboutSection />
       <CTASection />
+
+      {/* Next Initiative Pill */}
+      <motion.div
+        initial={{ opacity: 0, y: 50 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 1, duration: 0.8 }}
+        style={{
+          position: 'fixed',
+          bottom: '2rem',
+          right: '2rem',
+          zIndex: 100,
+        }}
+      >
+        <motion.button
+          onClick={() => navigate('/horizon')}
+          whileHover={{ scale: 1.05, x: -5 }}
+          whileTap={{ scale: 0.95 }}
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.75rem',
+            padding: '0.8rem 1.5rem',
+            background: '#001F3F',
+            color: '#FFF',
+            border: '1px solid rgba(255, 215, 0, 0.3)',
+            borderRadius: '999px',
+            fontFamily: 'var(--font-heading)',
+            fontWeight: 700,
+            fontSize: '0.9rem',
+            letterSpacing: '0.05em',
+            cursor: 'pointer',
+            boxShadow: '0 10px 30px rgba(0,0,0,0.2), 0 0 15px rgba(255, 215, 0, 0.1)',
+            backdropFilter: 'blur(8px)',
+          }}
+        >
+          <span style={{ opacity: 0.7, fontSize: '0.8rem', fontWeight: 500 }}>NEXT:</span>
+          {horizonData.title}
+          <ChevronRight size={18} color="#FFD700" strokeWidth={3} />
+        </motion.button>
+      </motion.div>
     </div>
   )
 }

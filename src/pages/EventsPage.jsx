@@ -320,9 +320,9 @@ function CarouselRow({ events, reverse = false, onCardClick, past }) {
     >
       {/* Edge fades */}
       <div className="hidden md:block absolute left-0 top-0 bottom-0 w-24 pointer-events-none z-10"
-        style={{ background: 'linear-gradient(to right, #f5f5f7, transparent)' }} />
+        style={{ background: 'linear-gradient(to right, #ffffff, transparent)' }} />
       <div className="hidden md:block absolute right-0 top-0 bottom-0 w-24 pointer-events-none z-10"
-        style={{ background: 'linear-gradient(to left, #ebebed, transparent)' }} />
+        style={{ background: 'linear-gradient(to left, #ffffff, transparent)' }} />
 
       {/* Floating Manual Advance Button (Only in moving direction) */}
       <div className={`absolute top-1/2 -translate-y-1/2 z-20 transition-all duration-300 ${reverse ? 'left-4 opacity-0 group-hover:opacity-100' : 'right-4 opacity-0 group-hover:opacity-100'}`}>
@@ -408,7 +408,7 @@ export default function EventsSection() {
     <div style={{
       height: '100vh', display: 'flex', alignItems: 'center',
       justifyContent: 'center',
-      background: 'linear-gradient(180deg,#f5f5f7 0%,#ebebed 100%)',
+      background: '#FFFFFF',
       fontFamily: 'var(--font-body)', color: 'var(--color-text-secondary)',
       fontSize: '0.95rem'
     }}>
@@ -422,7 +422,7 @@ export default function EventsSection() {
   }
 
   return (
-    <div className="min-h-screen overflow-hidden" style={{ background: 'linear-gradient(180deg,#f5f5f7 0%,#ebebed 100%)' }}>
+    <div className="min-h-screen overflow-hidden" style={{ background: '#FFFFFF' }}>
 
       {/* ── Top spacer for navbar ── */}
       <div className="h-20" />
