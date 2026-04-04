@@ -225,20 +225,22 @@ function CTASection() {
         <p style={{ fontFamily: 'var(--font-body)', fontSize: '1.2rem', color: '#475569', marginBottom: '3rem' }}>
           Join the core team driving the future of innovation at CVV. Be a part of the engine that powers our ecosystem.
         </p>
-        <button style={{
-          padding: '1.2rem 3rem',
-          background: '#001F3F',
-          color: '#FFF',
-          border: 'none',
-          borderRadius: '999px',
-          fontFamily: 'var(--font-heading)',
-          fontWeight: 700,
-          fontSize: '1.1rem',
-          letterSpacing: '0.05em',
-          cursor: 'pointer',
-          boxShadow: '0 10px 25px rgba(0,31,63,0.2)',
-          transition: 'transform 0.2s ease, box-shadow 0.2s ease'
-        }}
+        <button
+          onClick={() => window.open("https://forms.gle/mP7oW2CJb1nohJ41A", "_blank")}
+          style={{
+            padding: '1.2rem 3rem',
+            background: '#001F3F',
+            color: '#FFF',
+            border: 'none',
+            borderRadius: '999px',
+            fontFamily: 'var(--font-heading)',
+            fontWeight: 700,
+            fontSize: '1.1rem',
+            letterSpacing: '0.05em',
+            cursor: 'pointer',
+            boxShadow: '0 10px 25px rgba(0,31,63,0.2)',
+            transition: 'all 0.2s ease',
+          }}
           onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 15px 35px rgba(0,31,63,0.3)' }}
           onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 10px 25px rgba(0,31,63,0.2)' }}
         >

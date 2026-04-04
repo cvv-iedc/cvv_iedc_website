@@ -45,6 +45,6 @@ export const milestones = [
     month: 'September',
     title: 'BRIK x CVV IEDC',
     description: 'Collaboration with BRIK, for accelerating campus innovation and startup ecosystem',
-    image: '/milestones/milestone_1.webp',
+    image: '/milestones/milestone_6.webp',
   }
 ]
