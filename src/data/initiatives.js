@@ -1,4 +1,3 @@
-import { Lightbulb, Rocket, Globe } from 'lucide-react'
 
 export const initiatives = [
   {

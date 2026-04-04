@@ -1,6 +1,6 @@
-import { useEffect, useRef, useState, memo } from 'react'
+import { useEffect, useState, memo } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { motion, AnimatePresence, useScroll, useMotionValueEvent } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 
 const navLinksLeft = [
   { label: 'Events', href: '/events' },

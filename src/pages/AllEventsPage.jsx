@@ -34,18 +34,18 @@ function SmallEventCard({ event, onClick }) {
           style={{ fontFamily: 'var(--font-heading)', fontSize: '0.95rem' }}>
           {event.title}
         </h3>
-        
+
         <div className="space-y-2 mb-4 mt-auto">
           <div className="flex items-center gap-2 text-slate-500 text-xs font-medium">
-            <Calendar size={13} className="text-primary/70" /> 
+            <Calendar size={13} className="text-primary/70" />
             <span>{event.dateLabel}</span>
           </div>
           <div className="flex items-center gap-2 text-slate-500 text-xs font-medium">
-            <MapPin size={13} className="text-primary/70" /> 
+            <MapPin size={13} className="text-primary/70" />
             <span className="truncate">{event.venue || event.location}</span>
           </div>
         </div>
-        
+
         <p className="text-slate-400 text-[0.8rem] leading-relaxed line-clamp-2 font-body">
           {event.description}
         </p>
@@ -93,14 +93,14 @@ export default function AllEventsPage() {
           transition={{ duration: 0.6 }}
           className="pt-8 pb-12"
         >
-          <button 
+          <button
             onClick={() => navigate('/events')}
             className="flex items-center gap-2 text-slate-400 hover:text-primary text-sm font-bold mb-8 transition-colors uppercase tracking-widest"
             style={{ fontFamily: 'var(--font-heading)' }}
           >
             ← Back to Events
           </button>
-          
+
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
             <div>
               <h1 className="font-extrabold text-slate-900 leading-none mb-4"
@@ -128,8 +128,8 @@ export default function AllEventsPage() {
                 }}
               />
               {query && (
-                <button 
-                  onClick={() => setQuery('')} 
+                <button
+                  onClick={() => setQuery('')}
                   className="absolute right-5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 p-1"
                 >
                   <X size={16} />
@@ -180,9 +180,9 @@ export default function AllEventsPage() {
                   exit={{ opacity: 0, scale: 0.9 }}
                   transition={{ duration: 0.4, delay: i * 0.03, ease: [0.22, 1, 0.36, 1] }}
                 >
-                  <SmallEventCard 
-                    event={event} 
-                    onClick={() => setSelectedEvent(event)} 
+                  <SmallEventCard
+                    event={event}
+                    onClick={() => setSelectedEvent(event)}
                   />
                 </motion.div>
               ))}
@@ -191,10 +191,10 @@ export default function AllEventsPage() {
         </AnimatePresence>
       </div>
 
-      <EventModal 
-        event={selectedEvent} 
-        onClose={() => setSelectedEvent(null)} 
-        past={selectedEvent?.isPast} 
+      <EventModal
+        event={selectedEvent}
+        onClose={() => setSelectedEvent(null)}
+        past={selectedEvent?.isPast}
       />
     </div>
   )

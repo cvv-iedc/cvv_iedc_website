@@ -28,7 +28,9 @@
 }
 
 /* ─── Base Reset ─── */
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -48,16 +50,39 @@ body {
 }
 
 /* ─── Typography Utilities ─── */
-.font-heading { font-family: var(--font-heading); }
-.font-body { font-family: var(--font-body); }
-.font-display { font-family: var(--font-display); }
-.font-serif { font-family: var(--font-accent-serif); }
+.font-heading {
+  font-family: var(--font-heading);
+}
+
+.font-body {
+  font-family: var(--font-body);
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+.font-serif {
+  font-family: var(--font-accent-serif);
+}
 
 /* ─── Scrollbar ─── */
-::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: var(--color-text-muted); border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: var(--color-text-secondary); }
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-text-muted);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-text-secondary);
+}
 
 /* ─── Selection ─── */
 ::selection {
@@ -67,8 +92,13 @@ body {
 
 /* ─── Marquee Animation ─── */
 @keyframes marquee {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
 }
 
 .animate-marquee {
@@ -83,13 +113,23 @@ body {
 
 /* ─── Team Page Marquee ─── */
 @keyframes team-marquee-left {
-  from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
 }
 
 @keyframes team-marquee-right {
-  from { transform: translateX(-50%); }
-  to   { transform: translateX(0); }
+  from {
+    transform: translateX(-50%);
+  }
+
+  to {
+    transform: translateX(0);
+  }
 }
 
 .team-marquee-track {
@@ -140,7 +180,10 @@ body {
 
 /* ─── Reduced Motion ─── */
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
+
+  *,
+  *::before,
+  *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
@@ -157,6 +200,7 @@ body {
   touch-action: none;
   user-select: none;
 }
+
 .canvas-wrapper:active {
   cursor: grabbing;
 }
@@ -168,7 +212,7 @@ body {
   left: 0;
   right: 0;
   height: 2px;
-  background: linear-gradient(to right, transparent, var(--color-text-muted), var(--color-primary), var(--color-text-muted), transparent);
+  background: linear-gradient(to right, transparent, var(--color-text-muted), #d71515, var(--color-text-muted), transparent);
   transform: translateY(-50%);
 }
 
@@ -182,6 +226,11 @@ body {
 
 /* ─── Border Animation ─── */
 @keyframes border-rotate {
-  from { transform: translate(-50%, -50%) rotate(0deg); }
-  to { transform: translate(-50%, -50%) rotate(360deg); }
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
 }
