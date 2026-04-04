@@ -51,15 +51,15 @@ export default function Footer() {
         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
           <h4 style={{ fontFamily: 'var(--font-heading)', fontWeight: 700, color: '#fff', letterSpacing: '0.05em', fontSize: '0.9rem', marginBottom: '0.25rem', textTransform: 'uppercase' }}>Find us on</h4>
           <div className="footer-social-pills">
-            <a href="https://instagram.com" target="_blank" rel="noreferrer" className="footer-pill instagram">
+            <a href="https://instagram.com/cvviedc/" target="_blank" rel="noreferrer" className="footer-pill instagram">
               <Instagram size={18} strokeWidth={2} />
               <span>Instagram</span>
             </a>
-            <a href="https://linkedin.com" target="_blank" rel="noreferrer" className="footer-pill linkedin">
+            <a href="https://www.linkedin.com/company/cvv-iedc-2024" target="_blank" rel="noreferrer" className="footer-pill linkedin">
               <Linkedin size={18} strokeWidth={2} />
               <span>LinkedIn</span>
             </a>
-            <a href="https://youtube.com" target="_blank" rel="noreferrer" className="footer-pill youtube">
+            <a href="https://youtube.com/@CVVIEDC" target="_blank" rel="noreferrer" className="footer-pill youtube">
               <Youtube size={18} strokeWidth={2} />
               <span>YouTube</span>
             </a>
