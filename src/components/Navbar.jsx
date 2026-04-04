@@ -122,10 +122,10 @@ const Navbar = memo(function Navbar() {
         }}
       >
         {/* ── SVG Ears to create the classic Notch look ── */}
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" className="absolute top-0 -left-[24px] pointer-events-none z-10 transition-opacity duration-300" style={{ opacity: expanded && isMobile ? 0 : 1 }}>
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" className="absolute top-0 -left-[23px] pointer-events-none z-10 transition-opacity duration-300" style={{ opacity: expanded && isMobile ? 0 : 1 }}>
           <path d="M24 0H0C13.2548 0 24 10.7452 24 24V0Z" fill="black" />
         </svg>
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" className="absolute top-0 -right-[24px] pointer-events-none z-10 transition-opacity duration-300" style={{ opacity: expanded && isMobile ? 0 : 1 }}>
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" className="absolute top-0 -right-[23px] pointer-events-none z-10 transition-opacity duration-300" style={{ opacity: expanded && isMobile ? 0 : 1 }}>
           <path d="M0 0H24C10.7452 0 0 10.7452 0 24V0Z" fill="black" />
         </svg>
 

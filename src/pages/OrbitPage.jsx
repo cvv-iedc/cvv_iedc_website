@@ -26,7 +26,7 @@ function OrbitalCanvas() {
 
     const particles = Array.from({ length: 150 }, (_, i) => ({
       angle: Math.random() * Math.PI * 2,
-      radius: 50 + Math.random() * (Math.max(window.innerWidth, window.innerHeight) * 0.5),
+      distanceFactor: 0.1 + Math.random() * 0.9, // Use a factor instead of absolute radius
       speed: (Math.random() * 0.002 + 0.0005) * (i % 2 === 0 ? 1 : -1),
       size: Math.random() * 2 + 0.5,
       alpha: Math.random() * 0.6 + 0.2,
@@ -39,6 +39,7 @@ function OrbitalCanvas() {
 
       const cx = canvas.width / 2
       const cy = canvas.height / 2
+      const maxRadius = Math.max(canvas.width, canvas.height) * 0.6
 
       // Draw faint orbital rings
       for (let i = 1; i <= 4; i++) {
@@ -52,8 +53,9 @@ function OrbitalCanvas() {
       // Draw particles
       particles.forEach(p => {
         p.angle += p.speed
-        const x = cx + Math.cos(p.angle) * p.radius
-        const y = cy + Math.sin(p.angle) * p.radius
+        const currentRadius = 50 + p.distanceFactor * maxRadius
+        const x = cx + Math.cos(p.angle) * currentRadius
+        const y = cy + Math.sin(p.angle) * currentRadius
 
         ctx.beginPath()
         ctx.arc(x, y, p.size, 0, Math.PI * 2)
@@ -122,7 +124,7 @@ function HeroSection() {
           transition={{ duration: 0.8, delay: 0.4 }}
           style={{
             fontFamily: 'var(--font-body)',
-            fontSize: 'clamp(1.1rem, 2vw, 1.35rem)',
+            fontSize: 'clamp(1rem, 1.5vw, 1.15rem)',
             color: '#475569',
             maxWidth: '700px',
             margin: '0 auto',
