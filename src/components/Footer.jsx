@@ -9,7 +9,7 @@ export default function Footer() {
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
           <img src="/iedc_logo_white.png" alt="IEDC CVV Logo" style={{ height: '42px', width: 'auto', objectFit: 'contain', alignSelf: 'flex-start' }} />
           <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.8rem', lineHeight: 1.6, maxWidth: '240px' }}>
-            Cultivating innovation and the spirit of entrepreneurship at Chinmaya Vishwa Vidyapeeth.
+            Fostering innovation and the spirit of entrepreneurship at Chinmaya Vishwa Vidyapeeth.
           </p>
         </div>
 
