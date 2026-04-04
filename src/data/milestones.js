@@ -21,7 +21,7 @@ export const milestones = [
     month: 'February',
     title: 'RSET IEDC x CVV IEDC',
     description: 'Strategic collaboration with Rajagiri School of Engineering and Technology, expanding our network and sharing best practices.',
-    image: '/milestones/milestone_3.jpg',
+    image: '/milestones/milestone_3.webp',
   },
   {
     id: 4,
