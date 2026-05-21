@@ -25,10 +25,56 @@ function AboutIntro() {
           letterSpacing: '-0.04em',
           color: 'var(--color-text-primary)',
           lineHeight: 1,
-          marginBottom: '2rem',
+          marginBottom: '1.25rem',
         }}>
           About Us
         </h1>
+
+        {/* Unique ID Pill */}
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.15 }}
+          style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '0.5rem',
+            marginBottom: '2rem',
+            padding: '0.4rem 1.1rem',
+            borderRadius: '9999px',
+            border: '1.5px solid rgba(215, 21, 21, 0.25)',
+            background: 'rgba(215, 21, 21, 0.06)',
+          }}
+        >
+          <span style={{
+            width: '7px',
+            height: '7px',
+            borderRadius: '50%',
+            background: '#d71515',
+            flexShrink: 0,
+            boxShadow: '0 0 6px rgba(215,21,21,0.5)',
+          }} />
+          <span style={{
+            fontFamily: 'var(--font-heading)',
+            fontWeight: 600,
+            fontSize: '0.8rem',
+            color: 'var(--color-text-secondary)',
+            letterSpacing: '0.04em',
+            textTransform: 'uppercase',
+          }}>
+            Unique ID:&nbsp;
+          </span>
+          <span style={{
+            fontFamily: 'var(--font-heading)',
+            fontWeight: 700,
+            fontSize: '0.8rem',
+            color: '#d71515',
+            letterSpacing: '0.08em',
+          }}>
+            KSUMIEDC1251
+          </span>
+        </motion.div>
 
         {/* Partner Logos */}
         <div style={{ display: 'flex', gap: '4rem', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center', marginBottom: '4rem' }}>

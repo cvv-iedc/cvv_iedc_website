@@ -1,4 +1,4 @@
-import { MapPin, Mail, Instagram, Linkedin, Youtube, User } from 'lucide-react'
+import { MapPin, Mail, Instagram, Linkedin, Youtube, User, FileText } from 'lucide-react'
 
 export default function Footer() {
   return (
@@ -28,22 +28,34 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Column 3: Contact Us */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-          <h4 style={{ fontFamily: 'var(--font-heading)', fontWeight: 700, color: '#fff', letterSpacing: '0.05em', fontSize: '0.9rem', marginBottom: '0.25rem', textTransform: 'uppercase' }}>Contact Us</h4>
+        {/* Column 3: Contact & Tools */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.7rem' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+            <h4 style={{ fontFamily: 'var(--font-heading)', fontWeight: 700, color: '#fff', letterSpacing: '0.05em', fontSize: '0.9rem', marginBottom: '0.25rem', textTransform: 'uppercase' }}>Contact Us</h4>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
-            <User size={16} color="var(--color-brand-red)" style={{ flexShrink: 0 }} />
-            <span style={{ color: 'rgba(255,255,255,0.7)', fontSize: '0.85rem' }}>Nodal Officer: <strong>Ms. Anupama Jims</strong></span>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
+              <User size={16} color="var(--color-brand-red)" style={{ flexShrink: 0 }} />
+              <span style={{ color: 'rgba(255,255,255,0.7)', fontSize: '0.85rem' }}>Nodal Officer: <strong>Ms. Anupama Jims</strong></span>
+            </div>
+
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
+              <Mail size={16} color="var(--color-brand-red)" style={{ flexShrink: 0 }} />
+              <a href="mailto:iedc@cvv.ac.in" style={{ color: 'rgba(255,255,255,0.7)', textDecoration: 'none', fontSize: '0.85rem', transition: 'color 0.2s' }}
+                onMouseOver={e => e.target.style.color = '#fff'}
+                onMouseOut={e => e.target.style.color = 'rgba(255,255,255,0.7)'}>
+                iedc@cvv.ac.in
+              </a>
+            </div>
           </div>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
-            <Mail size={16} color="var(--color-brand-red)" style={{ flexShrink: 0 }} />
-            <a href="mailto:iedc@cvv.ac.in" style={{ color: 'rgba(255,255,255,0.7)', textDecoration: 'none', fontSize: '0.85rem', transition: 'color 0.2s' }}
-              onMouseOver={e => e.target.style.color = '#fff'}
-              onMouseOut={e => e.target.style.color = 'rgba(255,255,255,0.7)'}>
-              iedc@cvv.ac.in
-            </a>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+            <h4 style={{ fontFamily: 'var(--font-heading)', fontWeight: 700, color: '#fff', letterSpacing: '0.05em', fontSize: '0.9rem', marginBottom: '0.25rem', textTransform: 'uppercase' }}>Tools</h4>
+            <div className="footer-social-pills">
+              <a href="https://documentgen.cvviedc.org" target="_blank" rel="noreferrer" className="footer-pill tool-pill">
+                <FileText size={18} strokeWidth={2} />
+                <span>Doc Generator</span>
+              </a>
+            </div>
           </div>
         </div>
 
@@ -137,6 +149,9 @@ export default function Footer() {
         }
         .footer-pill.youtube:hover {
           background: #FF0000;
+        }
+        .footer-pill.tool-pill:hover {
+          background: var(--color-primary);
         }
         @media (max-width: 900px) {
           .footer-grid {
