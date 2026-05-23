@@ -38,14 +38,10 @@ export default function Footer() {
               <span style={{ color: 'rgba(255,255,255,0.7)', fontSize: '0.85rem' }}>Nodal Officer: <strong>Ms. Anupama Jims</strong></span>
             </div>
 
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
+            <a href="mailto:iedc@cvv.ac.in" className="footer-email-link">
               <Mail size={16} color="var(--color-brand-red)" style={{ flexShrink: 0 }} />
-              <a href="mailto:iedc@cvv.ac.in" style={{ color: 'rgba(255,255,255,0.7)', textDecoration: 'none', fontSize: '0.85rem', transition: 'color 0.2s' }}
-                onMouseOver={e => e.target.style.color = '#fff'}
-                onMouseOut={e => e.target.style.color = 'rgba(255,255,255,0.7)'}>
-                iedc@cvv.ac.in
-              </a>
-            </div>
+              <span>iedc@cvv.ac.in</span>
+            </a>
           </div>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
@@ -152,6 +148,19 @@ export default function Footer() {
         }
         .footer-pill.tool-pill:hover {
           background: var(--color-primary);
+        }
+        .footer-email-link {
+          display: flex;
+          align-items: center;
+          gap: 0.6rem;
+          color: rgba(255,255,255,0.7);
+          text-decoration: none;
+          font-size: 0.85rem;
+          transition: color 0.2s;
+          width: fit-content;
+        }
+        .footer-email-link:hover {
+          color: #fff;
         }
         @media (max-width: 900px) {
           .footer-grid {
