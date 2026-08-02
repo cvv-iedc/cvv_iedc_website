@@ -1,6 +1,5 @@
 export const TEAM = [
   { id: 1, name: 'Ms Anupama Jims', role: 'Nodal Officer', department: 'Faculty', linkedinUrl: 'https://linkedin.com/in/anupamajims', imageUrl: '/team/anupama-paper.webp' },
-  { id: 2, name: 'Krishna K', role: 'Student Lead', department: 'Computer Science', linkedinUrl: 'https://linkedin.com/in/krishnak535', imageUrl: '/team/krishna-paper.webp' },
   { id: 3, name: 'Anuja S Nair', role: 'Student Lead', department: 'Electronics', linkedinUrl: 'https://www.linkedin.com/in/anuja-s-nair-777315322?utm_source=share_via&utm_content=profile&utm_medium=member_android', imageUrl: '/team/anuja-paper.webp' },
   { id: 4, name: 'Daewik Prasheen', role: 'Technology Lead', department: 'Mechanical', linkedinUrl: 'https://linkedin.com/in/daewik', imageUrl: '/team/daewik-paper.webp' },
   { id: 5, name: 'Anjana Prakash', role: 'Quality & Operations Lead', department: 'Civil', linkedinUrl: 'www.linkedin.com/in/anjanaprakash017', imageUrl: '/team/anjana-paper.webp' },
